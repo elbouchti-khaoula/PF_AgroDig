@@ -1,0 +1,328 @@
+
+body{
+    
+    background: var(--primary-color);
+}
+.main-container{
+    display: flex;
+    background-color: var(--primary-color);
+    top: 0;
+}
+.navlogo{
+    z-index: 2;
+    align-items: center;
+    justify-content: center;
+}
+
+.navlogo img {
+    margin: 30px auto;
+    width: 60px;
+    z-index: 2;
+    cursor: pointer;
+}
+.navbar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 5%;
+    height: 100vh;
+}
+.nav-contents{
+    /* position: fixed;  */
+    align-items: center;
+    justify-content: center;
+    width: 5%;
+    height: 100vh;
+    top: 0;
+    background-color: var(--primary-color);
+    z-index: 0;
+}
+.nav-container{
+    align-items: center;
+    margin-top: 300px;
+    display: flex;
+    flex-direction: column;
+}
+.navlinks:not(:last-child){
+    margin-bottom: 38px;
+    list-style: none;
+}
+.navlinks:last-child{
+    margin-bottom: 53px;
+    list-style: none;
+}
+.links .icon:hover{
+    color: var(--icon-hover);
+    cursor: pointer;
+}
+.links span{
+    width: 30px;
+    height: 3px;
+    color: var(--icon-color);
+    margin: 5px auto;
+}
+.icon{
+    color: var(--icon-color);
+    font-size: 1.5em;
+    transition: 0.3s;
+}
+.activate{
+    color: var(--icon-hover);
+}
+.main-side{
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    display:flex;
+    background-color: var(--ligth-color);
+}
+#heart {
+    display: none;
+  }
+  /* changes the color when selected */
+  #heart:checked ~ #heart-label {
+    color: red;
+  }
+  #heart:unchecked{
+      color: blue;
+  }
+  /* for styling purpose only */
+  #heart-label {
+    font-size: 50px;
+  }
+#post{
+    border: 1px solid var(--primary-color);
+    margin: 10px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.stories{
+    background-color: var(--ligth-color);
+    background-size: 100%;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    /* width: 100%; */
+    z-index: 2;
+    border-bottom: 1px solid hsla(0, 0%, 77%, 0.781);
+}
+.story-cont{
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 30px;
+    width: 50px;
+}
+.story-cont img{
+    width:100%;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.story-cont .s-cont{
+    text-decoration: none;
+    color: var(--black-color);
+    margin-top: 15px;
+    cursor: pointer;
+    border: 2px double var(--blue-color);
+}
+.story-cont div span{
+    color: var(--black-color);  
+}
+.main-contents{
+    background-color: var(--ligth-color);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 0;
+    color: var(--black-color);
+    justify-content: space-around;
+}
+.created{
+    color: blue;
+}
+.time{
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1300px;
+    position: sticky;
+    top: 0;
+    padding: 0 50px;
+    background-color: var(--ligth-color);
+    height: 30px;
+    color: var(--black-color);
+}
+
+.cont-img img{
+    width: 100%;
+    min-width: 70%;
+    animation-name: move;
+    animation-duration: 3s;
+    cursor: pointer;
+}
+.postcard{
+    background-color: var(--post-color);
+    border: 1px solid rgba(170, 166, 166, 0.539);
+}
+
+.cont-desc{
+    width: 100%;
+    display: flex;
+    flex-basis: 10%;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+
+}
+.cont-post{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cont-post img{
+    width: 40px;
+    cursor: pointer;
+}
+.react{
+    display: flex;
+    margin-left: 15%;
+    align-items: center;
+}
+.react-cont{
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.react-cont input{
+    display: none;
+}
+.react-cont label{
+    text-decoration: none;
+    cursor: pointer;
+}
+.react-cont label i{
+    font-size: 1.7em;
+}
+.react-cont .bxs-heart{
+    color: red;
+}
+#react-spa{
+    color: var(--black-color);
+}
+.post{
+    display: flex;
+    flex-direction: column;
+    width: 100%;;
+    align-items: center;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+.form1{
+    display: flex;
+    align-items: center;
+}
+.form2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    padding: 10px 20px;
+    background-color: var(--dim-light);
+}
+.p-input{
+    display: flex;
+}
+.post label{
+    color: var(--black-color);
+    white-space: nowrap;
+}
+.post input[type="file"]{
+    display: none;
+}
+ .b-area{
+    display: none;
+    width: 100%;
+    font-size: 1.05rem;
+    padding: 7px 11px;
+    border: 1px solid gray;
+    outline: none;
+    border-radius: 5px;
+}
+.none{
+    display: none;
+}
+ .area{
+    height: 130px;
+    width: 100%;
+    font-size: 1.05rem;
+    padding: 7px 11px;
+    border: 1px solid gray;
+    outline: none;
+    border-radius: 5px;
+    /* width: 200px; */
+}
+.post input:focus, .post textarea:focus{
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+ /*  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px; */
+  border: 1px solid rgba(81, 203, 238, 1);
+}
+.bx-image{
+    font-size: 1.9em;
+    color: rgb(47, 40, 150);
+    transform: translateY(2px);
+    cursor: pointer;
+}
+
+
+.post button{
+    border: none;
+    background-color: #2E4B9C;
+    color: #fff;
+    padding: 5px 7px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+@media screen and (max-width: 1300px) {
+.story-cont:nth-child(8), .story-cont:nth-child(7){
+    display: none;
+}
+.cont-img img{
+    width: 80%;
+}
+.cont-desc{
+    justify-content: flex-start;
+}
+.react{
+    margin-left: 10%;
+}
+}
+@media screen and (max-width: 680px) {
+.story-cont:nth-child(5), .story-cont:nth-child(4){
+    display: none;
+}
+}
+
+/* //form */
+.post form{
+    display: flex;
+    align-items: center;
+}
+.postsub{
+    display: flex;
+    color: white;
+    background-color: #2E4B9C;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s;
+}
+.img-file{
+    display: none;
+}
