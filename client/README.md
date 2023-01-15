@@ -1,10 +1,10 @@
 # To install packages Use: 
- cd client
- npm install --force --proxy http://10.23.201.11:3128 //if you are using ensias-student 
- //or just
- npm i
+   cd client ,
+   npm install --force --proxy http://10.23.201.11:3128 //if you are using ensias-student ,
+   //or just ,
+   npm i ,
 # To run use 
- npm run dev 
+ npm run dev ,
 # Also install the the folowing packages:
 
     "react-icons": "^4.3.1",
