@@ -1,6 +1,7 @@
 # To install packages Use: 
       cd client 
-      npm install --force --proxy http://10.23.201.11:3128 //if you are using ensias-student 
+      //if you are using ensias-student 
+      npm install --force --proxy http://10.23.201.11:3128 
       //or just 
       npm i 
 # To run use 
