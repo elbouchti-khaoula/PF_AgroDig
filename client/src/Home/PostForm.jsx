@@ -1,11 +1,13 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./Home.css";
-import { usePosts } from "../contexts/PostContext";
 import { BiImageAdd, BiPhotoAlbum, BiX } from "react-icons/bi";
 import { useApp } from "../contexts/AppContext";
 //import PostForm from "./PostForm";
-
+import '../App.css';
+import Layout from '../others/Layout';
+//import Mainconts from './Home/mainconts';
+import { Link } from 'react-router-dom'
 function PostForm() {
 	const [imageString, setImageStr] = useState("");
 	const [caption, setCaption] = useState("");
@@ -52,6 +54,8 @@ function PostForm() {
 	};
 
 	return (
+		
+		<Layout active={'home'}>
 		<div className="w-full  left-0 z-[20] absolute 
 		flex flex-col items-center justify-center">
             <h2 className=" mobile:text-xl text-green-700">Ask a Question </h2>
@@ -182,17 +186,18 @@ function PostForm() {
 
                 </div>
                
-				<button 
-					style={{padding:"10px"}}
-					className="py-2 px-4 rounded-lg bg-green-500 text-white hover:bg-green-600"
-					onClick={submitPost}
-					disabled={loading}>
-					{loading ? "Submitting..." : "Submit Post"}
-					</button>
+				<button
+				style={{padding:"10px"}}
+				className="py-2 px-4 rounded-lg bg-green-500 text-white hover:bg-green-600"
+				onClick={submitPost}
+				disabled={loading}>
+				{loading ? "Submitting..." : "Submit Post"}
+			</button>
 					
 
 					
 		</div>
+    </Layout>
 	);
 }
 
