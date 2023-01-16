@@ -7,6 +7,7 @@ import { useUsers } from "../Messages/contexts/userContext";
 const Layout = ({ children, active }) => {
   const { isDark } = useApp();
   const { setMobile } = useUsers();
+  
 	return (
 		<div
 			onClick={() => setMobile(false)}

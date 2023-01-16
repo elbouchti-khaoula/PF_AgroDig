@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime'
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "boxicons/css/boxicons.min.css";
@@ -8,6 +9,7 @@ import AuthProvider from "./contexts/AuthContext";
 import { MessageProvider } from "./Messages/contexts/messageContext";
 import AppProvider from "./contexts/AppContext";
 import { PostProvider } from "./contexts/PostContext";
+import { MicProvider } from './contexts/MicContext';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
@@ -16,7 +18,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 				<AppProvider>
 					<PostProvider>
 						<MessageProvider>
+							<MicProvider>
 							<App />
+							</MicProvider>
 						</MessageProvider>
 					</PostProvider>
 				</AppProvider>

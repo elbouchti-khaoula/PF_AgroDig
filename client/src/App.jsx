@@ -19,7 +19,7 @@ function App() {
 
 	useEffect(() => {
 		console.log(
-			"%cWelcome to Photo Corner Console",
+			"%cWelcome to AgroDig ",
 			"color: white; font-size: 34px; font-weight: bold; padding: 1em; text-align: center; background-color: blue"
 		);
 	}, []);

@@ -4,6 +4,7 @@ import { useApp } from '../contexts/AppContext';
 import { useAuth } from '../contexts/AuthContext';
 import { follow, unfollow } from '../Login';
 import { useUsers } from '../Messages/contexts/userContext';
+import { COLORS } from '../utils/colors';
 
 const Side = () => {
   const { suggested, getSuggestedUsers } = useUsers();
@@ -44,11 +45,11 @@ const Side = () => {
             <p className="opacity-80 font-light">@{user.username}</p>
           </div>
         </Link>
-        <Link to={`/profile`} className="text-blue-500 cursor-pointer">View Profile</Link>
+        <Link to={`/profile`} style={{color:COLORS.myGreen}} className="cursor-pointer">View Profile</Link>
       </div>
       <div className="flex flex-col w-full mt-6 h-[70vh] overflow-auto">
         <div className="flex items-center justify-between w-full">
-          <p className="text-md font-semibold text-slate-600">Suggested For You</p>
+          <p className="text-md font-semibold text-slate-600" style={{fontSize:12}}>Suggested For You</p>
           <p className="font-semibold text-sm cursor-pointer">See All</p>
         </div>
         {users.map((user, index) => {
@@ -57,9 +58,7 @@ const Side = () => {
           )})
           }
       </div>
-      <div className="flex mt-4 w-full">
-        <p className='text-slate-500'>&copy; Photo Corner 2022</p>
-      </div>
+
     </div>
   )
 }
@@ -92,12 +91,13 @@ const Suggested = ({use})=>{
            src={use.profile} alt="" />
         </div>
         <div className="flex flex-col ml-3">
-          <p className="font-semibold">{use.fullname}</p>
+          <p className="font-semibold" style={{fontSize:12}}>{use.fullname}</p>
           <p className="opacity-80 font-light">@{use.username}</p>
         </div>  
       </Link>
       <p onClick={handleFollow}
-      className="text-blue-500 cursor-pointer">{foll?"Following": "Follow"}</p>
+    style={{color:COLORS.myGreen}}
+      className=" cursor-pointer">{foll?"Following": "Follow"}</p>
     </div>
   )
 }
