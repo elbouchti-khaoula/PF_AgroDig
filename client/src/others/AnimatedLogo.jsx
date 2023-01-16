@@ -31,7 +31,7 @@ const AnimatedLogo = () => {
 					className={`text-xl ml-2 duration-[3s] opacity-0 flex justify-center  font-bold text-black
 					}`}
 				>
-					<p>Photo</p> <span className="text-[#3a73ed]">Corner</span>
+					<p>Agronomie</p> <span className="text-[#3a73ed]">Digitale</span>
 				</h1>
 			</div>
 			</div>

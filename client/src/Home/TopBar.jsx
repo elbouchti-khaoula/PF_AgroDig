@@ -4,7 +4,6 @@ import { BiSearch } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../contexts/AppContext";
 import logo from "./Images/logo.png";
-import plantLogo from "./Images/plantLogo.png";
 import { Button, IconButton } from "@mui/material";
 import MicIcon from '@mui/icons-material/Mic';
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
@@ -47,7 +46,7 @@ function TopBar({showPostForm , setShowPostForm}) {
       
       <div className="tablet:w-2/3 w-full flex  items-center justify-between pl-8">
         <div className="flex items-center">
-          <img className="w-[30px]" src={plantLogo} alt="" />
+          <img className="w-[30px]" src={logo} alt="" />
           <h1
             className={`text-xl ml-2 hidden five:flex justify-center w-full font-bold ${
               isDark ? "text-slate-100" : "text-black"
