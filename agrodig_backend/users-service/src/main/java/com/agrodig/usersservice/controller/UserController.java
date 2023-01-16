@@ -24,4 +24,10 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @GetMapping(path ="")
+    @ResponseStatus(HttpStatus.OK)
+    public String getChaimaa(){
+        return "chaimaa";
+    }
+
 }
