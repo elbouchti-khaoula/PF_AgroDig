@@ -7,7 +7,6 @@ import { useApp } from "../contexts/AppContext";
 //import PostForm from "./PostForm";
 
 function PostForm() {
-	const { newPost, getPosts } = usePosts();
 	const [imageString, setImageStr] = useState("");
 	const [caption, setCaption] = useState("");
 	const [preview, setPreview] = useState({ state: false, url: "" });
@@ -15,7 +14,6 @@ function PostForm() {
 	const { isDark } = useApp();
 	const [fontSize, setFontSize] = useState("16px");
 	const [fontFamily, setFontFamily] = useState("Arial");
-	const [text, setText] = useState("Edit me!");
 	const [textAlign, setTextAlign] = useState("left");
 
 
@@ -184,7 +182,15 @@ function PostForm() {
 
                 </div>
                
-					 
+				<button 
+					style={{padding:"10px"}}
+					className="py-2 px-4 rounded-lg bg-green-500 text-white hover:bg-green-600"
+					onClick={submitPost}
+					disabled={loading}>
+					{loading ? "Submitting..." : "Submit Post"}
+					</button>
+					
+
 					
 		</div>
 	);
