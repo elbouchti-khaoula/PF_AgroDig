@@ -33,14 +33,14 @@ public class Post {
     private int viewCount;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Tag> tags;
     @JoinTable(
             name = "post_tags",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags;
 
-    @ElementCollection
-    private List<String> attachementsURL;
+    @OneToMany(mappedBy = "post")
+    private Collection<File> files;
 
     @OneToMany(mappedBy = "post")
     private Collection<Comment> comments;

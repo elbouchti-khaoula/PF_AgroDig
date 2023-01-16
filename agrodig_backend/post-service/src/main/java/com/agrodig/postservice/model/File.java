@@ -1,6 +1,5 @@
 package com.agrodig.postservice.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,31 +7,23 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.List;
 
 @Entity
-@Table(name = "comments")
+@Table(name="files")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
+public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long comment_id;
-
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="OWNER_ID")
-    @NotNull
-    private User owner;*/
+    private Long file_id;
 
     private Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;
 
-    private String body;
-
-    private String attachementURL;
+    private String filePath;
 
     @ManyToOne
     private Post post;
