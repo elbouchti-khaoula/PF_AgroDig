@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -10,12 +11,18 @@
         <module name="users-service" />
         <module name="blog-service" />
         <module name="home-timeline-service" />
+        <module name="discovery" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="discovery-server" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="blog-service" options="-parameters" />
+      <module name="discovery" options="-parameters" />
+      <module name="discovery-server" options="-parameters" />
       <module name="home-timeline-service" options="-parameters" />
       <module name="post-service" options="-parameters" />
       <module name="users-service" options="-parameters" />
