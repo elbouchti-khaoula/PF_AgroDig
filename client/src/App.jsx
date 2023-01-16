@@ -12,6 +12,7 @@ import Search from "./others/Search";
 import DProfile from "./account-page/DProfile";
 import Profile from "./account-page/Profile";
 import { useApp } from "./contexts/AppContext";
+import PostForm from "./Home/PostForm";
 
 function App() {
 	const { user } = useAuth();
@@ -38,6 +39,12 @@ function App() {
 						path="/home"
 						element={
 							user !== null ? <Home /> : <Navigate replace to="/login" />
+						}
+					/>
+					<Route
+						exact path="/form-post"
+						element={
+							user !== null ? <PostForm /> : <Navigate replace to="/login" />
 						}
 					/>
 					<Route

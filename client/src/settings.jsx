@@ -57,9 +57,7 @@ const Settings = () => {
 				</div>
 				<Sleft />
 			</div>
-			<p className="text-center pt-2">
-				©️ 2022 Photo Corner. All rights reserved
-			</p>
+			
 		</Layout>
 	);
 };
