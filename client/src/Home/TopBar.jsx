@@ -11,10 +11,6 @@ import Mic from "@mui/icons-material/Mic";
 import { COLORS } from "../utils/colors";
 import { usePosts } from "../contexts/PostContext";
 import LoadingButton from "@mui/lab/LoadingButton";
-
-
-
-import { BiImageAdd, BiPhotoAlbum, BiX } from "react-icons/bi";
 import { useMic } from "../contexts/MicContext";
 
 
