@@ -1,5 +1,5 @@
 {
-  "name": "photo-corner",
+  "name": "agro-dig",
   "private": true,
   "proxy": "http://10.23.201.11:3128",
   "version": "0.0.0",
@@ -49,5 +49,9 @@
     "postcss": "^8.4.7",
     "tailwindcss": "^3.0.23",
     "vite": "^3.0.7"
-  }
+  },
+  "description": "cd client \r       //if you are using ensias-student \r       npm install --force --proxy http://10.23.201.11:3128 \r       //or just \r       npm i \r # To run use \r  npm run dev \r # Also install the the folowing packages:",
+  "main": "postcss.config.js",
+  "author": "",
+  "license": "ISC"
 }
