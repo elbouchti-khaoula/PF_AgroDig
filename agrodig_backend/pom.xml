@@ -19,6 +19,7 @@
         <module>blog-service</module>
         <module>home-timeline-service</module>
         <module>discovery</module>
+        <module>api-gateway</module>
 
 
     </modules>
