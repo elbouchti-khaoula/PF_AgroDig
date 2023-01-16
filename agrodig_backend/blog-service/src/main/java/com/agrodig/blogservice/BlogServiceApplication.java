@@ -1,4 +1,4 @@
-package com.agrodig;
+package com.agrodig.blogservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
