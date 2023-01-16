@@ -9,7 +9,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.ComponentScan;
 
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 @EnableEurekaClient
 @ComponentScan("com.agrodig.usersservice.repository")
 @ComponentScan("com.agrodig.usersservice.controller")
