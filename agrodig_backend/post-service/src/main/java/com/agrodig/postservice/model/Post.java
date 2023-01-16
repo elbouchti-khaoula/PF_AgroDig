@@ -58,4 +58,8 @@ public class Post {
     )
     private Set<User> viewedBy= new HashSet<>();*/
 
+    public Post(String title, String body){
+        this.title = title;
+        this.body = body;
+    }
 }
