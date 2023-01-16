@@ -10,12 +10,24 @@ import MicIcon from '@mui/icons-material/Mic';
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Mic from "@mui/icons-material/Mic";
 import { COLORS } from "../utils/colors";
+import { usePosts } from "../contexts/PostContext";
+import LoadingButton from "@mui/lab/LoadingButton";
 
-function TopBar() {
+
+
+import { BiImageAdd, BiPhotoAlbum, BiX } from "react-icons/bi";
+
+
+
+
+function TopBar({showPostForm , setShowPostForm}) {
   const [reverse, setReverse] = useState(false);
   const [query, setQuery] = useState("");
+ // const [showPostForm, setShowPostForm] = useState(false);
   const navigate = useNavigate();
   const { isDark } = useApp();
+
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -32,6 +44,7 @@ function TopBar() {
   };
   return (
     <div className="stories py-2 sticky flex items-center justify-between w-full top-0">
+      
       <div className="tablet:w-2/3 w-full flex  items-center justify-between pl-8">
         <div className="flex items-center">
           <img className="w-[30px]" src={plantLogo} alt="" />
@@ -63,7 +76,7 @@ function TopBar() {
           />
           <input className="hidden" type="submit" value="" />
         </form>
-        <IconButton aria-label="voice" style={{color:COLORS.myGreen}}>
+        <IconButton aria-label="voice" style={{color:COLORS.myGreen}} onClick={() => setShowPostForm(true)}>
           <Mic />
         </IconButton>
         <IconButton
@@ -80,3 +93,5 @@ function TopBar() {
   );
 }
 export default TopBar;
+
+

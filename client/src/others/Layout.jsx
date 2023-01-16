@@ -4,15 +4,16 @@ import Nav from "../Home/Nav";
 import TopBar from "../Home/TopBar";
 import { useUsers } from "../Messages/contexts/userContext";
 
-const Layout = ({ children, active }) => {
+const Layout = ({ children, active,showPostForm, setShowPostForm }) => {
   const { isDark } = useApp();
   const { setMobile } = useUsers();
+  
 	return (
 		<div
 			onClick={() => setMobile(false)}
 			className="main-container flex-col w-full h-screen overflow-hidden"
 		>
-			<TopBar />
+			<TopBar setShowPostForm={setShowPostForm}/>
 			<div
 				className={`main-side w-full tab:flex-row flex flex-col-reverse ${
 					isDark && "dark-theme text-white"
