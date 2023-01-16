@@ -15,16 +15,17 @@ import LoadingButton from "@mui/lab/LoadingButton";
 
 
 import { BiImageAdd, BiPhotoAlbum, BiX } from "react-icons/bi";
+import { useMic } from "../contexts/MicContext";
 
 
 
 
-function TopBar({showPostForm , setShowPostForm}) {
+function TopBar() {
   const [reverse, setReverse] = useState(false);
   const [query, setQuery] = useState("");
- // const [showPostForm, setShowPostForm] = useState(false);
   const navigate = useNavigate();
   const { isDark } = useApp();
+  const {showMicModal, setShowMicModal} = useMic();
 
   
 
@@ -75,7 +76,7 @@ function TopBar({showPostForm , setShowPostForm}) {
           />
           <input className="hidden" type="submit" value="" />
         </form>
-        <IconButton aria-label="voice" style={{color:COLORS.myGreen}} onClick={() => setShowPostForm(true)}>
+        <IconButton aria-label="voice" style={{color:COLORS.myGreen}} onClick={() => setShowMicModal(true)}>
           <Mic />
         </IconButton>
         <IconButton

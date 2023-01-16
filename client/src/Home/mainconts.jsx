@@ -11,16 +11,15 @@ import { useApp } from "../contexts/AppContext";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import MicModal from "./MicModal";
+import {COLORS} from "../utils/colors";
+import { useMic } from "../contexts/MicContext";
 
-import {COLORS} from "../utils/colors"
-import microPhoneIcon from "./Images/microphone.svg";
-
-function Mainconts({showPostForm, setShowPostForm}) {
+function Mainconts() {
   const { posts, getPosts } = usePosts();
- // const [showPostForm, setShowPostForm] = useState(false);
   const { user } = useAuth();
   const { isDark } = useApp();
+  const {showMicModal,setShowMicModal} = useMic();
 
   useMemo(() => {
     if (posts.length === 0) {
@@ -35,7 +34,7 @@ function Mainconts({showPostForm, setShowPostForm}) {
 
   return (
     <div className="flex">
-      {showPostForm ? <PostForm setShowPostForm={setShowPostForm} /> : null}
+      {showMicModal ? <MicModal setShowMicModal={setShowMicModal} /> : null}
       <div className="w-full h-[91vh] overflow-auto flex flex-col items-center ">
         {/* <div className="flex items-center mobile:w-3/3 w-4/5  max-w-[600px] mx-auto justify-center mt-4 min-w-[150px]">
           <Link to={`/profile`} className="flex items-center">
@@ -48,7 +47,7 @@ function Mainconts({showPostForm, setShowPostForm}) {
             </div>
           </Link>
           <button
-            onClick={() => setShowPostForm(true)}
+            onClick={() => setShowMicModal(true)}
             className={`text-whi ml-1 border-2 truncate border-gray-500/50 w-10/12 text-start rounded-3xl ${
               isDark
                 ? "bg-[#08021d] hover:bg-slate-800"
@@ -85,101 +84,8 @@ function Mainconts({showPostForm, setShowPostForm}) {
 
 export default Mainconts;
 
+
 const PostForm = ({ setShowPostForm }) => {
-  const { transcript, resetTranscript } = useSpeechRecognition();
-  const [isListening, setIsListening] = useState(false);
-  const { isDark } = useApp();
-  const microphoneRef = useRef(null);
-  if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-    return (
-      <div className="mircophone-container">
-        Browser is not Support Speech Recognition.
-      </div>
-    );
-  }
-  const handleListing = () => {
-    setIsListening(true);
-    microphoneRef.current.classList.add("listening");
-    SpeechRecognition.startListening({
-      continuous: true,
-    });
-  };
-  const stopHandle = () => {
-    setIsListening(false);
-    microphoneRef.current.classList.remove("listening");
-    SpeechRecognition.stopListening();
-  };
-  const handleReset = () => {
-    stopHandle();
-    resetTranscript();
-  };
-
-  return (
-    <div
-      className="w-full top-0 left-0 z-[20] absolute bg-black/70 
-		flex flex-col items-center justify-center h-screen"
-    >
-      <div
-        onClick={() => setShowPostForm(false)}
-        className="w-full h-screen absolute top-0 left-0 z-[25]"
-      ></div>
-      <div
-        className={`flex z-30 flex-col relative mobile:w-2/3 w-11/12 max-w-[600px] rounded-xl p-4 bg-white ${
-          isDark && "text-white bg-[#0a0520]"
-        }`}
-      >
-        <BiX
-          onClick={() => setShowPostForm(false)}
-          className="mobile:text-4xl text-2xl absolute top-1 hover:text-red-600 cursor-pointer right-3"
-        />
-        <h2 className="text-center mobile:text-xl">Say Something</h2>
-        <div className="microphone-wrapper">
-      <div className="mircophone-container">
-        <div
-          className="microphone-icon-container"
-          ref={microphoneRef}
-          onClick={handleListing}
-        >
-          <img src={microPhoneIcon} className="microphone-icon" />
-        </div>
-        <div className="microphone-status">
-          {isListening ? "Listening........." : "Click to start Listening"}
-        </div>
-        {isListening && (
-          <button className="microphone-stop btn" onClick={stopHandle}>
-            Stop
-          </button>
-        )}
-      </div>
-      {transcript && (
-        <div className="microphone-result-container">
-          <div className="microphone-result-text">{transcript}</div>
-          <button className="microphone-reset btn" onClick={handleReset}>
-            Reset
-          </button>
-        </div>
-      )}
-    </div>
-
-
-
-
-
-       
-        <div className="w-full mt-4 flex items-center justify-between">
-
-        
-         
-         
-          {/* <button onClick={submitPost}
-					 className="px-4 py-2 bg-blue-600 text-white">Post</button> */}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const PostForm2 = ({ setShowPostForm }) => {
   const { newPost, getPosts } = usePosts();
   const [imageString, setImageStr] = useState("");
   const [caption, setCaption] = useState("");
