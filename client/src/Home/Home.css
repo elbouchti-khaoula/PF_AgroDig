@@ -34,7 +34,7 @@ body{
     width: 5%;
     height: 100vh;
     top: 0;
-    background-color: var(--primary-color);
+    background-color: var(--ligth-color);
     z-index: 0;
 }
 .nav-container{

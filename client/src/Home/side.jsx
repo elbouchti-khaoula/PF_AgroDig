@@ -58,9 +58,7 @@ const Side = () => {
           )})
           }
       </div>
-      {/* <div className="flex mt-4 w-full">
-        <p className='text-slate-500'>&copy; Photo Corner 2022</p>
-      </div> */}
+
     </div>
   )
 }
