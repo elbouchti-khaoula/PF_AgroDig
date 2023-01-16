@@ -13,6 +13,8 @@ import DProfile from "./account-page/DProfile";
 import Profile from "./account-page/Profile";
 import { useApp } from "./contexts/AppContext";
 import PostForm from "./Home/PostForm";
+import BlogForm from "./Blogs/BlogForm";
+import Blog from "./Blogs/Blog";
 
 function App() {
 	const { user } = useAuth();
@@ -45,6 +47,18 @@ function App() {
 						exact path="/form-post"
 						element={
 							user !== null ? <PostForm /> : <Navigate replace to="/login" />
+						}
+					/>
+					<Route
+						exact path="/form-blog"
+						element={
+							user !== null ? <BlogForm /> : <Navigate replace to="/login" />
+						}
+					/>
+					<Route
+						exact path="/blogs"
+						element={
+							user !== null ? <Blog /> : <Navigate replace to="/login" />
 						}
 					/>
 					<Route

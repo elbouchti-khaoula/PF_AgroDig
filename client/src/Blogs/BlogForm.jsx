@@ -1,14 +1,13 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import "./Home.css";
+import "../Home/Home.css";
 import { BiImageAdd, BiPhotoAlbum, BiX } from "react-icons/bi";
 import { useApp } from "../contexts/AppContext";
-//import PostForm from "./PostForm";
 import '../App.css';
 import Layout from '../others/Layout';
 //import Mainconts from './Home/mainconts';
 import { Link } from 'react-router-dom'
-function PostForm() {
+function BlogForm() {
 	const [imageString, setImageStr] = useState("");
 	const [caption, setCaption] = useState("");
 	const [preview, setPreview] = useState({ state: false, url: "" });
@@ -43,13 +42,13 @@ function PostForm() {
 		console.log(imageString);
 	};
 
-	const submitPost = async (e) => {
+	const submitBlog = async (e) => {
 		// e.preventDefault();
 		setLoading(true);
-		const isdone = await newPost(caption, imageString);
+		const isdone = await newBlog(caption, imageString);
 		if (isdone) {
 			console.log("done");
-			setShowPostForm(false);
+			setShowBlogForm(false);
 		}
 	};
 
@@ -61,7 +60,7 @@ function PostForm() {
             <h2 className=" mobile:text-xl text-green-700">Ask a Question </h2>
             <h6 className=" mobile:text-xs text-gray-700">cet espace est créé pour partager les idées avec les autres ou pour poser des questions il suffit donc de remplir tout les champs</h6>
             
-            {/*distance*/}<div className={`flex z-30 flex-col h-8 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
+            {/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
 
 			<div
 				className={`flex z-30 flex-col relative mobile:w-2/3 w-11/12 max-w-[900px] rounded-xl p-4 bg-white ${
@@ -79,7 +78,7 @@ function PostForm() {
 					<option value="option3">Option 3</option>
 					</select>
                 </div>
-{/*distance*/}<div className={`flex z-30 flex-col h-8 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
+{/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
 
                 <div
 				className={`flex flex-col relative mobile:w-2/3 w-11/12 max-w-[900px] rounded-xl p-4 bg-white min-height: calc(200px + (1.5vw * ${caption.length})) ${
@@ -94,7 +93,7 @@ function PostForm() {
 					maxLength={700}
 				></textarea>
                 </div>
-{/*distance*/}<div className={`flex z-30 flex-col h-8 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
+{/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
 
                 <div
 				className={`flex z-30 flex-col relative mobile:w-2/3 w-11/12 max-w-[900px] rounded-xl p-4 bg-white ${
@@ -111,7 +110,7 @@ function PostForm() {
 						type="file"
 						id="post"
 						accept="image/*"
-						submitPost={submitPost}
+						submitBlog={submitBlog}
 						setLoading={setLoading}
 						loading={loading}/></div>
 											
@@ -166,7 +165,7 @@ function PostForm() {
 				style={{ fontSize: fontSize, fontFamily: fontFamily }}>
 				</div>*/}
 
-        {/*distance*/}<div className={`flex z-30 flex-col h-8 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
+        {/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
 
                 <div
 				className={`flex z-30 flex-col relative mobile:w-2/3 w-11/12 max-w-[900px] rounded-xl p-4 bg-white ${
@@ -181,18 +180,17 @@ function PostForm() {
 					onInput={(e) => setText(e.target.innerText)}
 					style={{ fontSize: "16px", fontFamily: "Arial" }}
 					>
-					#Tag
+					#
 					</div>
 
                 </div>
-                {/*distance*/}<div className={`flex z-30 flex-col h-8 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
-
+               
 				<button
 				style={{padding:"10px"}}
 				className="py-2 px-4 rounded-lg bg-green-500 text-white hover:bg-green-600"
-				onClick={submitPost}
+				onClick={submitBlog}
 				disabled={loading}>
-				{loading ? "Submitting..." : "Submit Post"}
+				{loading ? "Submitting..." : "Submit Blog"}
 			</button>
 					
 
@@ -202,4 +200,4 @@ function PostForm() {
 	);
 }
 
-export default PostForm;
+export default BlogForm;
