@@ -56,4 +56,9 @@ public class UserController {
         return userService.getUsersById(ids);
     }
 
+    @GetMapping(path="/user-exists")
+    public boolean userExists(@RequestParam Long id){
+        return userService.checkUserExists(id);
+    }
+
 }

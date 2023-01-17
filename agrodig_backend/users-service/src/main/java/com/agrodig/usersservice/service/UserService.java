@@ -114,6 +114,9 @@ public class UserService {
     public List<UserResponseDto> getUsersById(List<Long> ids){
         return EntityToDtoMapper.userToUserResponseDto(userRepository.findByIdIn(ids));
     }
+    public boolean checkUserExists(Long id){
+        return userRepository.existsById(id);
+    }
 
 
 }
