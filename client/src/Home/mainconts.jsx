@@ -16,6 +16,7 @@ import {COLORS} from "../utils/colors";
 import { useMic } from "../contexts/MicContext";
 
 function Mainconts() {
+
   const { posts, getPosts } = usePosts();
   const { user } = useAuth();
   const { isDark } = useApp();
@@ -58,14 +59,16 @@ function Mainconts() {
             {user.username}, Create a New Post
           </button>
         </div> */}
-
+<div>
+      <Link to='/form-post'>
         <Button
           variant="contained"
           sx={{ backgroundColor: COLORS.myGreen, marginTop:"20px", marginRight:"26px",marginLeft: "auto" }}
-		
         >
           New Post
         </Button>
+      </Link>
+    </div>
 
         <>
           <div className="w-full flex flex-col items-center">

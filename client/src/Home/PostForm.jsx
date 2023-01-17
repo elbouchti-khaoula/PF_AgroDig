@@ -1,13 +1,14 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./Home.css";
-import { usePosts } from "../contexts/PostContext";
 import { BiImageAdd, BiPhotoAlbum, BiX } from "react-icons/bi";
 import { useApp } from "../contexts/AppContext";
 //import PostForm from "./PostForm";
-
+import '../App.css';
+import Layout from '../others/Layout';
+//import Mainconts from './Home/mainconts';
+import { Link } from 'react-router-dom'
 function PostForm() {
-	const { newPost, getPosts } = usePosts();
 	const [imageString, setImageStr] = useState("");
 	const [caption, setCaption] = useState("");
 	const [preview, setPreview] = useState({ state: false, url: "" });
@@ -15,7 +16,6 @@ function PostForm() {
 	const { isDark } = useApp();
 	const [fontSize, setFontSize] = useState("16px");
 	const [fontFamily, setFontFamily] = useState("Arial");
-	const [text, setText] = useState("Edit me!");
 	const [textAlign, setTextAlign] = useState("left");
 
 
@@ -54,12 +54,14 @@ function PostForm() {
 	};
 
 	return (
+		
+		<Layout active={'home'}>
 		<div className="w-full  left-0 z-[20] absolute 
 		flex flex-col items-center justify-center">
             <h2 className=" mobile:text-xl text-green-700">Ask a Question </h2>
             <h6 className=" mobile:text-xs text-gray-700">cet espace est créé pour partager les idées avec les autres ou pour poser des questions il suffit donc de remplir tout les champs</h6>
             
-            {/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
+            {/*distance*/}<div className={`flex z-30 flex-col h-8 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
 
 			<div
 				className={`flex z-30 flex-col relative mobile:w-2/3 w-11/12 max-w-[900px] rounded-xl p-4 bg-white ${
@@ -77,7 +79,7 @@ function PostForm() {
 					<option value="option3">Option 3</option>
 					</select>
                 </div>
-{/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
+{/*distance*/}<div className={`flex z-30 flex-col h-8 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
 
                 <div
 				className={`flex flex-col relative mobile:w-2/3 w-11/12 max-w-[900px] rounded-xl p-4 bg-white min-height: calc(200px + (1.5vw * ${caption.length})) ${
@@ -92,7 +94,7 @@ function PostForm() {
 					maxLength={700}
 				></textarea>
                 </div>
-{/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
+{/*distance*/}<div className={`flex z-30 flex-col h-8 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
 
                 <div
 				className={`flex z-30 flex-col relative mobile:w-2/3 w-11/12 max-w-[900px] rounded-xl p-4 bg-white ${
@@ -164,7 +166,7 @@ function PostForm() {
 				style={{ fontSize: fontSize, fontFamily: fontFamily }}>
 				</div>*/}
 
-        {/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
+        {/*distance*/}<div className={`flex z-30 flex-col h-8 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
 
                 <div
 				className={`flex z-30 flex-col relative mobile:w-2/3 w-11/12 max-w-[900px] rounded-xl p-4 bg-white ${
@@ -183,10 +185,20 @@ function PostForm() {
 					</div>
 
                 </div>
-               
-					 
+                {/*distance*/}<div className={`flex z-30 flex-col h-8 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
+
+				<button
+				style={{padding:"10px"}}
+				className="py-2 px-4 rounded-lg bg-green-500 text-white hover:bg-green-600"
+				onClick={submitPost}
+				disabled={loading}>
+				{loading ? "Submitting..." : "Submit Post"}
+			</button>
+					
+
 					
 		</div>
+    </Layout>
 	);
 }
 

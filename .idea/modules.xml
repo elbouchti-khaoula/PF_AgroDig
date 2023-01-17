@@ -4,11 +4,11 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/PF_AgroDig.iml" filepath="$PROJECT_DIR$/.idea/PF_AgroDig.iml" />
       <module fileurl="file://$PROJECT_DIR$/agrodig_backend/agrodig_backend.iml" filepath="$PROJECT_DIR$/agrodig_backend/agrodig_backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/agrodig_backend/api-gateway/api-gateway.iml" filepath="$PROJECT_DIR$/agrodig_backend/api-gateway/api-gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/agrodig_backend/blog-service/blog-service.iml" filepath="$PROJECT_DIR$/agrodig_backend/blog-service/blog-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/agrodig_backend/discovery/discovery.iml" filepath="$PROJECT_DIR$/agrodig_backend/discovery/discovery.iml" />
       <module fileurl="file://$PROJECT_DIR$/agrodig_backend/home-timeline-service/home-timeline-service.iml" filepath="$PROJECT_DIR$/agrodig_backend/home-timeline-service/home-timeline-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/agrodig_backend/post-service/post-service.iml" filepath="$PROJECT_DIR$/agrodig_backend/post-service/post-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/agrodig_backend/user-service/user-service.iml" filepath="$PROJECT_DIR$/agrodig_backend/user-service/user-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/agrodig_backend/users-service/users-service.iml" filepath="$PROJECT_DIR$/agrodig_backend/users-service/users-service.iml" />
     </modules>
   </component>

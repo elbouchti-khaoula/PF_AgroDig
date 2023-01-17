@@ -4,7 +4,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/agrodig_backend/pom.xml" />
-        <option value="$PROJECT_DIR$/agrodig_backend/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/agrodig_backend/api-gateway/pom.xml" />
       </list>
     </option>
   </component>
