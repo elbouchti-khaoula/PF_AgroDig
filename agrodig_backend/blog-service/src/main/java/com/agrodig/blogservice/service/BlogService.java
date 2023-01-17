@@ -3,11 +3,13 @@ package com.agrodig.blogservice.service;
 import com.agrodig.blogservice.dto.request.BlogRequestDto;
 import com.agrodig.blogservice.dto.request.CommentRequestDto;
 import com.agrodig.blogservice.dto.request.VoteRequestDto;
-import com.agrodig.blogservice.dto.response.*;
+import com.agrodig.blogservice.dto.response.BlogResponseDto;
+import com.agrodig.blogservice.dto.response.CommentResponseDto;
+import com.agrodig.blogservice.dto.response.UserResponseDto;
+import com.agrodig.blogservice.dto.response.VoteResponseDto;
 import com.agrodig.blogservice.mapper.EntityToDto;
 import com.agrodig.blogservice.model.Blog;
 import com.agrodig.blogservice.model.Comment;
-import com.agrodig.blogservice.model.Tag;
 import com.agrodig.blogservice.model.Vote;
 import com.agrodig.blogservice.repository.BlogRepository;
 import com.agrodig.blogservice.repository.CommentRepository;
@@ -46,18 +48,19 @@ public class BlogService {
                 .bodyToMono(UserResponseDto[].class)
                 .block();
         //count up votes down votes comments
+        log.info("User {} is retrieved", userResponseDtos.length);
         return blogs.stream().map(blog -> EntityToDto.blogToBlogResponseDto(blog, Arrays
                         .stream(userResponseDtos)
                         .filter(userResponseDto -> userResponseDto.getId() == blog.getPosterId()).findFirst().get()))
                 .collect(Collectors.toList());
     }
 
-    public List<BlogResponseDto> getMyBlogs() {
+    public List<BlogResponseDto> getMyBlogs(UserResponseDto userResponseDto) {
         //get blogs for user
         return blogRepository
-                .findByPosterId(getLoggedInUser().getId())
+                .findByPosterId(userResponseDto.getId())
                 .stream()
-                .map(blog -> EntityToDto.blogToBlogResponseDto(blog, getLoggedInUser()))
+                .map(blog -> EntityToDto.blogToBlogResponseDto(blog,userResponseDto))
                 .collect(Collectors.toList());
 
     }
@@ -117,7 +120,7 @@ public class BlogService {
                 .get())).collect(Collectors.toList());
     }
 
-    public void createBlog(BlogRequestDto blogRequestDto) {
+    public void createBlog(BlogRequestDto blogRequestDto, UserResponseDto userResponseDto) {
         Blog blog = new Blog();
         blog.setBody(blogRequestDto.getBody());
         blog.setTitle(blogRequestDto.getTitle());
@@ -126,26 +129,26 @@ public class BlogService {
         blog.setCreationDate(new Date());
         blog.setLastActivityDate(new Date());
         blog.setViewCount(0);
-        blog.setPosterId(getLoggedInUser().getId());
+        blog.setPosterId(userResponseDto.getId());
 
         blogRepository.save(blog);
     }
 
-    public UserResponseDto getLoggedInUser(){
+  /*  public UserResponseDto getLoggedInUser(){
         UserResponseDto userResponseDto = webClientBuilder.build().get()
                 .uri("http://users-service/api/user/profile")
                 .retrieve()
                 .bodyToMono(UserResponseDto.class)
                 .block();
         return  userResponseDto;
-    }
+    }*/
 
-    public void commentBlog(Long blogId, CommentRequestDto commentRequestDto) {
+    public void commentBlog(Long blogId, CommentRequestDto commentRequestDto,UserResponseDto userResponseDto) {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
         //create and save comment
 
         Comment comment = new Comment();
-        comment.setCommenterId(getLoggedInUser().getId());
+        comment.setCommenterId(userResponseDto.getId());
         comment.setBody(commentRequestDto.getBody());
         comment.setCreationDate(new Date());
         //associate comment to blog
@@ -154,12 +157,12 @@ public class BlogService {
         commentRepository.save(comment);
     }
 
-    public void voteBlog(Long blogId, VoteRequestDto voteRequestDto) {
+    public void voteBlog(Long blogId, VoteRequestDto voteRequestDto, UserResponseDto userResponseDto) {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
         //create and save vote
 
         Vote vote = new Vote();
-        vote.setVoterId(getLoggedInUser().getId());
+        vote.setVoterId(userResponseDto.getId());
         vote.setCreationDate(new Date());
         vote.setIsPositive(voteRequestDto.getIsPositive());
 

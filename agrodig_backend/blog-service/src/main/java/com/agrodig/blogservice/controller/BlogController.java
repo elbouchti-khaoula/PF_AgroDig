@@ -3,10 +3,7 @@ package com.agrodig.blogservice.controller;
 import com.agrodig.blogservice.dto.request.BlogRequestDto;
 import com.agrodig.blogservice.dto.request.CommentRequestDto;
 import com.agrodig.blogservice.dto.request.VoteRequestDto;
-import com.agrodig.blogservice.dto.response.BlogResponseDto;
-import com.agrodig.blogservice.dto.response.CommentResponseDto;
-import com.agrodig.blogservice.dto.response.TagResponseDto;
-import com.agrodig.blogservice.dto.response.VoteResponseDto;
+import com.agrodig.blogservice.dto.response.*;
 import com.agrodig.blogservice.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
@@ -28,8 +25,8 @@ public class BlogController {
     }
 
     @GetMapping(path = "/myBlogs")
-    public List<BlogResponseDto> getBlogsForUser() {
-        return blogService.getMyBlogs();
+    public List<BlogResponseDto> getBlogsForUser(@RequestBody UserResponseDto userResponseDto) {
+        return blogService.getMyBlogs(userResponseDto);
     }
 
     @GetMapping(path = "/comments")
@@ -49,20 +46,20 @@ public class BlogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createBlog(@RequestBody BlogRequestDto blogRequestDto) {
-        blogService.createBlog(blogRequestDto);
+    public void createBlog(@RequestBody BlogRequestDto blogRequestDto, @RequestBody UserResponseDto userResponseDto) {
+        blogService.createBlog(blogRequestDto, userResponseDto);
     }
 
     @PostMapping(path = "/comment")
     @ResponseStatus(HttpStatus.CREATED)
-    public void commentBlog(@RequestParam Long blogId, @RequestBody CommentRequestDto commentRequestDto) {
-        blogService.commentBlog(blogId, commentRequestDto);
+    public void commentBlog(@RequestParam Long blogId, @RequestBody CommentRequestDto commentRequestDto,@RequestBody UserResponseDto userResponseDto) {
+        blogService.commentBlog(blogId, commentRequestDto,userResponseDto);
     }
 
     @PostMapping(path = "/vote")
     @ResponseStatus(HttpStatus.CREATED)
-    public void voteBlog(@RequestParam Long blogId, @RequestBody VoteRequestDto voteRequestDto) {
-        blogService.voteBlog(blogId, voteRequestDto);
+    public void voteBlog(@RequestParam Long blogId, @RequestBody VoteRequestDto voteRequestDto, @RequestBody UserResponseDto userResponseDto) {
+        blogService.voteBlog(blogId, voteRequestDto,userResponseDto);
     }
 
     @DeleteMapping
