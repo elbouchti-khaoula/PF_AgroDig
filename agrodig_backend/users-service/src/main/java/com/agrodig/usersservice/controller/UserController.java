@@ -26,10 +26,4 @@ public class UserController {
 
     }
 
-    @GetMapping(path ="")
-    @ResponseStatus(HttpStatus.OK)
-    public String getChaimaa(){
-        return "chaimaa";
-    }
-
 }

@@ -18,16 +18,16 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping("/save-post")
+    /*@PostMapping
     public PostDto createPost(@RequestBody Post post){
         return postService.createPost(PostDto.postEntityToDto(post));
-    }
+    }*/
 
-    /*@PostMapping
+    @PostMapping(path = "/test")
     @ResponseStatus(HttpStatus.OK)
     public void test() {
 
-    }*/
+    }
 
     /*@PostMapping("/save-post")
     public Post createPost(@RequestBody Post post){
