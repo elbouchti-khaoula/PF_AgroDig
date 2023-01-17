@@ -15,7 +15,6 @@ import { useApp } from "./contexts/AppContext";
 import PostForm from "./Home/PostForm";
 import Tag from "./Home/Tag";
 import BlogForm from "./Blogs/BlogForm";
-import Blog from "./Blogs/Blog";
 import BlogPage from "./Blogs/BlogPage";
 import UserPosts from "./account-page/UserPosts";
 import TagPage from "./Home/TagPage";

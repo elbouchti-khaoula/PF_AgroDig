@@ -20,3 +20,17 @@
 .blog-card h3 {
   margin: 10px 0;
 }
+.scrollable-container {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.vertical-blog-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+.vertical-blog-card {
+  height: 150px;
+}
+

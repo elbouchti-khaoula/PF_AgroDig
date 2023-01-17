@@ -25,6 +25,8 @@ import {
   BiWorld,
   BiQuestionMark,
   BiTag,
+  BiPaperclip,
+  BiAddToQueue,
 } from "react-icons/bi";
 import { deleteAllCookies } from "../contexts/RequireAuth";
 import { useAuth } from "../contexts/AuthContext";
@@ -37,6 +39,8 @@ function Nav({ active }) {
   const { setUser } = useAuth();
   const [mobile, setMobile] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isBlogsExpanded, setIsBlogsExpanded] = useState(false);
+
   const handleLogout = () => {
     setUser(null);
     deleteAllCookies();
@@ -91,6 +95,7 @@ function Nav({ active }) {
             <BiHome className="text-xl" />
             <p className="tab:ml-3 text-[0.7em] tab:text-base">Home</p>
           </Link>
+  {/*=================================================*/}
           <Link
         to="/"
         className={`
@@ -159,20 +164,42 @@ function Nav({ active }) {
           </li>
         </ul>
       </div>
-          
+ {/*=================================================*/} 
 
           <Link
             style={{ width: mobile ? width / 5 : "100%" }}
             to="/blogs"
-            className={`${
-              active === "/blogs" &&
-              "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
-            }
-        flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
+            className={`
+              flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700 " text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"}
+            `}
+            onClick={() => setIsBlogsExpanded(!isBlogsExpanded)}
           >
             <BiPackage className="text-xl" />
             <p className="tab:ml-3 text-[0.7em] tab:text-base">Blogs</p>
+            {isBlogsExpanded ? <span>▼</span> : <span>▶</span>}
           </Link>
+
+          <div className={`${isBlogsExpanded ? "" : "hidden"}`}>
+            {/*"/blogs/category1"*/}
+                <Link to= "/blogs" className={`${
+                  active === "/blogs" &&
+                  "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
+                }
+                flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
+                ><BiPaperclip className="text-xl" />
+                  <p className="tab:ml-3 text-[0.7em] tab:text-base">All Blogs</p>
+                </Link>
+                <Link to="/form-post" className={`${
+                  active === "/form-post" &&
+                  "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
+                }
+                flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
+                ><BiAddToQueue className="text-xl" />
+                  <p className="tab:ml-3 text-[0.7em] tab:text-base">Add Blog</p>
+                </Link>
+              </div>
+
+
           <Link
             style={{ width: mobile ? width / 5 : "100%" }}
             to="/profile"

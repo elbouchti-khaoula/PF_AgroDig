@@ -232,34 +232,22 @@ const handleClick = (newValue) => {
 
           {/* Likes and comments */}
           <div className=" flex items-center text-2xl py-2" style={{marginLeft:"auto"}}>
-            {/* {liked ? (
-              <div className="flex items-center">
-                <FaHeart
-                  onClick={handleLike}
-                  className="ml-4 cursor-pointer text-red-600"
-                />
-                <p className="text-sm ml-2">{postData.likes}</p>
-              </div>
-            ) : (
-              <div className="flex items-center">
-                <BiHeart onClick={handleLike} className="ml-4 cursor-pointer" />
-                <p className="text-sm ml-2">{postData.likes}</p>
-              </div>
-            )} */}
+           
             
+            <div className="bg-gray-300 text-gray p-1 rounded-lg flex-shrink-0" style={{ width: "fit-content" }}>
+      <p className="text-sm ml-2">#Tag</p>
+    </div>
 
-
-           <div className="flex items-center">
-  <BiCommentDots
+            <div className="flex items-center mycmt-container" style={{ flexDirection: 'row-reverse', justifyContent: 'space-between' }}>
+  
+    <p className="text-sm ml-2">{postData.comments}</p>
+    <BiCommentDots
     onClick={() => setShowComments(true)}
     className="ml-4 cursor-pointer"
   />
-  <p className="text-sm ml-2">{postData.comments}</p>
-  <div className="bg-gray-300 text-gray p-1 rounded-lg flex-shrink-0" style={{ width: "fit-content" }}>
-    <p className="text-sm ml-2">#Tag</p>
 </div>
 
-</div>
+
             {/* <BiShare className="ml-4 cursor-pointer" /> */}
           </div>
 
