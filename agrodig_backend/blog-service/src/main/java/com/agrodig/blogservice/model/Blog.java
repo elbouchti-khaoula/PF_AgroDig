@@ -28,8 +28,6 @@ public class Blog {
 
     private int viewCount;
 
-    private int answerCount;
-
     private int commentCount;
 
     private Date lastActivityDate;
