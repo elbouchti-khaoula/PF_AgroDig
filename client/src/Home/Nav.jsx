@@ -19,12 +19,18 @@ import {
   BiMemoryCard,
   BiAlbum,
   BiTime,
+  BiUserX,
+  BiUserPlus,
+  BiUserCheck,
+  BiWorld,
+  BiQuestionMark,
+  BiTag,
+  BiPaperclip,
+  BiAddToQueue,
 } from "react-icons/bi";
 import { deleteAllCookies } from "../contexts/RequireAuth";
 import { useAuth } from "../contexts/AuthContext";
 import { useApp } from "../contexts/AppContext";
-import { debounce } from "../utils";
-import { COLORS } from "../utils/colors";
 
 function Nav({ active }) {
   const [width, setWidth] = useState(0);
@@ -33,6 +39,8 @@ function Nav({ active }) {
   const { setUser } = useAuth();
   const [mobile, setMobile] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isBlogsExpanded, setIsBlogsExpanded] = useState(false);
+
   const handleLogout = () => {
     setUser(null);
     deleteAllCookies();
@@ -87,6 +95,7 @@ function Nav({ active }) {
             <BiHome className="text-xl" />
             <p className="tab:ml-3 text-[0.7em] tab:text-base">Home</p>
           </Link>
+  {/*=================================================*/}
           <Link
         to="/"
         className={`
@@ -96,52 +105,101 @@ function Nav({ active }) {
         style={{ width: mobile ? width / 5 : "100%" }}
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <BiPodcast className="text-xl" />
-        <p className="tab:ml-3 text-[0.7em] tab:text-base">Post</p>
+        <BiWorld className="text-xl" />
+        <p className="tab:ml-3 text-[0.7em] tab:text-base">Public</p>
         {isExpanded ? <span>▼</span> : <span>▶</span>}
       </Link>
       <div className={`${isExpanded ? "" : "hidden"}`}>
         <ul>
           <li>
             <Link to="/home/myposts" className={`${
-              active === "profile" &&
+              active === "/home/myposts" &&
               "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
             }
         flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
           > <BiAlbum className="text-xl" />My Posts</Link>
           </li>
           <li>
-            <Link to="/home/popular" className={`${
-              active === "fome" &&
+            <Link to="/form-post" className={`${
+              active === "/form-post" &&
               "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
             }
         flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
-          ><BiGroup className="text-xl" /> Popular</Link>
+          ><BiQuestionMark className="text-xl" />Questions</Link>
           </li>
-          <li>
-            <Link to="/home/recent" className={`${
-              active === "home" &&
-              "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
-            }
-        flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
-          ><BiTime className="text-xl" />Recent</Link>
-          </li>
-        </ul>
-      </div>
           
-
+          <li>
           <Link
             style={{ width: mobile ? width / 5 : "100%" }}
-            to="/blogs"
+            to="/Users"
             className={`${
-              active === "blogs" &&
+              active === "Users" &&
               "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
             }
         flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
           >
+            <BiGroup className="text-xl" />
+            <p className="tab:ml-3 text-[0.7em] tab:text-base">Users</p>
+          </Link></li>
+          <li>
+          <Link
+            style={{ width: mobile ? width / 5 : "100%" }}
+            to="/Users"
+            className={`${
+              active === "Users" &&
+              "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
+            }
+        flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
+          >
+            <BiUserCheck className="text-xl" />
+            <p className="tab:ml-3 text-[0.7em] tab:text-base">Experts</p>
+          </Link></li>
+          <li>
+            <Link to="tags" className={`${
+              active === "tags" &&
+              "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
+            }
+        flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
+          ><BiTag className="text-xl" />Tags</Link>
+          </li>
+        </ul>
+      </div>
+ {/*=================================================*/} 
+
+          <Link
+            style={{ width: mobile ? width / 5 : "100%" }}
+            to="/blogs"
+            className={`
+              flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700 " text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"}
+            `}
+            onClick={() => setIsBlogsExpanded(!isBlogsExpanded)}
+          >
             <BiPackage className="text-xl" />
             <p className="tab:ml-3 text-[0.7em] tab:text-base">Blogs</p>
+            {isBlogsExpanded ? <span>▼</span> : <span>▶</span>}
           </Link>
+
+          <div className={`${isBlogsExpanded ? "" : "hidden"}`}>
+            {/*"/blogs/category1"*/}
+                <Link to= "/blogs" className={`${
+                  active === "/blogs" &&
+                  "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
+                }
+                flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
+                ><BiPaperclip className="text-xl" />
+                  <p className="tab:ml-3 text-[0.7em] tab:text-base">All Blogs</p>
+                </Link>
+                <Link to="/form-blog" className={`${
+                  active === "/form-blog" &&
+                  "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
+                }
+                flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
+                ><BiAddToQueue className="text-xl" />
+                  <p className="tab:ml-3 text-[0.7em] tab:text-base">Add Blog</p>
+                </Link>
+              </div>
+
+
           <Link
             style={{ width: mobile ? width / 5 : "100%" }}
             to="/profile"
@@ -154,18 +212,7 @@ function Nav({ active }) {
             <BiUser className="text-xl" />
             <p className="tab:ml-3 text-[0.7em] tab:text-base">Profile</p>
           </Link>
-          <Link
-            style={{ width: mobile ? width / 5 : "100%" }}
-            to="/messages"
-            className={`${
-              active === "messages" &&
-              "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
-            }
-        flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
-          >
-            <BiMessageRoundedDots className="text-xl" />
-            <p className="tab:ml-3 text-[0.7em] tab:text-base">Messages</p>
-          </Link>
+         
         </div>
         <div
           className={`flex tab:flex-col w-full items-center tab:px-3 ${

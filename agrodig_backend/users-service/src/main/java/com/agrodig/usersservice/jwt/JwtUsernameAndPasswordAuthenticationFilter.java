@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
+
 
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -28,7 +30,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         this.jwtConfig = jwtConfig;
 
         //this is line changes the login url from "/login" to "/api/v1/login"
-        this.setFilterProcessesUrl("/api/login");
+        this.setFilterProcessesUrl("/api/user/login");
     }
 
     @Override
@@ -66,5 +68,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .signWith(Keys.hmacShaKeyFor(key.getBytes()))
                 .compact();
         response.addHeader("Authorization",jwtConfig.getTokenPrefix()+token);
+        //response.addHeader("Access-Control-Allow-Origin","*");
+        //response.addHeader("Access-Control-Allow-Methods","GET, POST, OPTIONS, PUT, PATCH, DELETE");
+        //response.addHeader("Access-Control-Allow-Headers","X-Requested-With,content-type");
     }
 }

@@ -2,14 +2,13 @@
 import React from 'react'
 import '../App.css';
 import Layout from '../others/Layout';
-import Mainconts from '../Home/mainconts';
-import { useState } from 'react';
+import BlogCards from './BlogCards';
 
 function BlogPage() {
 
   return (
     <Layout active={'home'} >
-      <Mainconts />
+      <BlogCards />
     </Layout>
   );
 }
