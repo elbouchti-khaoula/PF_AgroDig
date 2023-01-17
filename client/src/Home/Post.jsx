@@ -246,13 +246,20 @@ const handleClick = (newValue) => {
                 <p className="text-sm ml-2">{postData.likes}</p>
               </div>
             )} */}
-            <div className="flex items-center">
-              <BiCommentDots
-                onClick={() => setShowComments(true)}
-                className="ml-4 cursor-pointer"
-              />
-              <p className="text-sm ml-2">{postData.comments}</p>
-            </div>
+            
+
+
+           <div className="flex items-center">
+  <BiCommentDots
+    onClick={() => setShowComments(true)}
+    className="ml-4 cursor-pointer"
+  />
+  <p className="text-sm ml-2">{postData.comments}</p>
+  <div className="bg-green-200 text-gray p-1 rounded-lg flex-shrink-0" style={{ width: "fit-content" }}>
+    <p className="text-sm ml-2">#Tag</p>
+</div>
+
+</div>
             {/* <BiShare className="ml-4 cursor-pointer" /> */}
           </div>
 
