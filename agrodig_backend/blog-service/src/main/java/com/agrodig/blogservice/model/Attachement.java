@@ -3,6 +3,7 @@ package com.agrodig.blogservice.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -15,10 +16,10 @@ public class Attachement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "attachement_id")
     private Long id;
-    private String type;
+    private AttachementType type;
     private String path;
     private String name;
-
+    private Date uploadDate;
     @ManyToOne
     @JoinColumn(name = "blog_id")
     private Blog blog;

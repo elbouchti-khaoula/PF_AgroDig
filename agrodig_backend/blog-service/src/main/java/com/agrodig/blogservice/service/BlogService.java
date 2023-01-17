@@ -3,11 +3,9 @@ package com.agrodig.blogservice.service;
 import com.agrodig.blogservice.dto.request.BlogRequestDto;
 import com.agrodig.blogservice.dto.request.CommentRequestDto;
 import com.agrodig.blogservice.dto.request.VoteRequestDto;
-import com.agrodig.blogservice.dto.response.BlogResponseDto;
-import com.agrodig.blogservice.dto.response.CommentResponseDto;
-import com.agrodig.blogservice.dto.response.UserResponseDto;
-import com.agrodig.blogservice.dto.response.VoteResponseDto;
+import com.agrodig.blogservice.dto.response.*;
 import com.agrodig.blogservice.mapper.EntityToDto;
+import com.agrodig.blogservice.model.Attachement;
 import com.agrodig.blogservice.model.Blog;
 import com.agrodig.blogservice.model.Comment;
 import com.agrodig.blogservice.model.Vote;
@@ -18,6 +16,7 @@ import com.agrodig.blogservice.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.transaction.Transactional;
@@ -35,6 +34,9 @@ public class BlogService {
     private final CommentRepository commentRepository;
     private final VoteRepository voteRepository;
     private final TagRepository tagRepository;
+
+    private final AttachementService attachementService;
+
     private final WebClient.Builder webClientBuilder;
 
 
@@ -60,7 +62,7 @@ public class BlogService {
         return blogRepository
                 .findByPosterId(userResponseDto.getId())
                 .stream()
-                .map(blog -> EntityToDto.blogToBlogResponseDto(blog,userResponseDto))
+                .map(blog -> EntityToDto.blogToBlogResponseDto(blog, userResponseDto))
                 .collect(Collectors.toList());
 
     }
@@ -115,7 +117,7 @@ public class BlogService {
 
         return votes.stream().map(vote -> EntityToDto.VoteToVoteResponseDto(vote, Arrays
                 .stream(userResponseDtos)
-                .filter(userResponseDto -> userResponseDto.getId()==vote.getVoterId())
+                .filter(userResponseDto -> userResponseDto.getId() == vote.getVoterId())
                 .findFirst()
                 .get())).collect(Collectors.toList());
     }
@@ -124,12 +126,15 @@ public class BlogService {
         Blog blog = new Blog();
         blog.setBody(blogRequestDto.getBody());
         blog.setTitle(blogRequestDto.getTitle());
-        if(blogRequestDto.getTagIds() != null)  blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
+        if (blogRequestDto.getTagIds() != null) blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
         blog.setCreationDate(new Date());
         blog.setLastActivityDate(new Date());
         blog.setViewCount(0);
-        blog.setPosterId(blogRequestDto.getUserResponseDto().getId());
+        blog.setPosterId(blogRequestDto.getUserId());
 
+        //saving the attached files
+         if (blogRequestDto.getAttachements()!= null)  blogRequestDto.getAttachements().stream().map(multipartFile -> attachementService.addAttachementToBlog(multipartFile,blog)).collect(Collectors.toList());
+        //attachementService.addAttachementToBlog(blogRequestDto.getAttachements(),blog);
         blogRepository.save(blog);
     }
 
@@ -185,13 +190,15 @@ public class BlogService {
         //create and save comment
         blog.setBody(blogRequestDto.getBody());
         blog.setTitle(blogRequestDto.getTitle());
-        if(blogRequestDto.getTagIds() != null ) blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
+
+        blog.setLastActivityDate(new Date());
+        if (blogRequestDto.getTagIds() != null) blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
 
     }
 
     public void voteComment(Long commentId, VoteRequestDto voteRequestDto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalStateException("Comment not found"));
-         //create and save vote
+        //create and save vote
 
         Vote vote = new Vote();
         vote.setVoterId(voteRequestDto.getUserId());
@@ -201,5 +208,11 @@ public class BlogService {
         vote.setComment(comment);
 
         voteRepository.save(vote);
+    }
+
+    public void upload(MultipartFile multipartFile) {
+        Blog blog = new Blog();
+        blogRepository.save(blog);
+        attachementService.addAttachementToBlog(multipartFile,blog);
     }
 }

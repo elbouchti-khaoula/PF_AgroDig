@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -46,9 +47,10 @@ public class BlogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createBlog(@RequestBody BlogRequestDto blogRequestDto) {
+    public void createBlog(@ModelAttribute BlogRequestDto blogRequestDto) {
         blogService.createBlog(blogRequestDto);
     }
+
 
     @PostMapping(path = "/comment")
     @ResponseStatus(HttpStatus.CREATED)

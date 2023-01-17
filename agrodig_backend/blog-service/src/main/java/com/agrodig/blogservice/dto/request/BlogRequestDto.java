@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class BlogRequestDto {
     private String title;
     //@OneToMany(mappedBy = "blog", fetch = FetchType.LAZY)
     //private List<Attachement> attachements;
-    private UserResponseDto userResponseDto;
+    private List<MultipartFile> attachements;
+    private Long userId;
     private List<Long> tagIds;
 }

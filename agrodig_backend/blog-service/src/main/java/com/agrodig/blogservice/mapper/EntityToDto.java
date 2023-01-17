@@ -1,13 +1,7 @@
 package com.agrodig.blogservice.mapper;
 
-import com.agrodig.blogservice.dto.response.BlogResponseDto;
-import com.agrodig.blogservice.dto.response.CommentResponseDto;
-import com.agrodig.blogservice.dto.response.UserResponseDto;
-import com.agrodig.blogservice.dto.response.VoteResponseDto;
-import com.agrodig.blogservice.model.Blog;
-import com.agrodig.blogservice.model.Comment;
-import com.agrodig.blogservice.model.Tag;
-import com.agrodig.blogservice.model.Vote;
+import com.agrodig.blogservice.dto.response.*;
+import com.agrodig.blogservice.model.*;
 
 import java.util.stream.Collectors;
 
@@ -48,6 +42,18 @@ public class EntityToDto {
                 .isPositive(vote.getIsPositive())
                 .userResponseDto(userResponseDto)
                 .build();
+    }
+
+    public static AttachementResponseDto AttachementToAttachementResponseDto(Attachement attachement){
+        return AttachementResponseDto
+                .builder()
+                .id(attachement.getId())
+                .name(attachement.getName())
+                .type(attachement.getType().value())
+                .path(attachement.getPath())
+                .uploadDate(attachement.getUploadDate())
+                .build();
+
     }
 }
 
