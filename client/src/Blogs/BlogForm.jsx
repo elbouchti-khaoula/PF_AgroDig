@@ -55,8 +55,8 @@ function BlogForm() {
 		<Layout active={'home'}>
 		<div className="w-full  left-0 z-[20] absolute 
 		flex flex-col items-center justify-center">
-            <h2 className=" mobile:text-xl text-green-700">Ask a Question </h2>
-            <h6 className=" mobile:text-xs text-gray-700">cet espace est créé pour partager les idées avec les autres ou pour poser des questions il suffit donc de remplir tout les champs</h6>
+            <h2 className=" mobile:text-xl text-green-700">Add a Blog </h2>
+            <h6 className=" mobile:text-xs text-gray-700">cet espace est créé pour partager les idées avec les autres ou pour ajouter des blog il suffit donc de remplir tout les champs</h6>
             
             {/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
 
@@ -96,7 +96,7 @@ function BlogForm() {
 				className={`flex z-30 flex-col relative mobile:w-2/3 w-11/12 max-w-[900px] rounded-xl p-4 bg-white ${
 					isDark && "text-white bg-[#0a0520]"
 				}`}
-			><h2 className="text-center mobile:text-l">What are the details of your question </h2> 
+			><h2 className="text-center mobile:text-l">What are the details of your Blog </h2> 
 			
 			<div className="toolbar">
 				<div><label htmlFor="post"className="flex cursor-pointer text-green-700 items-center">
