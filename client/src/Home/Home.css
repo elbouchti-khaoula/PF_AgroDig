@@ -438,6 +438,34 @@ h2 {
 .my-button {
     padding: 10px;
   }
+  .tag-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+    overflow-x: scroll;
+    width: 100%;
+  }
+  
+  @media (min-width: 768px) {
+    .tag-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  ::-webkit-scrollbar {
+    
+    width: 0.2em;
+    height: 0.4em;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+    border-radius: 200px;
+  }
+  .mycmt-container{
+    margin-bottom: 10px;
+}
+
+  
+
     
           
   
