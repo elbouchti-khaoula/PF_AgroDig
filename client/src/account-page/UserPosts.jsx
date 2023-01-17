@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { BiGridAlt } from 'react-icons/bi';
 import { getCookie } from '../contexts/RequireAuth';
 import Layout from '../others/Layout';
+import { TagProvider } from '../contexts/TagContext';
+import Tag from '../Home/Tag';
 
 const Prof = styled.div`
 

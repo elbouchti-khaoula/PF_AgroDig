@@ -14,7 +14,7 @@ import { Button } from "@mui/material";
 import MicModal from "./MicModal";
 import {COLORS} from "../utils/colors";
 import { useMic } from "../contexts/MicContext";
-
+import Tag from './Tag';
 function Mainconts() {
 
   const { posts, getPosts } = usePosts();
@@ -59,6 +59,7 @@ function Mainconts() {
             {user.username}, Create a New Post
           </button>
         </div> */}
+
 <div>
       <Link to='/form-post'>
         <Button

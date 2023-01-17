@@ -18,6 +18,7 @@ import BlogForm from "./Blogs/BlogForm";
 import Blog from "./Blogs/Blog";
 import BlogPage from "./Blogs/BlogPage";
 import UserPosts from "./account-page/UserPosts";
+import TagPage from "./Home/TagPage";
 
 function App() {
 	const { user } = useAuth();
@@ -55,7 +56,7 @@ function App() {
 					<Route
 						exact path="/tags"
 						element={
-							user !== null ? <Tag /> : <Navigate replace to="/login" />
+							user !== null ? <TagPage /> : <Navigate replace to="/login" />
 						}
 					/>
 
