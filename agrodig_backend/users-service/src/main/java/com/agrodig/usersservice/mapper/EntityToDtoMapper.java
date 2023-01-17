@@ -11,6 +11,8 @@ public class EntityToDtoMapper {
     public static UserResponseDto userToUserResponseDto(User user) {
         return new UserResponseDto(
                 user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getRole().name()

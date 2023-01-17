@@ -23,6 +23,12 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @GetMapping(path="/{userId}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public User getUserById(@PathVariable Long userId){
+        return userService.getUserById(userId);
+    }
+
 
 
     @PostMapping(headers={"target=adminCreateUser"})
@@ -38,6 +44,16 @@ public class UserController {
     @RequestMapping(method = RequestMethod.PUT, path="{userId}",headers={"target=updateEmail"})
     public void updateEmail(@PathVariable Long userId,@RequestBody String email){
         userService.updateEmail(userId, email);
+    }
+
+    @GetMapping(path="/profile")
+    public User profile(){
+        return userService.getUser();
+    }
+
+    @GetMapping(path="/users-by-id")
+    public List<UserResponseDto> getUsersByIdList(@RequestParam List<Long> ids){
+        return userService.getUsersById(ids);
     }
 
 }

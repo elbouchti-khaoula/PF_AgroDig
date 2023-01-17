@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.agrodig.usersservice.security.ApplicationUserRole.USER;
@@ -41,6 +42,10 @@ public class UserService {
     public User findUserByUsername(String username) throws UserNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(()->new UserNotFoundException(username));
+    }
+
+    public User getUserById(Long userID){
+        return userRepository.findById(userID).orElseThrow(() ->  new UserNotFoundException());
     }
 
 
@@ -104,6 +109,10 @@ public class UserService {
 
     public UserResponseDto getUserResponseDto(){
         return EntityToDtoMapper.userToUserResponseDto(getUser());
+    }
+
+    public List<UserResponseDto> getUsersById(List<Long> ids){
+        return EntityToDtoMapper.userToUserResponseDto(userRepository.findByIdIn(ids));
     }
 
 
