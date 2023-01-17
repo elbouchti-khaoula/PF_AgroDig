@@ -47,8 +47,8 @@ public class UserController {
     }
 
     @GetMapping(path="/profile")
-    public User profile(){
-        return userService.getUser();
+    public UserResponseDto profile(){
+        return userService.getUserResponseDto();
     }
 
     @GetMapping(path="/users-by-id")
