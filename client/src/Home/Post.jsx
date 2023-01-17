@@ -255,7 +255,7 @@ const handleClick = (newValue) => {
     className="ml-4 cursor-pointer"
   />
   <p className="text-sm ml-2">{postData.comments}</p>
-  <div className="bg-green-200 text-gray p-1 rounded-lg flex-shrink-0" style={{ width: "fit-content" }}>
+  <div className="bg-gray-300 text-gray p-1 rounded-lg flex-shrink-0" style={{ width: "fit-content" }}>
     <p className="text-sm ml-2">#Tag</p>
 </div>
 

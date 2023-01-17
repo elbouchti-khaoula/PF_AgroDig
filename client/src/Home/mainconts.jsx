@@ -14,14 +14,26 @@ import { Button } from "@mui/material";
 import MicModal from "./MicModal";
 import {COLORS} from "../utils/colors";
 import { useMic } from "../contexts/MicContext";
-import TagH from "./TagH";
+import Scrollbars from 'react-custom-scrollbars';
+
 function Mainconts() {
 
   const { posts, getPosts } = usePosts();
   const { user } = useAuth();
   const { isDark } = useApp();
   const {showMicModal,setShowMicModal} = useMic();
-
+  const [tags, setTags] = useState([
+    {tag: '#Tag1', count: 100},
+    {tag: '#Tag2', count: 90},
+    {tag: '#Tag3', count: 80},
+    {tag: '#Tag4', count: 70},
+    {tag: '#Tag5', count: 60},
+    {tag: '#Tag1', count: 100},
+    {tag: '#Tag2', count: 90},
+    {tag: '#Tag3', count: 80},
+    {tag: '#Tag5', count: 60}
+]);
+  const [showTags, setShowTags] = useState(false);
   useMemo(() => {
     if (posts.length === 0) {
       getPosts();
@@ -37,38 +49,54 @@ function Mainconts() {
     <div className="flex">
       {showMicModal ? <MicModal setShowMicModal={setShowMicModal} /> : null}
       <div className="w-full h-[91vh] overflow-auto flex flex-col items-center ">
-        {/* <div className="flex items-center mobile:w-3/3 w-4/5  max-w-[600px] mx-auto justify-center mt-4 min-w-[150px]">
-          <Link to={`/profile`} className="flex items-center">
-            <div className="flex overflow-hidden w-[40px] h-[40px] rounded-full">
-              <img
-                className="min-w-full min-h-full object-cover"
-                src={user.profile}
-                alt=""
-              />
+        
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+          
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                overflowX: 'scroll',
+                width: "80%",
+                paddingLeft: '60px',
+                paddingRight: '50px'
+            }}
+            >
+              {tags.map((tag) => (
+                <div
+                  key={tag.tag}
+                  style={{
+                    backgroundColor: "#D3E7E2",
+                    padding: "10px",
+                    margin: "10px",
+                    borderRadius: "20px",
+                  }}
+                >
+                  <p>{tag.tag}</p>
+                  <p>{tag.count} post</p>
+                </div>
+              ))}
             </div>
+          
+         
+        </div>
+<div>
+<Link to="/form-post">
+            <Button
+              variant="contained"
+              sx={{
+                //backgroundColor: COLORS.myGreen,
+                backgroundColor: "#A9CAAA",
+                marginTop: "20px",
+                marginRight: "26px",
+                marginLeft: "auto",
+              }}
+              onClick={() => setShowTags(!showTags)}
+            >
+              New Post
+            </Button>
           </Link>
-          <button
-            onClick={() => setShowMicModal(true)}
-            className={`text-whi ml-1 border-2 truncate border-gray-500/50 w-10/12 text-start rounded-3xl ${
-              isDark
-                ? "bg-[#08021d] hover:bg-slate-800"
-                : "bg-slate-300 hover:bg-slate-400"
-            } px-4 py-2
-						cursor-pointer`}
-          >
-            {user.username}, Create a New Post
-          </button>
-        </div> */}
-   
-<div><Link to='/form-post'>
-        <Button
-          variant="contained"
-          sx={{ backgroundColor: COLORS.myGreen, marginTop:"20px", marginRight:"26px",marginLeft: "auto" }}
-        >
-          New Post
-        </Button>
-      </Link>
-    </div>
+</div>
 
         <>
           <div className="w-full flex flex-col items-center">

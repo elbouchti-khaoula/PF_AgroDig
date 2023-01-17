@@ -450,7 +450,18 @@ h2 {
       grid-template-columns: repeat(3, 1fr);
     }
   }
+  ::-webkit-scrollbar {
+    
+    width: 0.2em;
+    height: 0.4em;
+  }
   
+  ::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+    border-radius: 200px;
+  }
+  
+
     
           
   
