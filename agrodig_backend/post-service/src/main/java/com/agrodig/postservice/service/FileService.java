@@ -1,46 +1,52 @@
 package com.agrodig.postservice.service;
 
-import com.agrodig.postservice.dto.PostRequestDto;
+import com.agrodig.postservice.config.FileConfig;
+import com.agrodig.postservice.dto.response.FileResponseDto;
+import com.agrodig.postservice.mapper.EntityToDto;
 import com.agrodig.postservice.model.File;
+import com.agrodig.postservice.model.FileType;
 import com.agrodig.postservice.model.Post;
 import com.agrodig.postservice.repository.FileRepository;
-import com.agrodig.postservice.utils.ImageUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.agrodig.postservice.utils.FileUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.time.Instant;
 
+@Transactional
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class FileService {
     private final FileRepository fileRepository;
 
-    @Autowired
-    public FileService(FileRepository fileRepository){
-        this.fileRepository = fileRepository;
-    }
+    private final FileConfig fileConfig;
 
-    public File uploadFile(PostRequestDto postRequestDto, Post post){
-        Instant instant = Instant.now();
-        MultipartFile uploadedFile = postRequestDto.getFile();
-        String fileName = post.getPost_id()  + "_" + uploadedFile.getOriginalFilename();
-        String uploadsDirectory = "D:/Downloads/images/kawtar/";
-        String filePath = uploadsDirectory + fileName;
-        // save file into local file storage
-        ImageUtils.saveImage(uploadedFile,uploadsDirectory, fileName);
-
-        // save file into database
+    public FileResponseDto addFileToPost(MultipartFile multipartFile, Post post) {
+        //saving attachement entity
         File file = new File();
-        file.setFilePath(filePath);
-        file.setCreatedAt(instant);
-        file.setUpdatedAt(instant);
+        file.setType(FileType.fromContentType(multipartFile.getContentType()));
+        file.setCreatedAt(Instant.now());
+        file.setName(multipartFile.getName());
+        file.setPath(fileConfig.getDirectory());
+
         file.setPost(post);
+
         fileRepository.save(file);
 
-        return file;
+        //saving attachement file in file system
+        String fileName = file.getFile_id() + "." + file.getType().value();
+        FileUtils.saveFile(multipartFile, fileConfig.getDirectory(), fileName);
+
+        return EntityToDto.FileToFileResponseDto(file);
+
     }
 
-    public void deleteFile(Long postId){
-        // get all the files related to the post and delete them from the d and the local storage
+    public Boolean deleteFileOfPost(File file) {
+        return FileUtils.deleteFile(file.getPath(), file.getFile_id() + "." + file.getType().value());
     }
+
 }

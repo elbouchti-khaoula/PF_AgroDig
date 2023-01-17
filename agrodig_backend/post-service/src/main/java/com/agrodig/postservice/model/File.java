@@ -1,9 +1,6 @@
 package com.agrodig.postservice.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -14,6 +11,7 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +21,16 @@ public class File {
     private Instant updatedAt;
     private Instant deletedAt;
 
-    private String filePath;
+    private String name;
+    private String path;
+    private FileType type;
 
     @ManyToOne
+    @JoinColumn(name = "id")
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
 }

@@ -133,7 +133,8 @@ public class BlogService {
         blog.setPosterId(blogRequestDto.getUserId());
 
         //saving the attached files
-         if (blogRequestDto.getAttachements()!= null)  blogRequestDto.getAttachements().stream().map(multipartFile -> attachementService.addAttachementToBlog(multipartFile,blog)).collect(Collectors.toList());
+        if (blogRequestDto.getAttachements() != null)
+            blogRequestDto.getAttachements().stream().map(multipartFile -> attachementService.addAttachementToBlog(multipartFile, blog)).collect(Collectors.toList());
         //attachementService.addAttachementToBlog(blogRequestDto.getAttachements(),blog);
         blogRepository.save(blog);
     }
@@ -177,20 +178,24 @@ public class BlogService {
 
     public void deleteBlog(Long blogId) {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
-        //delete blog comments
 
-        //delete blog votes
+        //delete blog attachements from file system
+        blog.getAttachements().stream().map(attachement -> attachementService.deleteAttachementOfBlog(attachement)).collect(Collectors.toList());
 
-        //delete blog attachement
         blogRepository.delete(blog);
     }
 
     public void updateBlog(BlogRequestDto blogRequestDto, Long blogId) {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
-        //create and save comment
+
         blog.setBody(blogRequestDto.getBody());
         blog.setTitle(blogRequestDto.getTitle());
 
+        //files deletion and creation
+        if (blogRequestDto.getAttachements() != null) {
+            blog.getAttachements().stream().map(attachement -> attachementService.deleteAttachementOfBlog(attachement)).collect(Collectors.toList());
+            blogRequestDto.getAttachements().stream().map(multipartFile -> attachementService.addAttachementToBlog(multipartFile, blog)).collect(Collectors.toList());
+        }
         blog.setLastActivityDate(new Date());
         if (blogRequestDto.getTagIds() != null) blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
 
@@ -213,6 +218,6 @@ public class BlogService {
     public void upload(MultipartFile multipartFile) {
         Blog blog = new Blog();
         blogRepository.save(blog);
-        attachementService.addAttachementToBlog(multipartFile,blog);
+        attachementService.addAttachementToBlog(multipartFile, blog);
     }
 }

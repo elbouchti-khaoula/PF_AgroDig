@@ -1,6 +1,5 @@
-package com.agrodig.blogservice.dto.request;
+package com.agrodig.postservice.dto.request;
 
-import com.agrodig.blogservice.dto.response.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,10 +12,12 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor
-public class BlogRequestDto {
-    private String body;
+public class PostRequestDto {
+    private List<MultipartFile> files;
     private String title;
-    private List<MultipartFile> attachements;
+    private String body;
     private Long userId;
     private List<Long> tagIds;
 }
+
+

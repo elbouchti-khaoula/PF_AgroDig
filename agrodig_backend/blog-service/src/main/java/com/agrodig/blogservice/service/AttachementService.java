@@ -37,13 +37,17 @@ public class AttachementService {
 
         attachement.setBlog(blog);
 
-        attachementRepository.save(attachement);
+        Attachement savedAttachement =attachementRepository.save(attachement);
 
         //saving attachement file in file system
-        String fileName = attachement.getId() + "." + attachement.getType().value();
+        String fileName = savedAttachement.getId() + "." + savedAttachement.getType().value();
         FileUtils.saveFile(multipartFile, fileConfig.getDirectory(), fileName);
 
         return EntityToDto.AttachementToAttachementResponseDto(attachement);
 
+    }
+
+    public Boolean deleteAttachementOfBlog(Attachement attachement) {
+        return FileUtils.deleteFile(attachement.getPath(), attachement.getId() + "." + attachement.getType().value());
     }
 }

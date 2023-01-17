@@ -1,32 +1,35 @@
 package com.agrodig.postservice.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name="votes")
+@Table(name = "votes")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Vote {
     @Id
+    @Column(name = "vote_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long vote_id;
+    private Long id;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="OWNER_ID")
-    @NotNull
-    private User owner;*/
+    private Boolean isPositive;
+
+    private Long voterId;
 
     private Instant createdAt;
-    private VoteType voteType;
 
     @ManyToOne
+    @JoinColumn(name = "post_id")
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
 }

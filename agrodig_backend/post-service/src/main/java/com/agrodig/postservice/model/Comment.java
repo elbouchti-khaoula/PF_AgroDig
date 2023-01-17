@@ -1,10 +1,7 @@
 package com.agrodig.postservice.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -16,28 +13,33 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long comment_id;
-
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="OWNER_ID")
-    @NotNull
-    private User owner;*/
+    @Column(name = "comment_id")
+    private Long id;
 
     private Instant createdAt;
+
     private Instant updatedAt;
+
     private Instant deletedAt;
+
+    private Long commenterId;
 
     private String body;
 
     private String attachementURL;
 
     @ManyToOne
+    @JoinColumn(name = "post_id")
     private Post post;
 
-    public Comment(String body){
-        this.body = body;
-    }
+    @OneToMany(mappedBy="comment", fetch = FetchType.LAZY)
+    private List<File> files;
+
+    @OneToMany(mappedBy="comment", fetch = FetchType.LAZY)
+    private List<Vote> votes ;
+
 }

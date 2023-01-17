@@ -1,12 +1,13 @@
 package com.agrodig.postservice.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name="posts")
@@ -17,14 +18,9 @@ import java.util.Set;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private Long post_id;
-
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="OWNER_ID")
-    @NotNull
-    private User owner;*/
-
+    @Column(name = "post_id")
+    private Long id;
+    private Long posterId;
     private Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;
@@ -35,31 +31,17 @@ public class Post {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "post_tags",
-            joinColumns = @JoinColumn(name = "post_id"),
+            joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
 
-    @OneToMany(mappedBy = "post")
-    private Collection<File> files;
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private List<File> files;
 
-    @OneToMany(mappedBy = "post")
-    private Collection<Comment> comments;
-    private int commentsCount;
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
 
-    @OneToMany(mappedBy = "post")
-    private Set<Vote> votes;
-    private int votesCount;
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private List<Vote> votes;
 
-    /*@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "VIEW",
-            joinColumns = {@JoinColumn(name = "post_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")}
-    )
-    private Set<User> viewedBy= new HashSet<>();*/
-
-    public Post(String title, String body){
-        this.title = title;
-        this.body = body;
-    }
 }

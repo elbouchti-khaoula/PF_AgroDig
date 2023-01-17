@@ -1,22 +1,18 @@
-package com.agrodig.postservice.dto;
+package com.agrodig.postservice.dto.request;
 
-import com.agrodig.postservice.model.Post;
+import com.agrodig.postservice.dto.response.UserResponseDto;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-//@Builder
 @Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostRequestDto {
-    private MultipartFile file;
-    private String title;
+public class CommentRequestDto {
+    //private MultipartFile file;
     private String body;
+    private UserResponseDto userResponseDto;
 }
-
-

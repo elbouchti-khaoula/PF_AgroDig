@@ -19,10 +19,9 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tag_id;
 
-    private String tagName;
+    private String name;
     private int usageCount;
 
     @ManyToMany(mappedBy = "tags")
     private List<Post> posts;
-
 }
