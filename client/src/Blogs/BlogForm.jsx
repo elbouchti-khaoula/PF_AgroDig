@@ -5,8 +5,6 @@ import { BiImageAdd, BiPhotoAlbum, BiX } from "react-icons/bi";
 import { useApp } from "../contexts/AppContext";
 import '../App.css';
 import Layout from '../others/Layout';
-//import Mainconts from './Home/mainconts';
-import { Link } from 'react-router-dom'
 function BlogForm() {
 	const [imageString, setImageStr] = useState("");
 	const [caption, setCaption] = useState("");
@@ -87,8 +85,7 @@ function BlogForm() {
 			><h2 className="text-center mobile:text-l">Title:</h2>
 				<textarea
 					onChange={(e) => setCaption(e.target.value)}
-					className="border-2 h-[10vh] outline-none border-gray-500/70
-				  p-2 w-full bg-transparent"
+					className="border-2 h-[10vh] outline-none border-gray-500/70 p-2 w-full bg-transparent"
 					placeholder="Title"
 					maxLength={700}
 				></textarea>

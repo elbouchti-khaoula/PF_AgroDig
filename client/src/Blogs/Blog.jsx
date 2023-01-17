@@ -4,9 +4,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import "../Home/Home.css";
 import Side from "../Home/side";
-import Blogs from "./Blogs";
-import { useBlogs } from "../contexts/BlogContext";
-import { BiImageAdd, BiPhotoAlbum, BiX } from "react-icons/bi";
 import { useApp } from "../contexts/AppContext";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
@@ -17,7 +14,7 @@ import { useMic } from "../contexts/MicContext";
 
 function Blog() {
 
-  const {blogs, getBlogs } = useBlos();
+  const {blogs, getBlogs } = useBlogs();
   const { user } = useAuth();
   const { isDark } = useApp();
   const {showMicModal,setShowMicModal} = useMic();
@@ -34,6 +31,8 @@ function Blog() {
   }, []);
 
   return (
+	<Layout active="blogs">
+				
     <div className="flex">
       {showMicModal ? <MicModal setShowMicModal={setShowMicModal} /> : null}
       <div className="w-full h-[91vh] overflow-auto flex flex-col items-center ">
@@ -63,8 +62,7 @@ function Blog() {
       <Link to='/form-blog'>
         <Button
           variant="contained"
-          sx={{ backgroundColor: COLORS.myGreen, marginTop:"20px", marginRight:"26px",marginLeft: "auto" }}
-        >
+          sx={{ backgroundColor: COLORS.myGreen, marginTop:"20px", marginRight:"26px",marginLeft: "auto" }}>
           New Blog
         </Button>
       </Link>
@@ -82,6 +80,8 @@ function Blog() {
       <Side />
 	  </div>
     </div>
+	</Layout>
+				
   );
 }
 

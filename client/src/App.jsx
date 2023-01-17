@@ -15,6 +15,7 @@ import { useApp } from "./contexts/AppContext";
 import PostForm from "./Home/PostForm";
 import BlogForm from "./Blogs/BlogForm";
 import Blog from "./Blogs/Blog";
+import BlogPage from "./Blogs/BlogPage";
 
 function App() {
 	const { user } = useAuth();
@@ -49,6 +50,25 @@ function App() {
 							user !== null ? <PostForm /> : <Navigate replace to="/login" />
 						}
 					/>
+
+					<Route
+						exact path="/home/myposts"
+						element={
+							user !== null ? <Profile /> : <Navigate replace to="/login" />
+						}
+					/>
+					<Route
+						exact path="/home/popular"
+						element={
+							user !== null ? <Home /> : <Navigate replace to="/login" />
+						}
+					/>
+					<Route
+						exact path="/home/recent"
+						element={
+							user !== null ? <Home /> : <Navigate replace to="/login" />
+						}
+					/>
 					<Route
 						exact path="/form-blog"
 						element={
@@ -58,7 +78,7 @@ function App() {
 					<Route
 						exact path="/blogs"
 						element={
-							user !== null ? <Blog /> : <Navigate replace to="/login" />
+							user !== null ? <BlogPage /> : <Navigate replace to="/login" />
 						}
 					/>
 					<Route
