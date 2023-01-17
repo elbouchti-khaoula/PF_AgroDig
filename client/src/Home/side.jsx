@@ -10,18 +10,19 @@ const Side = () => {
   const { suggested, getSuggestedUsers } = useUsers();
   const { user } = useAuth();
   const [users, setUsers] = React.useState([]);
-  const {  isDark, following } = useApp()
+  const { isDark, following } = useApp()
 
   const handleSuggested = async () => {
-    const users = suggested.filter(use => use._id !== user._id)
-    const newusers = users.map(use => {
-      return {
-        ...use,
-        isFollowing: following.find(f => f.user === use._id)
-      }
-    }).filter(use => use.isFollowing === undefined)
-    console.log(newusers);
-    setUsers(newusers.slice(0, 5))
+    // const users = suggested.filter(use => use.id !== user.id)
+    // const newusers = users.map(use => {
+    //   return {
+    //     ...use,
+    //     isFollowing: following.find(f => f.user === use.id)
+    //   }
+    // }).filter(use => use.isFollowing === undefined)
+    // console.log(newusers);
+    //setUsers(newusers.slice(0, 5))
+    setUsers(suggested.slice(0, 5));
   }
 
   useEffect(() => {
@@ -30,6 +31,7 @@ const Side = () => {
 
   useEffect(() => {
     handleSuggested()
+    console.log("handelinnnnnng :" + users);
   }, [suggested, user, following]);
 
   return (
@@ -41,7 +43,7 @@ const Side = () => {
              src={user.profile} alt="" />
           </div>
           <div className="flex flex-col ml-3">
-            <p className="font-semibold">{user.fullname}</p>
+            <p className="font-semibold">{user.firstName+ " "+ user.lastName}</p>
             <p className="opacity-80 font-light">@{user.username}</p>
           </div>
         </Link>
@@ -85,13 +87,13 @@ const Suggested = ({use})=>{
 
   return(
     <div className="w-full mt-3 text-sm flex justify-between items-center">
-      <Link to={`/profile/${use._id}`} className="flex items-center">
+      <Link to={`/profile/${use.id}`} className="flex items-center">
         <div className="flex overflow-hidden w-[40px] h-[40px] rounded-full">
           <img className="min-w-full min-h-full object-cover"
            src={use.profile} alt="" />
         </div>
         <div className="flex flex-col ml-3">
-          <p className="font-semibold" style={{fontSize:12}}>{use.fullname}</p>
+          <p className="font-semibold" style={{fontSize:12}}>{use.firstName}</p>
           <p className="opacity-80 font-light">@{use.username}</p>
         </div>  
       </Link>

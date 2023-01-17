@@ -5,6 +5,7 @@ import './../SignUp/signup.css'
 import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom';
 import { setCookie } from '../contexts/RequireAuth';
+import axios from "axios";
 
 const Login = () => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -32,32 +33,88 @@ const Login = () => {
 
   const onloginsubmit = e => {
     setProgress(true);
-    e.preventDefault()
-    fetch("https://photocorner33.onrender.com/user/login", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				email: data.email,
-				password: data.password,
-			}),
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				console.log(data);
-				if (data.message === "Can continue") {
-					// localStorage.setItem('token',JSON.stringify(data.token))
-					setCookie("token", data.token, 3);
-					window.location.href = "/";
-				} else if (data.message === "No token generated try logging in again") {
-					setStatus(data.message);
-					setProgress(false);
-				} else if (data.message === "Wrong login info") {
-					setStatus(data.message);
-					setProgress(false);
-				} else {
-					setProgress(false);
-				}
-			});
+    
+    e.preventDefault();
+    axios.post("http://localhost:8080/api/user/login", {
+       			username: data.email,
+       			password: data.password,
+       		}, {
+      headers: {
+          'Content-Type': 'application/json',
+      }
+  }).then(
+      (res) => {
+        
+        
+        const auth = ""+res.headers["authorization"];
+        const token = auth.split(' ')[1];
+        setCookie("token",token,3);
+        console.log("token is " + token);
+          
+          window.location.href = "/";
+      }
+      ,
+      (err) => {
+          //TODO : handle error with customized stuff
+          alert("erreur lors de l'authentification, veuillez reentrer vos données, en cas de besoin contacter l'admin");
+          console.error(err);
+      }
+  );
+
+
+
+
+
+
+
+    
+  //   fetch("http://localhost:8080/api/user/login", {
+	// 		method: "POST",
+	// 		headers: { "Content-Type": "application/json" },
+	// 		body: JSON.stringify({
+	// 			username: data.email,
+	// 			password: data.password,
+	// 		}),
+	// 	})
+  //   .then(
+  //     (data) => {
+  //       console.log(data);
+  //       const token = res.headers["Authorization"].split(' ')[1];
+  //         setCookie("token",token,3);
+  //         window.location.href = "/";
+  //         //goto("/")
+  //     }
+  //     ,
+  //     (err) => {
+  //         //TODO : handle error with customized stuff
+  //         alert("erreur lors de l'authentification, veuillez reentrer vos données, en cas de besoin contacter l'admin");
+  //         console.error(err);
+  //     }
+  // );
+
+
+
+
+
+
+
+			// .then((res) => res.json())
+			// .then((data) => {
+			// 	console.log(data);
+			// 	if (data.message === "Can continue") {
+			// 		localStorage.setItem('token',JSON.stringify(data.token))
+			// 		setCookie("token", data.token, 3);
+			// 		window.location.href = "/";
+			// 	} else if (data.message === "No token generated try logging in again") {
+			// 		setStatus(data.message);
+			// 		setProgress(false);
+			// 	} else if (data.message === "Wrong login info") {
+			// 		setStatus(data.message);
+			// 		setProgress(false);
+			// 	} else {
+			// 		setProgress(false);
+			// 	}
+			// });
 }
 
   return (
@@ -70,7 +127,7 @@ const Login = () => {
             <div className="min-w-[200px] w-4/5 flex flex-col justify-center">
               <label className="text-black ml-2" htmlFor="">Email</label>
               <input className="w-full border border-white bg-white/30 focus:border-blue-700 focus:ring-1 focus:ring-sky-500 mt-1 h-[40px] px-2 rounded-md outline-none text-black
-                 bg-transparen " type="email" placeholder="Enter your email"
+                 bg-transparen " type="text" placeholder="Enter your email"
                 onChange={(e)=> setData({...data, email: e.target.value})} required/>
             </div>
             <div className="min-w-[200px] w-4/5 flex mt-4 flex-col justify-center">

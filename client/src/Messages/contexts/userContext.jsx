@@ -18,31 +18,61 @@ export function UserProvider({ children }) {
 		setMobile(true);
 	};
 
+	// Old function to get users
+	// const getUsers = async () => {
+	// 	const res = await fetch("https://photocorner33.onrender.com/user/all", {
+	// 		method: "GET",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 			authorization: "Bearer " + getCookie("token"),
+	// 		},
+	// 	});
+	// 	const data = await res.json();
+	// 	setUsers(data.data);
+	// };
+
+
+	//function ocnnected to the backend
 	const getUsers = async () => {
-		const res = await fetch("https://photocorner33.onrender.com/user/all", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				authorization: "Bearer " + getCookie("token"),
-			},
-		});
+		const res = await fetch("http://localhost:8080/api/user", {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						authorization: "Bearer " + getCookie("token"),
+					},
+				});
 		const data = await res.json();
-		setUsers(data.data);
-	};
+		console.log("users ttttttttttt :" + JSON.stringify(data));
+		setUsers(data);
+
+
+	}
+
+
+
 
 	const getSuggestedUsers = async () => {
-		const res = await fetch(
-			"https://photocorner33.onrender.com/user/suggestedUsers",
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					authorization: "Bearer " + getCookie("token"),
-				},
-			}
-		);
+		// const res = await fetch(
+		// 	"https://photocorner33.onrender.com/user/suggestedUsers",
+		// 	{
+		// 		method: "GET",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 			authorization: "Bearer " + getCookie("token"),
+		// 		},
+		// 	}
+		// );
+		// const data = await res.json();
+
+		const res = await fetch("http://localhost:8080/api/user", {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						authorization: "Bearer " + getCookie("token"),
+					},
+				});
 		const data = await res.json();
-		setSuggested(data.users);
+		setSuggested(data);
 	};
 
 	const updatePhoto = async (datas) => {
@@ -82,12 +112,12 @@ export function UserProvider({ children }) {
 	};
 
 	useEffect(() => {
-		getUsers();
+		getSuggestedUsers();
 	}, []);
 
-	useEffect(() => {
-		getUsers();
-	}, []);
+	// useEffect(() => {
+	// 	getUsers();
+	// }, []);
 
 	return (
 		<UsersContext.Provider
