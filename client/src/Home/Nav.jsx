@@ -92,6 +92,20 @@ function Nav({ active }) {
             <BiMessageRoundedDots className="text-xl" />
             <p className="tab:ml-3 text-[0.7em] tab:text-base">Messages</p>
           </Link>
+
+          <Link
+            style={{ width: mobile ? width / 5 : "100%" }}
+            to="/blogs"
+            className={`${
+              active === "blogs" &&
+              "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
+            }
+        flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
+          >
+            <BiMessageRoundedDots className="text-xl" />
+            <p className="tab:ml-3 text-[0.7em] tab:text-base">Blogs</p>
+          </Link>
+
           <Link
             style={{ width: mobile ? width / 5 : "100%" }}
             to="/profile"

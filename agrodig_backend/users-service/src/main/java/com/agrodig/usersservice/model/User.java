@@ -1,4 +1,5 @@
 package com.agrodig.usersservice.model;
+import com.agrodig.usersservice.security.ApplicationUserRole;
 import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
@@ -23,4 +24,5 @@ public class User {
     private Boolean verified;
     private Date birthDate;
     private Date creationDate;
+    private ApplicationUserRole role;
 }
