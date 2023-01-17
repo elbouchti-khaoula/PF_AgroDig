@@ -29,7 +29,7 @@ public class BlogResponseDto {
 
     private int downVoteCount;
 
-    private UserResponseDto posterResponseDto;
+    private UserResponseDto poster;
 
     private Date lastActivityDate;
 

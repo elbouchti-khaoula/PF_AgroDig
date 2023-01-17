@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -19,9 +18,10 @@ public class CommentResponseDto {
 
     private Date creationDate;
 
-    private UserResponseDto userResponseDto;
+    private UserResponseDto commenter;
 
-  //  @OneToMany(mappedBy="comment", fetch = FetchType.LAZY)
-   // private List<Attachement> attachements
-    private List<VoteResponseDto> votes ;
+    //  @OneToMany(mappedBy="comment", fetch = FetchType.LAZY)
+    // private List<Attachement> attachements
+    private int upVoteCount;
+    private int downVoteCount;
 }
