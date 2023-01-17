@@ -13,8 +13,8 @@ public class EntityToDtoMapper {
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getUsername(),
                 user.getEmail(),
+                user.getUsername(),
                 user.getRole().name()
         );
     }
