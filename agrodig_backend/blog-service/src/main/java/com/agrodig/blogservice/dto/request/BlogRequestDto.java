@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class BlogRequestDto {
+    private Long id;
     private String body;
     private String title;
     //@OneToMany(mappedBy = "blog", fetch = FetchType.LAZY)

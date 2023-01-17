@@ -21,55 +21,59 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlogController {
     private final BlogService blogService;
+
     @GetMapping
-    public  List<BlogResponseDto> getAllBlogs(){
-         return blogService.getAllBlogs();
+    public List<BlogResponseDto> getAllBlogs() {
+        return blogService.getAllBlogs();
     }
 
     @GetMapping(path = "/myBlogs")
-    public List<BlogResponseDto>  getBlogsForUser(){
-        return  blogService.getMyBlogs();
+    public List<BlogResponseDto> getBlogsForUser() {
+        return blogService.getMyBlogs();
     }
 
     @GetMapping(path = "/comments")
-    public List<CommentResponseDto> getCommentsByBlog(@RequestParam Long blogId){
-        return  blogService.getCommentsByBlog(blogId);
+    public List<CommentResponseDto> getCommentsByBlog(@RequestParam Long blogId) {
+        return blogService.getCommentsByBlog(blogId);
     }
 
     @GetMapping(path = "/votes")
-    public List<VoteResponseDto> getVotesByBlog(@RequestParam Long blogId){
-        return null;
+    public List<VoteResponseDto> getVotesByBlog(@RequestParam Long blogId) {
+        return blogService.getVotesByBlog(blogId);
     }
-    @GetMapping(path = "/tags")
-    public List<TagResponseDto> getTagsByBlog(@RequestParam Long blogId){
-        return  null;
+
+    @GetMapping(path = "/comments/votes")
+    public List<VoteResponseDto> getVotesByComment(@RequestParam Long commentId) {
+        return blogService.getVotesByComment(commentId);
     }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BlogResponseDto createBlog(@RequestBody BlogRequestDto blogRequestDto){
-        return null;
+    public void createBlog(@RequestBody BlogRequestDto blogRequestDto) {
+        blogService.createBlog(blogRequestDto);
     }
+
     @PostMapping(path = "/comment")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentResponseDto commentBlog(@RequestParam Long blogId, @RequestBody CommentRequestDto commentRequestDto){
-        return null;
+    public void commentBlog(@RequestParam Long blogId, @RequestBody CommentRequestDto commentRequestDto) {
+        blogService.commentBlog(blogId, commentRequestDto);
     }
 
     @PostMapping(path = "/vote")
     @ResponseStatus(HttpStatus.CREATED)
-    public VoteResponseDto voteBlog(@RequestParam Long blogId, @RequestBody VoteRequestDto voteRequestDto){
-        return null;
+    public void voteBlog(@RequestParam Long blogId, @RequestBody VoteRequestDto voteRequestDto) {
+        blogService.voteBlog(blogId, voteRequestDto);
     }
+
     @DeleteMapping
-    public void deleteBlog(@RequestParam Long blogId){
+    public void deleteBlog(@RequestParam Long blogId) {
+        blogService.deleteBlog(blogId);
     }
 
     @PutMapping
-    public  BlogResponseDto updateBlog(@RequestBody BlogRequestDto blogRequestDto){
-        return null;
+    public void updateBlog(@RequestBody BlogRequestDto blogRequestDto) {
+        blogService.updateBlog(blogRequestDto);
     }
-
-
 
 }
 
