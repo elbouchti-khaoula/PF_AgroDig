@@ -189,8 +189,8 @@ function Nav({ active }) {
                 ><BiPaperclip className="text-xl" />
                   <p className="tab:ml-3 text-[0.7em] tab:text-base">All Blogs</p>
                 </Link>
-                <Link to="/form-post" className={`${
-                  active === "/form-post" &&
+                <Link to="/form-blog" className={`${
+                  active === "/form-blog" &&
                   "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
                 }
                 flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}

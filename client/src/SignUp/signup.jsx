@@ -65,7 +65,7 @@ const Signup = () => {
 						<Logo>
 							<img src={logo} alt='logo' />
 						</Logo>
-						<h1 className='text-black'>Sign Up to Photo Corner</h1>
+						<h1 className='text-black'>Sign Up to AgroDig</h1>
 						<div className='min-w-[200px] w-4/5 flex flex-col justify-center'>
 							<label className='text-black ml-2' htmlFor=''>
 								Full Names
