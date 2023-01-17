@@ -49,7 +49,10 @@ function Mainconts() {
     <div className="flex">
       {showMicModal ? <MicModal setShowMicModal={setShowMicModal} /> : null}
       <div className="w-full h-[91vh] overflow-auto flex flex-col items-center ">
-        
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <h2 className=" mobile:text-xl text-green-700">Popular Tags</h2>
+            
+       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
           
             <div
@@ -70,6 +73,7 @@ function Mainconts() {
                     padding: "10px",
                     margin: "10px",
                     borderRadius: "20px",
+                    
                   }}
                 >
                   <p>{tag.tag}</p>
