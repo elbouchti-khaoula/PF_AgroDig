@@ -1,5 +1,6 @@
 package com.agrodig.postservice.controller;
 import com.agrodig.postservice.dto.PostDto;
+import com.agrodig.postservice.dto.PostRequestDto;
 import com.agrodig.postservice.model.Post;
 import com.agrodig.postservice.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +20,22 @@ public class PostController {
     }
 
     @PostMapping("/save-post")
-    public PostDto createPost(@RequestBody Post post){
-        return postService.createPost(PostDto.postEntityToDto(post));
+    public PostDto createPost(@ModelAttribute PostRequestDto postRequestDto){
+        return postService.createPost(postRequestDto);
     }
 
+    @DeleteMapping("/delete-post/{post_id}")
+    public void deletePost(@PathVariable(name="post_id") Long postId){
+        postService.deletePost(postId);
+    }
+
+    @PutMapping("/update-post/{post_id}")
+    public PostDto updatePost(@PathVariable(name = "post_id") Long postId, @ModelAttribute PostRequestDto postRequestDto){
+        return postService.updatePost(postId,postRequestDto);
+    }
     /*@PostMapping
     @ResponseStatus(HttpStatus.OK)
     public void test() {
 
-    }*/
-
-    /*@PostMapping("/save-post")
-    public Post createPost(@RequestBody Post post){
-        return postService.createPost(post);
     }*/
 }
