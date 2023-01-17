@@ -13,6 +13,7 @@ import DProfile from "./account-page/DProfile";
 import Profile from "./account-page/Profile";
 import { useApp } from "./contexts/AppContext";
 import PostForm from "./Home/PostForm";
+import Tag from "./Home/Tag";
 import BlogForm from "./Blogs/BlogForm";
 import Blog from "./Blogs/Blog";
 import BlogPage from "./Blogs/BlogPage";
@@ -51,6 +52,12 @@ function App() {
 							user !== null ? <PostForm /> : <Navigate replace to="/login" />
 						}
 					/>
+					<Route
+						exact path="/tags"
+						element={
+							user !== null ? <Tag /> : <Navigate replace to="/login" />
+						}
+					/>
 
 					<Route
 						exact path="/home/myposts"
@@ -83,13 +90,13 @@ function App() {
 						}
 					/>
 					<Route
-						path="/messages"
+						path="/Users"
 						element={
 							user !== null ? <Messages /> : <Navigate replace to="/login" />
 						}
 					/>
 					<Route
-						path="/messages/:roomId"
+						path="/Users/:roomId"
 						element={
 							user !== null ? <Messages /> : <Navigate replace to="/login" />
 						}
