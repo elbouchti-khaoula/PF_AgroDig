@@ -77,8 +77,8 @@ const SearchResults = ({ user }) => {
 			<div className="flex items-center">
 				<div className="flex cursor-pointer text-blue-500 items-center">
 					<FaFacebookMessenger />
-					<Link to={`/messages/${user._id + duser._id}`}>
-						<p className="ml-2 mobile:flex hidden">Message</p>
+					<Link to={`/Users/${user._id + duser._id}`}>
+						<p className="ml-2 mobile:flex hidden">Users</p>
 					</Link>
 				</div>
 				<Link

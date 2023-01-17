@@ -13,8 +13,11 @@ import DProfile from "./account-page/DProfile";
 import Profile from "./account-page/Profile";
 import { useApp } from "./contexts/AppContext";
 import PostForm from "./Home/PostForm";
+import Tag from "./Home/Tag";
 import BlogForm from "./Blogs/BlogForm";
-import Blog from "./Blogs/Blog";
+import BlogPage from "./Blogs/BlogPage";
+import UserPosts from "./account-page/UserPosts";
+import TagPage from "./Home/TagPage";
 
 function App() {
 	const { user } = useAuth();
@@ -50,6 +53,31 @@ function App() {
 						}
 					/>
 					<Route
+						exact path="/tags"
+						element={
+							user !== null ? <TagPage /> : <Navigate replace to="/login" />
+						}
+					/>
+
+					<Route
+						exact path="/home/myposts"
+						element={
+							user !== null ? <UserPosts /> : <Navigate replace to="/login" />
+						}
+					/>
+					<Route
+						exact path="/home/popular"
+						element={
+							user !== null ? <Home /> : <Navigate replace to="/login" />
+						}
+					/>
+					<Route
+						exact path="/home/recent"
+						element={
+							user !== null ? <Home /> : <Navigate replace to="/login" />
+						}
+					/>
+					<Route
 						exact path="/form-blog"
 						element={
 							user !== null ? <BlogForm /> : <Navigate replace to="/login" />
@@ -58,17 +86,17 @@ function App() {
 					<Route
 						exact path="/blogs"
 						element={
-							user !== null ? <Blog /> : <Navigate replace to="/login" />
+							user !== null ? <BlogPage /> : <Navigate replace to="/login" />
 						}
 					/>
 					<Route
-						path="/messages"
+						path="/Users"
 						element={
 							user !== null ? <Messages /> : <Navigate replace to="/login" />
 						}
 					/>
 					<Route
-						path="/messages/:roomId"
+						path="/Users/:roomId"
 						element={
 							user !== null ? <Messages /> : <Navigate replace to="/login" />
 						}

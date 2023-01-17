@@ -36,4 +36,8 @@ public class Comment {
 
     @ManyToOne
     private Post post;
+
+    public Comment(String body){
+        this.body = body;
+    }
 }

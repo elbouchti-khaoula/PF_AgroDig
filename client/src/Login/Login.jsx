@@ -66,7 +66,7 @@ const Login = () => {
         <Main>
           <Form className=' bg-slate-200 text-black' onSubmit={onloginsubmit}>
             <Logo><img src={logo} alt="logo" /></Logo>
-            <h1 className='text-black'>Log into Photo Corner</h1>
+            <h1 className='text-black'>Log into AgroDig</h1>
             <div className="min-w-[200px] w-4/5 flex flex-col justify-center">
               <label className="text-black ml-2" htmlFor="">Email</label>
               <input className="w-full border border-white bg-white/30 focus:border-blue-700 focus:ring-1 focus:ring-sky-500 mt-1 h-[40px] px-2 rounded-md outline-none text-black
