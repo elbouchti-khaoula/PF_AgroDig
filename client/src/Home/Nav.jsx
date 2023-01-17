@@ -23,8 +23,6 @@ import {
 import { deleteAllCookies } from "../contexts/RequireAuth";
 import { useAuth } from "../contexts/AuthContext";
 import { useApp } from "../contexts/AppContext";
-import { debounce } from "../utils";
-import { COLORS } from "../utils/colors";
 
 function Nav({ active }) {
   const [width, setWidth] = useState(0);
@@ -104,7 +102,7 @@ function Nav({ active }) {
         <ul>
           <li>
             <Link to="/home/myposts" className={`${
-              active === "profile" &&
+              active === "/home/myposts" &&
               "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
             }
         flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}

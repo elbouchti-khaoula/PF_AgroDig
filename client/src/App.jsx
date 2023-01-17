@@ -16,6 +16,7 @@ import PostForm from "./Home/PostForm";
 import BlogForm from "./Blogs/BlogForm";
 import Blog from "./Blogs/Blog";
 import BlogPage from "./Blogs/BlogPage";
+import UserPosts from "./account-page/UserPosts";
 
 function App() {
 	const { user } = useAuth();
@@ -54,7 +55,7 @@ function App() {
 					<Route
 						exact path="/home/myposts"
 						element={
-							user !== null ? <Profile /> : <Navigate replace to="/login" />
+							user !== null ? <UserPosts /> : <Navigate replace to="/login" />
 						}
 					/>
 					<Route
