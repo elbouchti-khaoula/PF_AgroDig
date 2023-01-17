@@ -38,6 +38,10 @@ const Post = ({ item }) => {
     commentOnPost,
     getLikesDataByPost,
   } = usePosts();
+
+const handleClick = (newValue) => {
+    setStars(newValue);
+}
   const [comments, setComments] = React.useState([]);
   const [showComments, setShowComments] = React.useState(false);
   const [comment, setComment] = React.useState("");
@@ -217,7 +221,9 @@ const Post = ({ item }) => {
 				</div>
 				<Divider/>
 				
-				<Rating   name="read-only" value={stars} readOnly />
+				 <div>
+        <Rating  name="editable" value={stars} onClick={(value) => handleClick(value)}/>
+    </div>
                 
               </Box>
             </div>
