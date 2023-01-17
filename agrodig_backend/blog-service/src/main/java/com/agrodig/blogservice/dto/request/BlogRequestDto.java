@@ -1,5 +1,6 @@
 package com.agrodig.blogservice.dto.request;
 
+import com.agrodig.blogservice.dto.response.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,10 +13,10 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class BlogRequestDto {
-    private Long id;
     private String body;
     private String title;
     //@OneToMany(mappedBy = "blog", fetch = FetchType.LAZY)
     //private List<Attachement> attachements;
+    private UserResponseDto userResponseDto;
     private List<Long> tagIds;
 }

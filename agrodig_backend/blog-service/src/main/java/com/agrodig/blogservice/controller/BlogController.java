@@ -46,20 +46,26 @@ public class BlogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createBlog(@RequestBody BlogRequestDto blogRequestDto, @RequestBody UserResponseDto userResponseDto) {
-        blogService.createBlog(blogRequestDto, userResponseDto);
+    public void createBlog(@RequestBody BlogRequestDto blogRequestDto) {
+        blogService.createBlog(blogRequestDto);
     }
 
     @PostMapping(path = "/comment")
     @ResponseStatus(HttpStatus.CREATED)
-    public void commentBlog(@RequestParam Long blogId, @RequestBody CommentRequestDto commentRequestDto,@RequestBody UserResponseDto userResponseDto) {
-        blogService.commentBlog(blogId, commentRequestDto,userResponseDto);
+    public void commentBlog(@RequestParam Long blogId, @RequestBody CommentRequestDto commentRequestDto) {
+        blogService.commentBlog(blogId, commentRequestDto);
     }
+    @PostMapping(path = "/comment/vote")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void voteComment(@RequestParam Long commentId, @RequestBody VoteRequestDto voteRequestDto) {
+        blogService.voteComment(commentId, voteRequestDto);
+    }
+
 
     @PostMapping(path = "/vote")
     @ResponseStatus(HttpStatus.CREATED)
-    public void voteBlog(@RequestParam Long blogId, @RequestBody VoteRequestDto voteRequestDto, @RequestBody UserResponseDto userResponseDto) {
-        blogService.voteBlog(blogId, voteRequestDto,userResponseDto);
+    public void voteBlog(@RequestParam Long blogId, @RequestBody VoteRequestDto voteRequestDto) {
+        blogService.voteBlog(blogId, voteRequestDto);
     }
 
     @DeleteMapping
@@ -68,8 +74,8 @@ public class BlogController {
     }
 
     @PutMapping
-    public void updateBlog(@RequestBody BlogRequestDto blogRequestDto) {
-        blogService.updateBlog(blogRequestDto);
+    public void updateBlog(@RequestBody BlogRequestDto blogRequestDto,@RequestParam Long blogId) {
+        blogService.updateBlog(blogRequestDto,blogId);
     }
 
 }

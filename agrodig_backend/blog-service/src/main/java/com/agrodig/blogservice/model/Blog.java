@@ -32,13 +32,13 @@ public class Blog {
 
     private Long posterId;
 
-    @OneToMany(mappedBy = "blog", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "blog", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private List<Attachement> attachements;
 
-    @OneToMany(mappedBy = "blog", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "blog", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "blog", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "blog", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private List<Vote> votes;
 
     @ManyToMany(fetch = FetchType.LAZY)

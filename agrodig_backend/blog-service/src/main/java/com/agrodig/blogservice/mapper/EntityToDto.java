@@ -32,6 +32,7 @@ public class EntityToDto {
     public static CommentResponseDto commentToCommentResponseDto(Comment comment, UserResponseDto userResponseDto) {
         return CommentResponseDto
                 .builder()
+                .id(comment.getId())
                 .body(comment.getBody())
                 .creationDate(comment.getCreationDate())
                 .upVoteCount((int) comment.getVotes().stream().filter(vote -> vote.getIsPositive()).count())

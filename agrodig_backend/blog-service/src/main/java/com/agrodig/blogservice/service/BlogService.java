@@ -120,16 +120,15 @@ public class BlogService {
                 .get())).collect(Collectors.toList());
     }
 
-    public void createBlog(BlogRequestDto blogRequestDto, UserResponseDto userResponseDto) {
+    public void createBlog(BlogRequestDto blogRequestDto) {
         Blog blog = new Blog();
         blog.setBody(blogRequestDto.getBody());
         blog.setTitle(blogRequestDto.getTitle());
-        blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
-
+        if(blogRequestDto.getTagIds() != null)  blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
         blog.setCreationDate(new Date());
         blog.setLastActivityDate(new Date());
         blog.setViewCount(0);
-        blog.setPosterId(userResponseDto.getId());
+        blog.setPosterId(blogRequestDto.getUserResponseDto().getId());
 
         blogRepository.save(blog);
     }
@@ -143,12 +142,12 @@ public class BlogService {
         return  userResponseDto;
     }*/
 
-    public void commentBlog(Long blogId, CommentRequestDto commentRequestDto,UserResponseDto userResponseDto) {
+    public void commentBlog(Long blogId, CommentRequestDto commentRequestDto) {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
         //create and save comment
 
         Comment comment = new Comment();
-        comment.setCommenterId(userResponseDto.getId());
+        comment.setCommenterId(commentRequestDto.getUserResponseDto().getId());
         comment.setBody(commentRequestDto.getBody());
         comment.setCreationDate(new Date());
         //associate comment to blog
@@ -157,12 +156,12 @@ public class BlogService {
         commentRepository.save(comment);
     }
 
-    public void voteBlog(Long blogId, VoteRequestDto voteRequestDto, UserResponseDto userResponseDto) {
+    public void voteBlog(Long blogId, VoteRequestDto voteRequestDto) {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
         //create and save vote
 
         Vote vote = new Vote();
-        vote.setVoterId(userResponseDto.getId());
+        vote.setVoterId(voteRequestDto.getUserId());
         vote.setCreationDate(new Date());
         vote.setIsPositive(voteRequestDto.getIsPositive());
 
@@ -173,15 +172,34 @@ public class BlogService {
 
     public void deleteBlog(Long blogId) {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
+        //delete blog comments
+
+        //delete blog votes
+
+        //delete blog attachement
         blogRepository.delete(blog);
     }
 
-    public void updateBlog(BlogRequestDto blogRequestDto) {
-        Blog blog = blogRepository.findById(blogRequestDto.getId()).orElseThrow(() -> new IllegalStateException("Blog not found"));
+    public void updateBlog(BlogRequestDto blogRequestDto, Long blogId) {
+        Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
         //create and save comment
         blog.setBody(blogRequestDto.getBody());
         blog.setTitle(blogRequestDto.getTitle());
-        blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
+        if(blogRequestDto.getTagIds() != null ) blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
 
+    }
+
+    public void voteComment(Long commentId, VoteRequestDto voteRequestDto) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalStateException("Comment not found"));
+         //create and save vote
+
+        Vote vote = new Vote();
+        vote.setVoterId(voteRequestDto.getUserId());
+        vote.setCreationDate(new Date());
+        vote.setIsPositive(voteRequestDto.getIsPositive());
+
+        vote.setComment(comment);
+
+        voteRepository.save(vote);
     }
 }
