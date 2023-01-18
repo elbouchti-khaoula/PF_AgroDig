@@ -18,7 +18,7 @@ public class Image {
     private String path;
     private String name;
     private Date uploadDate;
-    @OneToOne(mappedBy = "profile_pic_id")
+    @OneToOne(mappedBy = "profilePic")
     private User user;
 
 }

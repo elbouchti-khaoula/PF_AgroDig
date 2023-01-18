@@ -13,35 +13,33 @@ export const BlogProvider = ({ children }) => {
 	const [userBlogs, setUserBlogs] = useState(null);
 	const { user } = useAuth();
 
+
 	const getBlogs = async () => {
 		const res = await fetch(
-			"https://photocorner33.onrender.com/blog/allBlogs",
+			"http://localhost:8080/api/blog",
 			{
 				method: "GET",
 
-				headers: {
-					"Content-Type": "application/json",
-					authorization: "Bearer " + getCookie("token"),
-				},
+				// headers: {
+				// 	"Content-Type": "application/json",
+				// 	authorization: "Bearer " + getCookie("token"),
+				// },
 			}
 		);
 		const blogs = await res.json();
-		setBlogs(blogs.blogs.reverse());
-		// setLoader(false);
+		setBlogs(blogs);
 		return blogs;
 	};
 
-	const newBlog = async (caption, imageStr) => {
-		const res = await fetch("https://photocorner33.onrender.com/blog/newBlog", {
+	const newBlog = async (blogData) => {
+		const formData  = new FormData();
+		for(const name in blogData) {
+			formData.append(name, blogData[name]);
+		  }
+
+		const res = await fetch("http://localhost:8080/api/blog", {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				authorization: "Bearer " + getCookie("token"),
-			},
-			body: JSON.stringify({
-				imageStr: imageStr,
-				caption,
-			}),
+			body: formData
 		});
 		await res.json();
 		await getBlogs();

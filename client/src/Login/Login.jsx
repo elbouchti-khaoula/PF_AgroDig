@@ -6,6 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom';
 import { setCookie } from '../contexts/RequireAuth';
 import axios from "axios";
+import configData from "../Config.json";
 
 const Login = () => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -35,7 +36,8 @@ const Login = () => {
     setProgress(true);
     
     e.preventDefault();
-    axios.post("http://localhost:8080/api/user/login", {
+    const endpoint = configData.USER_SERVICE_URL+'/login'
+    axios.post(`${endpoint}`, {
        			username: data.email,
        			password: data.password,
        		}, {

@@ -134,7 +134,7 @@ public class UserService {
 
         String fileName = image.getId()+".png";
         FileUtils.saveFile(multipartFile, fileConfig.getDirectory(),fileName);
-        
+
         imageRepository.save(image);
 
 
