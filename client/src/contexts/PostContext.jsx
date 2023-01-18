@@ -10,6 +10,7 @@ export const usePosts = () => {
 
 export const PostProvider = ({ children }) => {
 	const [posts, setPosts] = useState([]);
+	const [myposts, setMyposts] = useState([]);
 	const [userPosts, setUserPosts] = useState(null);
 	const { user } = useAuth();
 
@@ -29,6 +30,25 @@ export const PostProvider = ({ children }) => {
 		setPosts(posts.posts.reverse());
 		// setLoader(false);
 		return posts;
+	};
+
+	const getMyposts = async () => {
+		const res = await fetch(
+			"http://localhost:8083/api/post",
+			{
+				method: "GET",
+
+				headers: {
+					"Content-Type": "application/json",
+					authorization: "Bearer " + getCookie("token"),
+				},
+			}
+		);
+		const myPosts = await res.json();
+		setMyposts(myPosts.reverse());
+		console.log(myPosts);
+		// setLoader(false);
+		return myPosts;
 	};
 
 	const newPost = async (caption, imageStr) => {
