@@ -50,6 +50,7 @@ public class PostService {
         post.setCreatedAt(Instant.now());
         post.setUpdatedAt(Instant.now());
         post.setViewCount(0);
+        post.setPosterId(postRequestDto.getUserId());
 
         if (postRequestDto.getFiles() != null)
             postRequestDto.getFiles().stream().map(multipartFile -> fileService.addFileToPost(multipartFile, post)).collect(Collectors.toList());

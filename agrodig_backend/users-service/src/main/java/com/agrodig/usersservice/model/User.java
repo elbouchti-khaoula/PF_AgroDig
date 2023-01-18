@@ -27,6 +27,6 @@ public class User {
     private ApplicationUserRole role;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_pic_id", referencedColumnName = "id")
+    @JoinColumn(name = "profile_pic_id", referencedColumnName = "image_id")
     private Image profilePic;
 }
