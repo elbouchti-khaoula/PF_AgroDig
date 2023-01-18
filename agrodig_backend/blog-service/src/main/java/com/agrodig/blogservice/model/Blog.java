@@ -45,7 +45,7 @@ public class Blog {
     @JoinTable(
             name = "tag_blog",
             joinColumns = {@JoinColumn(name = "blog_id")},
-            inverseJoinColumns = {@JoinColumn(name = "id")}
+            inverseJoinColumns = {@JoinColumn(name = "tag_id")}
     )
     private List<Tag> tags;
 

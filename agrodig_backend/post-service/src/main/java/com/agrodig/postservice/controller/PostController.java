@@ -23,6 +23,11 @@ public class PostController {
         return postService.getAllPosts();
     }
 
+    @GetMapping(path = "/{postId}")
+    public PostResponseDto getPostById(@PathVariable Long postId) {
+        return postService.getPostById(postId);
+    }
+
     @GetMapping(path = "myPosts")
     public List<PostResponseDto> getPostsByUser(@RequestBody UserResponseDto userResponseDto) {
         return postService.getPostsByUser(userResponseDto);

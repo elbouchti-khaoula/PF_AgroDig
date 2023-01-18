@@ -67,7 +67,7 @@ function App() {
 						}
 					/>
 					<Route
-						exact path="/question"
+						exact path="/question/:id"
 						element={
 							user !== null ? <QuestionPage /> : <Navigate replace to="/login" />
 						}

@@ -244,6 +244,21 @@ public class PostService {
         return post.getTags().stream().map(EntityToDto::tagToTagResponseDto).collect(Collectors.toList());
     }
 
+    public PostResponseDto getPostById(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalStateException("Post not found"));
+
+        UserResponseDto[] userResponseDtos = webClientBuilder.build().get()
+                .uri("http://users-service/api/user",
+                        uriBuilder -> uriBuilder.queryParam("id",Collections.singletonList(post.getPosterId())).build())
+                .retrieve()
+                .bodyToMono(UserResponseDto[].class)
+                .block();
+
+        return EntityToDto.postToPostResponseDto(post, userResponseDtos[0]);
+
+    }
+
   /*  public void addTagToPost(Long postId, TagRequestDto tagRequestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalStateException("Post not found"));

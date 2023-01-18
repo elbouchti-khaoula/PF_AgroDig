@@ -63,7 +63,7 @@ const PostBox = ({ item }) => {
   const timeFromNow = moment(postData?.creationDate).fromNow();
 
   return (
-    <Link to="/question" >
+    <Link to={"/question/" + `${postData?.id}`}>
     <div
       key={postData?.id}
       className={`w-[100%] mobile:w-[70%] mobile:min-w-[365px] xtab:w-[95%]  items-center mt-6 ${

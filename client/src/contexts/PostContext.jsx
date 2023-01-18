@@ -3,6 +3,7 @@ import { useAuth } from "./AuthContext";
 import { getCookie } from "./RequireAuth";
 
 import configData from "../Config.json";
+import axios from "axios";
 
 
 const PostContext = React.createContext();
@@ -13,6 +14,7 @@ export const usePosts = () => {
 
 export const PostProvider = ({ children }) => {
 	const [posts, setPosts] = useState([]);
+	const [post, setpost] = useState({});
 	const [userPosts, setUserPosts] = useState(null);
 	
 	const { user } = useAuth();
@@ -265,9 +267,38 @@ export const PostProvider = ({ children }) => {
 		return data;
 	};
 
+	const   getPostById = (postId)=>{
+		axios.get(`${configData.POST_SERVICE_URL}` + "/" + `${postId}`).then(
+		   (res) => {
+			   console.log(`i made the request with ${postId}`);
+			   console.log(res.data);
+			   setpost(res.data);
+
+			 },
+			 (err) => {
+			   console.error("error in getting postbyId");
+			 }
+	   );
+
+	   };
+
+	   const commentPost = (formValues) => {
+		axios.post(`${configData.POST_SERVICE_URL}`, formValues).then(
+		  (res) => {
+			console.log(res.data);
+		  },
+		  (err) => {
+			console.error(err);
+		  }
+		);
+	  };		
 	return (
 		<PostContext.Provider
 			value={{
+				commentPost,
+				getPostById,
+				post,
+				setpost,
 				posts,
 				setPosts,
 				getPosts,
