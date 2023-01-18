@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { getUserById, useAuth } from "../../contexts/AuthContext";
 import { getCookie } from "../../contexts/RequireAuth";
+import configData from "../../Config.json";
 
 const UsersContext = React.createContext();
 
@@ -19,7 +20,9 @@ export function UserProvider({ children }) {
 	};
 
 	const getUsers = async () => {
-		const res = await fetch("http://localhost:8080/api/user", {
+		const endpoint = configData.USER_SERVICE_URL;
+
+		const res = await fetch(`${endpoint}`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
@@ -35,7 +38,9 @@ export function UserProvider({ children }) {
 
 	//for now it just gets users until we implement a suggestion algo
 	const getSuggestedUsers = async () => {
-		const res = await fetch("http://localhost:8080/api/user", {
+		const endpoint = configData.USER_SERVICE_URL;
+
+		const res = await fetch(`${endpoint}`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",

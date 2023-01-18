@@ -2,6 +2,7 @@ import React from "react";
 import jwtdecode from "jwt-decode";
 import { deleteAllCookies, getCookie } from "./RequireAuth";
 import AnimatedLogo from "../others/AnimatedLogo";
+import configData from "../Config.json"
 
 let AuthContext = React.createContext();
 
@@ -11,6 +12,7 @@ export const useAuth = () => {
 
 export default function AuthProvider({ children }) {
 	let [user, setUser] = React.useState(undefined);
+
 
 	const decodeToken = async () => {
 		const token = getCookie("token");
@@ -44,9 +46,11 @@ export default function AuthProvider({ children }) {
 }
 
 export const getUserById = async (id) => {
+	
+	const endpoint = configData.USER_SERVICE_URL+"/"+id;
 	try {
 		const res = await fetch(
-			`http://localhost:8080/api/user/${id}`,
+			`${endpoint}`,
 			{
 				method: "GET",
 				headers: {
@@ -68,9 +72,10 @@ export const getUserById = async (id) => {
 
 
 export const getUser = async () => {
+	const endpoint = configData.USER_SERVICE_URL+"/profile";
 	try {
 		const res = await fetch(
-			`http://localhost:8080/api/user/profile`,
+			`${endpoint}`,
 			{
 				method: "GET",
 				headers: {
