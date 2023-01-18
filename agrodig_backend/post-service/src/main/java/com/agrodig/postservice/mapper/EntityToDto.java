@@ -19,7 +19,7 @@ public class EntityToDto {
     }
    public  static TagResponseDto tagToTagResponseDto(Tag tag){
        return TagResponseDto.builder()
-                .id(tag.getTag_id())
+                .id(tag.getId())
                 .name(tag.getName())
                 .build();
    }

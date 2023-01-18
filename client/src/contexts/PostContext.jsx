@@ -14,6 +14,7 @@ export const usePosts = () => {
 export const PostProvider = ({ children }) => {
 	const [posts, setPosts] = useState([]);
 	const [userPosts, setUserPosts] = useState(null);
+	
 	const { user } = useAuth();
 
 	const getPosts = async () => {
@@ -33,6 +34,7 @@ export const PostProvider = ({ children }) => {
 		// setLoader(false);
 		return posts;
 	};
+
 
 
 

@@ -2,11 +2,13 @@ package com.agrodig.postservice.service;
 
 import com.agrodig.postservice.dto.request.CommentRequestDto;
 import com.agrodig.postservice.dto.request.PostRequestDto;
+import com.agrodig.postservice.dto.request.TagRequestDto;
 import com.agrodig.postservice.dto.request.VoteRequestDto;
 import com.agrodig.postservice.dto.response.*;
 import com.agrodig.postservice.mapper.EntityToDto;
 import com.agrodig.postservice.model.Comment;
 import com.agrodig.postservice.model.Post;
+import com.agrodig.postservice.model.Tag;
 import com.agrodig.postservice.model.Vote;
 import com.agrodig.postservice.repository.CommentRepository;
 import com.agrodig.postservice.repository.PostRepository;
@@ -42,12 +44,15 @@ public class PostService {
     private final WebClient.Builder webClientBuilder;
 
     public void createPost(PostRequestDto postRequestDto) {
+        List<Tag> tags = tagRepository.findByIdIn(postRequestDto.getTagIds());
+
         Post post = new Post();
         post.setBody(postRequestDto.getBody());
         post.setTitle(postRequestDto.getTitle());
         post.setCreatedAt(Instant.now());
         post.setUpdatedAt(Instant.now());
         post.setViewCount(0);
+        post.setTags(tags);
         post.setPosterId(postRequestDto.getUserId());
 
         if (postRequestDto.getFiles() != null)
@@ -174,7 +179,7 @@ public class PostService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalStateException("Comment not found"));
         //create and save vote
 
-        Vote vote = new Vote();
+        Vote vote = new Vote() ;
         vote.setVoterId(voteRequestDto.getUserId());
         vote.setCreatedAt(Instant.now());
         vote.setIsPositive(voteRequestDto.getIsPositive());
@@ -238,4 +243,10 @@ public class PostService {
 
         return post.getTags().stream().map(EntityToDto::tagToTagResponseDto).collect(Collectors.toList());
     }
+
+  /*  public void addTagToPost(Long postId, TagRequestDto tagRequestDto) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalStateException("Post not found"));
+
+    }*/
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class Tag {
     @Id
-    @Column(name = "tag_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -22,7 +22,7 @@ public class Tag {
 
     @ManyToMany(fetch = FetchType.LAZY) @JoinTable(
             name = "tag_blog",
-            joinColumns = {@JoinColumn(name = "tag_id")},
+            joinColumns = {@JoinColumn(name = "id")},
             inverseJoinColumns = {@JoinColumn(name = "blog_id")}
     )
     private List<Blog> blogs;
