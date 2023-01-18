@@ -44,8 +44,10 @@ export const BlogProvider = ({ children }) => {
 		formData.append('title', blogData.title);
 		formData.append('body', blogData.body);
 		const reaally = typeof blogData.attachements !== 'undefined';
-		console.log("loging attachements in blogContext : " + blogData.attachements + " reaaaally  " + reaally);
+		//console.log("loging attachements in blogContext : " + blogData.attachements + " reaaaally  " + reaally);
 		reaally ? formData.append('attachements', blogData.attachements) : console.log(" no file present ") ;
+		formData.append('tagIds', blogData.tagIds);
+		formData.append('userId',user.id)
 		//const res = 
 		
 		fetch(`${endpoint}`, {
