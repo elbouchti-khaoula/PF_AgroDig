@@ -1,4 +1,4 @@
-package com.agrodig.blogservice.utils;
+package com.agrodig.postservice.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +14,7 @@ public class FileUtils {
                 if (!new File(directory).exists()) {
                     new File(directory).mkdirs();
                 }
-                String filePath = directory.concat(fileName);
+                String filePath = directory + fileName;
                 File dest = new File(filePath);
                 file.transferTo(dest);
 
@@ -27,7 +27,6 @@ public class FileUtils {
     public static Boolean deleteFile(String directory, String fileName) {
         String filePath = directory + fileName;
         File dest = new File(filePath);
-        log.error(filePath);
         return dest.delete();
     }
 }

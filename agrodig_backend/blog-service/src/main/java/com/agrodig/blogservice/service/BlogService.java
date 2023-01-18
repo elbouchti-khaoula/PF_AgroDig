@@ -5,7 +5,6 @@ import com.agrodig.blogservice.dto.request.CommentRequestDto;
 import com.agrodig.blogservice.dto.request.VoteRequestDto;
 import com.agrodig.blogservice.dto.response.*;
 import com.agrodig.blogservice.mapper.EntityToDto;
-import com.agrodig.blogservice.model.Attachement;
 import com.agrodig.blogservice.model.Blog;
 import com.agrodig.blogservice.model.Comment;
 import com.agrodig.blogservice.model.Vote;
@@ -20,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.transaction.Transactional;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -133,7 +133,8 @@ public class BlogService {
         blog.setPosterId(blogRequestDto.getUserId());
 
         //saving the attached files
-         if (blogRequestDto.getAttachements()!= null)  blogRequestDto.getAttachements().stream().map(multipartFile -> attachementService.addAttachementToBlog(multipartFile,blog)).collect(Collectors.toList());
+        if (blogRequestDto.getAttachements() != null)
+            blogRequestDto.getAttachements().stream().map(multipartFile -> attachementService.addAttachementToBlog(multipartFile, blog)).collect(Collectors.toList());
         //attachementService.addAttachementToBlog(blogRequestDto.getAttachements(),blog);
         blogRepository.save(blog);
     }
@@ -177,20 +178,24 @@ public class BlogService {
 
     public void deleteBlog(Long blogId) {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
-        //delete blog comments
 
-        //delete blog votes
+        //delete blog attachements from file system
+        blog.getAttachements().stream().map(attachement -> attachementService.deleteAttachement(attachement)).collect(Collectors.toList());
 
-        //delete blog attachement
         blogRepository.delete(blog);
     }
 
     public void updateBlog(BlogRequestDto blogRequestDto, Long blogId) {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
-        //create and save comment
+
         blog.setBody(blogRequestDto.getBody());
         blog.setTitle(blogRequestDto.getTitle());
 
+        //files deletion and creation
+        if (blogRequestDto.getAttachements() != null) {
+            blog.getAttachements().stream().map(attachement -> attachementService.deleteAttachement(attachement)).collect(Collectors.toList());
+            blogRequestDto.getAttachements().stream().map(multipartFile -> attachementService.addAttachementToBlog(multipartFile, blog)).collect(Collectors.toList());
+        }
         blog.setLastActivityDate(new Date());
         if (blogRequestDto.getTagIds() != null) blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
 
@@ -210,9 +215,35 @@ public class BlogService {
         voteRepository.save(vote);
     }
 
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalStateException("Comment not found"));
+
+        // delete attached files
+        comment.getAttachements().stream().map(attachement -> attachementService.deleteAttachement(attachement)).collect(Collectors.toList());
+
+        commentRepository.delete(comment);
+    }
+
+
+    public void updateComment(Long commentId, CommentRequestDto commentRequestDto) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalStateException("Comment not found"));
+
+        comment.setBody(commentRequestDto.getBody());
+        comment.setUpdateDate(new Date());
+
+        //deletion and creation of files
+        if (commentRequestDto.getFiles() != null) {
+            comment.getAttachements().stream().map(attachement -> attachementService.deleteAttachement(attachement)).collect(Collectors.toList());
+            commentRequestDto.getFiles().stream().map(multipartFile -> attachementService. addAttachementToComment(multipartFile,comment)).collect(Collectors.toList());
+        }
+
+    }
+
     public void upload(MultipartFile multipartFile) {
         Blog blog = new Blog();
         blogRepository.save(blog);
-        attachementService.addAttachementToBlog(multipartFile,blog);
+        attachementService.addAttachementToBlog(multipartFile, blog);
     }
 }
