@@ -19,22 +19,6 @@ public class PostController {
         this.postService = postService;
     }
 
-<<<<<<< HEAD
-    /*@PostMapping
-    public PostDto createPost(@RequestBody Post post){
-        return postService.createPost(PostDto.postEntityToDto(post));
-    }*/
-
-    @PostMapping(path = "/test")
-    @ResponseStatus(HttpStatus.OK)
-    public void test() {
-
-    }
-
-    /*@PostMapping("/save-post")
-    public Post createPost(@RequestBody Post post){
-        return postService.createPost(post);
-=======
     @PostMapping("/save-post")
     public PostDto createPost(@ModelAttribute PostRequestDto postRequestDto){
         return postService.createPost(postRequestDto);
@@ -49,10 +33,4 @@ public class PostController {
     public PostDto updatePost(@PathVariable(name = "post_id") Long postId, @ModelAttribute PostRequestDto postRequestDto){
         return postService.updatePost(postId,postRequestDto);
     }
-    /*@PostMapping
-    @ResponseStatus(HttpStatus.OK)
-    public void test() {
-
->>>>>>> 6fbadda64dcbd3721c4710a8601c5c4e290a060d
-    }*/
 }
