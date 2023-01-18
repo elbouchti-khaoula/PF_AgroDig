@@ -20,6 +20,8 @@ public class Vote {
 
     private Boolean isPositive;
 
+    private Boolean isByExpert;
+
     private Long voterId;
 
     private Instant createdAt;

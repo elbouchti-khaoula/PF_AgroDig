@@ -29,6 +29,11 @@ public class BlogResponseDto {
 
     private int downVoteCount;
 
+    private int expertUpVoteCount;
+
+    private int expertDownVoteCount;
+
+
     private UserResponseDto poster;
 
     private Date lastActivityDate;

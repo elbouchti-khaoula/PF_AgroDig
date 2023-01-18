@@ -11,13 +11,18 @@ public class EntityToDto {
                 .builder()
                 .id(file.getFile_id())
                 .name(file.getName())
-                .path(file.getPath())
+                .path(file.getPath()+file.getFile_id() + "." + file.getType().value())
                 .type(file.getType().value())
                 .uploadDate(file.getCreatedAt())
                 .build();
 
     }
-
+   public  static TagResponseDto tagToTagResponseDto(Tag tag){
+       return TagResponseDto.builder()
+                .id(tag.getTag_id())
+                .name(tag.getName())
+                .build();
+   }
     public static PostResponseDto postToPostResponseDto(Post post, UserResponseDto userResponseDto) {
         return PostResponseDto
                 .builder()
@@ -29,6 +34,8 @@ public class EntityToDto {
                 .viewCount(post.getViewCount())
                 .updatedAt(post.getUpdatedAt())
                 .commentCount((int) post.getComments().stream().count())
+                .expertUpVoteCount((int) post.getVotes().stream().filter(vote -> vote.getIsPositive() && vote.getIsByExpert()).count())
+                .expertDownVoteCount(((int) post.getVotes().stream().filter(vote -> !vote.getIsPositive() && vote.getIsByExpert()).count()))
                 .upVoteCount((int) post.getVotes().stream().filter(vote -> vote.getIsPositive()).count())
                 .downVoteCount((int) post.getVotes().stream().filter(vote -> !vote.getIsPositive()).count())
                 .poster(userResponseDto)
@@ -54,6 +61,7 @@ public class EntityToDto {
                 .createdAt(vote.getCreatedAt())
                 .id(vote.getId())
                 .isPositive(vote.getIsPositive())
+                .isByExpert(vote.getIsByExpert())
                 .userResponseDto(userResponseDto)
                 .build();
     }

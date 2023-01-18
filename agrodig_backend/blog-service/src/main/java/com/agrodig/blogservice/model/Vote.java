@@ -17,6 +17,7 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Boolean isPositive;
+    private Boolean isByExpert;
     private Long voterId;
     private Date creationDate;
 

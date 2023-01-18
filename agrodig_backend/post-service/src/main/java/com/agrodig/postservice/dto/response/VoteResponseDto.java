@@ -15,6 +15,7 @@ import java.util.Date;
 public class VoteResponseDto {
     private Long id;
     private Boolean isPositive;
+    private Boolean isByExpert;
     private UserResponseDto userResponseDto;
     private Instant createdAt;
 }

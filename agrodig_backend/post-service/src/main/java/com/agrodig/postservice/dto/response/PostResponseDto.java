@@ -31,13 +31,17 @@ public class PostResponseDto {
 
     private int upVoteCount;
 
+    private int expertUpVoteCount;
+
+    private int expertDownVoteCount;
+
     private int downVoteCount;
 
     private UserResponseDto poster;
 
     private Instant updatedAt;
 
-   private List<FileResponseDto> files;
+    private List<FileResponseDto> files;
 
     private List<String> tagNames;
 

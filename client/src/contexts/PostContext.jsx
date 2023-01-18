@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import { getCookie } from "./RequireAuth";
 
+import configData from "../Config.json";
+
+
 const PostContext = React.createContext();
 
 export const usePosts = () => {
@@ -10,13 +13,12 @@ export const usePosts = () => {
 
 export const PostProvider = ({ children }) => {
 	const [posts, setPosts] = useState([]);
-	const [myposts, setMyposts] = useState([]);
 	const [userPosts, setUserPosts] = useState(null);
 	const { user } = useAuth();
 
 	const getPosts = async () => {
 		const res = await fetch(
-			"https://photocorner33.onrender.com/post/allPosts",
+			configData.POST_SERVICE_URL,
 			{
 				method: "GET",
 
@@ -27,29 +29,12 @@ export const PostProvider = ({ children }) => {
 			}
 		);
 		const posts = await res.json();
-		setPosts(posts.posts.reverse());
+		setPosts(posts);
 		// setLoader(false);
 		return posts;
 	};
 
-	const getMyposts = async () => {
-		const res = await fetch(
-			"http://localhost:8083/api/post",
-			{
-				method: "GET",
 
-				headers: {
-					"Content-Type": "application/json",
-					authorization: "Bearer " + getCookie("token"),
-				},
-			}
-		);
-		const myPosts = await res.json();
-		setMyposts(myPosts.reverse());
-		console.log(myPosts);
-		// setLoader(false);
-		return myPosts;
-	};
 
 	const newPost = async (caption, imageStr) => {
 		const res = await fetch("https://photocorner33.onrender.com/post/newPost", {

@@ -3,3 +3,6 @@
     "BLOG_SERVICE_URL":"http://localhost:8082/api/blog",
     "POST_SERVICE_URL":"http://localhost:8083/api/post"
 }
+
+
+

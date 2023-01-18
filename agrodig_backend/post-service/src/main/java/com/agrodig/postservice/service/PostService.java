@@ -3,10 +3,7 @@ package com.agrodig.postservice.service;
 import com.agrodig.postservice.dto.request.CommentRequestDto;
 import com.agrodig.postservice.dto.request.PostRequestDto;
 import com.agrodig.postservice.dto.request.VoteRequestDto;
-import com.agrodig.postservice.dto.response.CommentResponseDto;
-import com.agrodig.postservice.dto.response.PostResponseDto;
-import com.agrodig.postservice.dto.response.UserResponseDto;
-import com.agrodig.postservice.dto.response.VoteResponseDto;
+import com.agrodig.postservice.dto.response.*;
 import com.agrodig.postservice.mapper.EntityToDto;
 import com.agrodig.postservice.model.Comment;
 import com.agrodig.postservice.model.Post;
@@ -23,6 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -97,6 +95,7 @@ public class PostService {
                 .retrieve()
                 .bodyToMono(UserResponseDto[].class)
                 .block();
+
         //count up votes down votes comments
         log.info("User {} is retrieved", userResponseDtos.length);
         return posts.stream().map(post -> EntityToDto.postToPostResponseDto(post, Arrays
@@ -104,6 +103,7 @@ public class PostService {
                         .filter(userResponseDto -> userResponseDto.getId() == post.getPosterId()).findFirst().get()))
                 .collect(Collectors.toList());
     }
+
 
     public List<PostResponseDto> getPostsByUser(UserResponseDto userResponseDto) {
         //get blogs for user
@@ -186,12 +186,20 @@ public class PostService {
 
     public void votePost(Long postId, VoteRequestDto voteRequestDto) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalStateException("Post not found"));
-        //create and save vote
 
+        UserResponseDto[] userResponseDtos = webClientBuilder.build().get()
+                .uri("http://users-service/api/user",
+                        uriBuilder -> uriBuilder.queryParam("id", Collections.singletonList(voteRequestDto.getUserId())).build())
+                .retrieve()
+                .bodyToMono(UserResponseDto[].class)
+                .block();
+
+        //create and save vote
         Vote vote = new Vote();
         vote.setVoterId(voteRequestDto.getUserId());
         vote.setCreatedAt(Instant.now());
         vote.setIsPositive(voteRequestDto.getIsPositive());
+        vote.setIsByExpert(userResponseDtos[0].getRole() == "EXPERT" );
 
         vote.setPost(post);
 
@@ -222,5 +230,12 @@ public class PostService {
             commentRequestDto.getFiles().stream().map(multipartFile -> fileService.addFileToComment(multipartFile,comment)).collect(Collectors.toList());
         }
 
+    }
+
+    public List<TagResponseDto> getTagsByPost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalStateException("Post not found"));
+
+        return post.getTags().stream().map(EntityToDto::tagToTagResponseDto).collect(Collectors.toList());
     }
 }

@@ -2,11 +2,8 @@ package com.agrodig.postservice.controller;
 
 import com.agrodig.postservice.dto.request.CommentRequestDto;
 import com.agrodig.postservice.dto.request.VoteRequestDto;
-import com.agrodig.postservice.dto.response.CommentResponseDto;
-import com.agrodig.postservice.dto.response.PostResponseDto;
+import com.agrodig.postservice.dto.response.*;
 import com.agrodig.postservice.dto.request.PostRequestDto;
-import com.agrodig.postservice.dto.response.UserResponseDto;
-import com.agrodig.postservice.dto.response.VoteResponseDto;
 import com.agrodig.postservice.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,6 +37,10 @@ public class PostController {
         return postService.getVotesByPost(postId);
     }
 
+    @GetMapping(path = "/tags")
+    public List<TagResponseDto> getTagsByPost(@RequestParam Long postId) {
+        return postService.getTagsByPost(postId);
+    }
     @GetMapping(path = "/comments/votes")
     public List<VoteResponseDto> getVotesByComment(@RequestParam Long commentId) {
         return postService.getVotesByComment(commentId);
