@@ -269,10 +269,4 @@ public class BlogService {
         return blog.getTags().stream().map(EntityToDto::tagToTagResponseDto).collect(Collectors.toList());
     }
 
-<<<<<<< HEAD
-
-=======
-
->>>>>>> 0cbef74ee954fa6ff786979ee8bb4e30cb8f38dd
-
 }
