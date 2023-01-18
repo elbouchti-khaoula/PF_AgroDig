@@ -16,8 +16,6 @@ import java.util.List;
 public class BlogRequestDto {
     private String body;
     private String title;
-    //@OneToMany(mappedBy = "blog", fetch = FetchType.LAZY)
-    //private List<Attachement> attachements;
     private List<MultipartFile> attachements;
     private Long userId;
     private List<Long> tagIds;

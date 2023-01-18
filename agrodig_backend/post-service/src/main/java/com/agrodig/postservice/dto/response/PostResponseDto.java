@@ -1,25 +1,29 @@
-package com.agrodig.blogservice.dto.response;
+package com.agrodig.postservice.dto.response;
 
+import com.agrodig.postservice.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-@Getter
-@Setter
 @Builder
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class BlogResponseDto {
+public class PostResponseDto {
     private Long id;
 
     private String body;
 
     private String title;
 
-    private Date creationDate;
+    private Instant creationDate;
 
     private int viewCount;
 
@@ -31,9 +35,10 @@ public class BlogResponseDto {
 
     private UserResponseDto poster;
 
-    private Date lastActivityDate;
+    private Instant updatedAt;
 
-    private List<AttachementResponseDto> attachements;
+   private List<FileResponseDto> files;
 
     private List<String> tagNames;
+
 }

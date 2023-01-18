@@ -20,6 +20,7 @@ public class EntityToDto {
                 .upVoteCount((int) blog.getVotes().stream().filter(vote -> vote.getIsPositive()).count())
                 .downVoteCount((int) blog.getVotes().stream().filter(vote -> !vote.getIsPositive()).count())
                 .poster(userResponseDto)
+                .attachements(blog.getAttachements().stream().map(EntityToDto::AttachementToAttachementResponseDto).collect(Collectors.toList()))
                 .build();
     }
 

@@ -1,8 +1,7 @@
-package com.agrodig.blogservice.model;
+package com.agrodig.postservice.model;
 
 
-
-public enum AttachementType {
+public enum FileType {
     PDF("pdf"),
     TXT("txt"),
     PNG("png"),
@@ -13,7 +12,7 @@ public enum AttachementType {
 
     private final String value;
 
-    AttachementType(String value) {
+    FileType(String value) {
         this.value = value;
     }
 
@@ -21,8 +20,8 @@ public enum AttachementType {
         return value;
     }
 
-    public static AttachementType fromContentType(String contentType) {
-        AttachementType fileType = null;
+    public static FileType fromContentType(String contentType) {
+        FileType fileType = null;
         switch (contentType) {
 
             case "text/plain":
@@ -48,7 +47,7 @@ public enum AttachementType {
 
     }
 
-    public static AttachementType fromValue(String value) {
+    public static FileType fromValue(String value) {
         return valueOf(value.toUpperCase());
     }
 }

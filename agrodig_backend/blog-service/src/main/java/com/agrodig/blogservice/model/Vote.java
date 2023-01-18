@@ -25,6 +25,6 @@ public class Vote {
     private Blog blog;
 
     @ManyToOne
-    @JoinColumn(name = "comment_id")
+    @JoinColumn(name = "id")
     private Comment comment;
 }
