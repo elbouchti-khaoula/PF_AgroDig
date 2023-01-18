@@ -124,7 +124,7 @@ function Mainconts() {
       <div style={{ flexBasis: "350px" }}>
         <Side />
       </div>
-    </div>
+    </div>  
   );
 }
 

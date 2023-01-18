@@ -18,6 +18,7 @@ import BlogForm from "./Blogs/BlogForm";
 import BlogPage from "./Blogs/BlogPage";
 import UserPosts from "./account-page/UserPosts";
 import TagPage from "./Home/TagPage";
+import QuestionPage from "./Question/QuestionPage";
 
 function App() {
 	const { user } = useAuth();
@@ -65,6 +66,14 @@ function App() {
 							user !== null ? <UserPosts /> : <Navigate replace to="/login" />
 						}
 					/>
+					<Route
+						exact path="/question"
+						element={
+							user !== null ? <QuestionPage /> : <Navigate replace to="/login" />
+						}
+					/>
+
+                    
 					<Route
 						exact path="/home/popular"
 						element={

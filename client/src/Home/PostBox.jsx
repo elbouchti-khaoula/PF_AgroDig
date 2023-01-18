@@ -21,7 +21,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import moment from "moment";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Divider, IconButton, Rating, Typography } from "@mui/material";
+import { Button, ButtonBase, Divider, IconButton, Rating, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { COLORS } from "../utils/colors";
 import configData from "../Config.json";
@@ -63,6 +63,7 @@ const PostBox = ({ item }) => {
   const timeFromNow = moment(postData?.creationDate).fromNow();
 
   return (
+    <Link to="/question" >
     <div
       key={postData?.id}
       className={`w-[100%] mobile:w-[70%] mobile:min-w-[365px] xtab:w-[95%]  items-center mt-6 ${
@@ -80,7 +81,7 @@ const PostBox = ({ item }) => {
                 className="min-h-full min-w-full object-cover"
                 src={profileIcon}
                 alt=""
-              />
+              />    
             </div>
             <div className="flex ml-2 flex-col my-auto">
               <p>{postData.poster?.username} </p>
@@ -221,6 +222,7 @@ const PostBox = ({ item }) => {
         {/* end Add comment case */}
       </div>
     </div>
+   </Link>
   );
 };
 
