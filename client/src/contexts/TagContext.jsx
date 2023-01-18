@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import { getCookie } from "./RequireAuth";
+import configData from '../Config.json';
 
 const TagContext = React.createContext();
 
@@ -9,19 +10,21 @@ export const useTags = () => {
 };
 
 export const TagProvider = ({ children }) => {
-    const [tags, setTags] = useState([
-        {tag: 'javascript', count: 100},
-        {tag: 'react', count: 90},
-        {tag: 'nodejs', count: 80},
-        {tag: 'graphql', count: 70},
-        {tag: 'nextjs', count: 60}
+    const [blogTags, setBlogTags] = useState([
+        {id : 1,name: 'javascript', usageCount: 100},
+        {id : 2,name: 'react', usageCount: 90},
+        {id : 3,name: 'nodejs', usageCount: 80},
+        {id : 4,name: 'graphql', usageCount: 70},
+        {id : 5,name: 'nextjs', usageCount: 60}
     ]);
-    const [userTags, setUserTags] = useState(null);
-    const { user } = useAuth();
+    const [selectedTags, setSelectedTags] = useState([]);
+   // const [userTags, setUserTags] = useState(null);
+   //  const { user } = useAuth();
 
-    const getTags = async () => {
+    const getBlogTags = async () => {
+        const endpoint = configData.BLOG_SERVICE_URL+"/tags"
         const res = await fetch(
-            "https://photocorner33.onrender.com/tag/allTags",
+           `${endpoint}`,
             {
                 method: "GET",
                 headers: {
@@ -31,7 +34,8 @@ export const TagProvider = ({ children }) => {
             }
         );
         const data = await res.json();
-        setTags(data.tags.reverse());
+        setBlogTags(data);
+        console.log(data);
     };
 
     const newTag = async (tag) => {
@@ -66,8 +70,11 @@ export const TagProvider = ({ children }) => {
             setTags(data.tags.reverse());
             };
             return (
-                <TagContext.Provider value={{ tags, getTags, newTag, deleteTag }}>
+                <TagContext.Provider value={{ blogTags, getBlogTags, newTag, deleteTag, setSelectedTags }}>
                     {children}
                 </TagContext.Provider>
             );
+
+          
+        
         };            

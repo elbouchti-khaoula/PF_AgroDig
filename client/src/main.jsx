@@ -10,6 +10,8 @@ import { MessageProvider } from "./Messages/contexts/messageContext";
 import AppProvider from "./contexts/AppContext";
 import { PostProvider } from "./contexts/PostContext";
 import { MicProvider } from './contexts/MicContext';
+import { BlogProvider } from './contexts/BlogContext';
+import { TagProvider } from './contexts/TagContext';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
@@ -19,7 +21,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 					<PostProvider>
 						<MessageProvider>
 							<MicProvider>
+								<BlogProvider>
+									<TagProvider>
 							<App />
+							</TagProvider>
+							</BlogProvider>
 							</MicProvider>
 						</MessageProvider>
 					</PostProvider>

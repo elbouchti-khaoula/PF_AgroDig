@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import { getCookie } from "./RequireAuth";
+import configData from '../Config.json';
 
 const BlogContext = React.createContext();
 
@@ -15,8 +16,9 @@ export const BlogProvider = ({ children }) => {
 
 
 	const getBlogs = async () => {
+		const endpoint = configData.BLOG_SERVICE_URL;
 		const res = await fetch(
-			"http://localhost:8080/api/blog",
+			`${endpoint}`,
 			{
 				method: "GET",
 
@@ -32,18 +34,47 @@ export const BlogProvider = ({ children }) => {
 	};
 
 	const newBlog = async (blogData) => {
+		const endpoint = configData.BLOG_SERVICE_URL;
 		const formData  = new FormData();
-		for(const name in blogData) {
-			formData.append(name, blogData[name]);
-		  }
-
-		const res = await fetch("http://localhost:8080/api/blog", {
+		
+		// for(const name in blogData ) {
+		// 	formData.append(name, blogData[`${name}`]);
+		//   }
+		//  console.log("form waaaa daaaaaaaaayta "+formData.get(body));
+		formData.append('title', blogData.title);
+		formData.append('body', blogData.body);
+		const reaally = typeof blogData.attachements !== 'undefined';
+		//console.log("loging attachements in blogContext : " + blogData.attachements + " reaaaally  " + reaally);
+		reaally ? formData.append('attachements', blogData.attachements) : console.log(" no file present ") ;
+		formData.append('tagIds', blogData.tagIds);
+		formData.append('userId',user.id)
+		//const res = 
+		
+		fetch(`${endpoint}`, {
 			method: "POST",
+			// headers : {
+			// 	"Content-Type": "multipart/form-data;boundary=gc0p4Jq0M2Yt08jU534c0p"
+			// },
 			body: formData
-		});
-		await res.json();
-		await getBlogs();
-		return true;
+		}).then((res) => {
+			if (res.status == 201 ) {
+			  alert("Created ! ");
+			  
+			}
+			// } else if (res.status == 401) {
+			//   alert("Oops! ");
+			// }
+		  },
+		   (err) => {
+			alert("Error submitting form!");
+		  });
+		  return true;
+
+		
+		//await res.json();
+
+		//await getBlogs();
+		
 	};
 
 	const deleteBlog = async (id) => {

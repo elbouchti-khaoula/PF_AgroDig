@@ -1,10 +1,16 @@
 
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback,useRef } from "react";
 import "../Home/Home.css";
 import { BiImageAdd, BiPhotoAlbum, BiX } from "react-icons/bi";
 import { useApp } from "../contexts/AppContext";
 import '../App.css';
 import Layout from '../others/Layout';
+import { useBlogs } from "../contexts/BlogContext";
+import CustomizedHook from "./TagInput";
+import { useTags } from "../contexts/TagContext";
+
+
+
 function BlogForm() {
 	const [imageString, setImageStr] = useState("");
 	const [caption, setCaption] = useState("");
@@ -14,6 +20,20 @@ function BlogForm() {
 	const [fontSize, setFontSize] = useState("16px");
 	const [fontFamily, setFontFamily] = useState("Arial");
 	const [textAlign, setTextAlign] = useState("left");
+	const [theValue, setTheValue ] = useState();
+	const [blogData, setBlogData] = useState({
+		body : '',
+		title : '',
+		attachements : undefined,
+		userId : 0,
+		tagIds : undefined
+	});
+	const {newBlog, getBlogs, blogs} = useBlogs();
+	const {blogTags, getBlogTags} = useTags();
+
+	const contentref = useRef();
+
+	const {body, title, attachements,userId,tagIds} = blogData;
 
 
 	const handleFontFamily = (family) => {
@@ -30,7 +50,15 @@ function BlogForm() {
 	
 	const previewFile = (e) => {
 		const file = e.target.files[0];
+		setBlogData((prev) => ({
+			...prev,
+			attachements : file
+		}))
 		console.log(file);
+		setBlogData((prevState) =>({
+			...prevState,
+			attachements : file
+		}))
 		setPreview({ state: true, url: URL.createObjectURL(e.target.files[0]) });
 		const reader = new FileReader();
 		reader.addEventListener("loadend", () => {
@@ -43,12 +71,47 @@ function BlogForm() {
 	const submitBlog = async (e) => {
 		// e.preventDefault();
 		setLoading(true);
-		const isdone = await newBlog(caption, imageString);
+		// console.log("logging bfore submit      :"+ theValue);
+		// // setBlogData({...blogData, 'tagIds' : theValue});
+		// console.log("logging bfore submit  agaaain     :" + blogData.tagIds);
+
+		const isdone = await newBlog(blogData);
 		if (isdone) {
 			console.log("done");
-			setShowBlogForm(false);
+			setLoading(false);
+			window.location.href = "/";
+			//setShowBlogForm(false);
 		}
+		// const blog = await getBlogs();
+		// console.log(blog);
+		
 	};
+
+	const handleTitleChange = (e) => {
+		setBlogData((prevState) => ({
+			...prevState,
+			title : e.target.value
+		}));
+		console.log(blogData.title)
+	}
+	const handleBodyChange = () => {
+		setBlogData((prevState) => ({
+			...prevState,
+			body : contentref.current.innerHTML
+		}));
+		console.log(blogData.body);
+	};
+	
+	useEffect(() => {
+		getBlogTags();
+		setBlogData((prev)=>({
+			...prev,
+			tagIds : theValue
+		}))
+
+		
+	  },[theValue])
+
 
 	return (
 		
@@ -84,7 +147,9 @@ function BlogForm() {
 				}`}
 			><h2 className="text-center mobile:text-l">Title:</h2>
 				<textarea
-					onChange={(e) => setCaption(e.target.value)}
+					onChange={handleTitleChange}
+					value={title}
+					//onChange={(e) => setCaption(e.target.value)}
 					className="border-2 h-[10vh] outline-none border-gray-500/70 p-2 w-full bg-transparent"
 					placeholder="Title"
 					maxLength={700}
@@ -125,10 +190,14 @@ function BlogForm() {
 
 					<div
 			contentEditable={true}
-			onChange={(e) => setCaption(e.target.value)}
+			//onChange={(e) => setCaption(e.target.value)}
+			onChange={handleBodyChange}
+			ref ={contentref} 
 			className={`border-2 outline-none border-gray-500/70 p-2 w-full bg-transparent min-height: 40vh`}
 			placeholder="Describe your problem, what you did, what you hope to happen or something you’re simply curious about"
-			onInput={(e) => setText(e.target.innerText)}
+			//onInput={(e) => setText(e.target.innerText)}
+			onInput={handleBodyChange}
+			value={body}
 			style={{ fontSize: fontSize, fontFamily: fontFamily, textAlign: textAlign }}
 			></div>
 
@@ -171,19 +240,21 @@ function BlogForm() {
 			><h2 className="text-center mobile:text-l">Tags:</h2>
 				<h6 className=" mobile:text-s text-gray-700">Add up to 5 Tags to describe what your Question is about</h6>
             
-				<div 
+				{/* <div 
 					contentEditable={true}
 					className="editable-content border-2 p-2 w-full bg-transparent"
 					onInput={(e) => setText(e.target.innerText)}
 					style={{ fontSize: "16px", fontFamily: "Arial" }}
 					>
 					#
-					</div>
+					</div> */}
+					<CustomizedHook tags={blogTags} theValue={theValue} setTheValue={setTheValue}/>
 
                 </div>
+				<br/>
                
 				<button
-				style={{padding:"10px"}}
+				style={{padding:"10px", marginLeft : "800px"}}
 				className="py-2 px-4 rounded-lg bg-green-500 text-white hover:bg-green-600"
 				onClick={submitBlog}
 				disabled={loading}>

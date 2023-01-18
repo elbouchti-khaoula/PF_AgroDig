@@ -259,11 +259,14 @@ public class BlogService {
         blogRepository.save(blog);
         attachementService.addAttachementToBlog(multipartFile, blog);
     }
-
+    public List<TagResponseDto> getAllTags() {
+        return tagRepository.findAll().stream().map(EntityToDto::TagToTagResponseDto).toList();
+    }
     public List<TagResponseDto> getTagsByBlog(Long postId) {
         Blog blog = blogRepository.findById(postId)
                 .orElseThrow(() -> new IllegalStateException("Blog not found"));
 
-        return   blog.getTags().stream().map(EntityToDto::tagToTagResponseDto).collect(Collectors.toList());
+        return blog.getTags().stream().map(EntityToDto::tagToTagResponseDto).collect(Collectors.toList());
     }
+
 }
