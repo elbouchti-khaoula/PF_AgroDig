@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import { getCookie } from "./RequireAuth";
+import configData from '../Config.json';
 
 const BlogContext = React.createContext();
 
@@ -15,8 +16,9 @@ export const BlogProvider = ({ children }) => {
 
 
 	const getBlogs = async () => {
+		const endpoint = configData.BLOG_SERVICE_URL;
 		const res = await fetch(
-			"http://localhost:8080/api/blog",
+			`${endpoint}`,
 			{
 				method: "GET",
 
@@ -32,12 +34,13 @@ export const BlogProvider = ({ children }) => {
 	};
 
 	const newBlog = async (blogData) => {
+		const endpoint = configData.BLOG_SERVICE_URL;
 		const formData  = new FormData();
 		for(const name in blogData) {
 			formData.append(name, blogData[name]);
 		  }
 
-		const res = await fetch("http://localhost:8080/api/blog", {
+		const res = await fetch(`${endpoint}`, {
 			method: "POST",
 			body: formData
 		});
