@@ -19,30 +19,31 @@ export function UserProvider({ children }) {
 	};
 
 	const getUsers = async () => {
-		const res = await fetch("https://photocorner33.onrender.com/user/all", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				authorization: "Bearer " + getCookie("token"),
-			},
-		});
+		const res = await fetch("http://localhost:8080/api/user", {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						authorization: "Bearer " + getCookie("token"),
+					},
+				});
 		const data = await res.json();
-		setUsers(data.data);
-	};
+		setUsers(data);
 
+	}
+
+
+
+	//for now it just gets users until we implement a suggestion algo
 	const getSuggestedUsers = async () => {
-		const res = await fetch(
-			"https://photocorner33.onrender.com/user/suggestedUsers",
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					authorization: "Bearer " + getCookie("token"),
-				},
-			}
-		);
+		const res = await fetch("http://localhost:8080/api/user", {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						authorization: "Bearer " + getCookie("token"),
+					},
+				});
 		const data = await res.json();
-		setSuggested(data.users);
+		setSuggested(data);
 	};
 
 	const updatePhoto = async (datas) => {

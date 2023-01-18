@@ -16,9 +16,7 @@ export default function AuthProvider({ children }) {
 		const token = getCookie("token");
 		if (token) {
 			try {
-				const userDetails = await jwtdecode(token);
-				console.log(userDetails);
-				const userd = await getUserById(userDetails.userid);
+				const userd = await  getUser();
 				return setUser(userd);
 			} catch (err) {
 				console.log(err);
@@ -48,7 +46,31 @@ export default function AuthProvider({ children }) {
 export const getUserById = async (id) => {
 	try {
 		const res = await fetch(
-			`https://photocorner33.onrender.com/user/getUserByID/${id}`,
+			`http://localhost:8080/api/user/${id}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					authorization: "Bearer " + getCookie("token"),
+				},
+			}
+		);
+		
+		if (res.status !== 200) return null;
+		const data = await res.json();
+		return data.user;
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
+
+};
+
+
+export const getUser = async () => {
+	try {
+		const res = await fetch(
+			`http://localhost:8080/api/user/profile`,
 			{
 				method: "GET",
 				headers: {
@@ -59,7 +81,8 @@ export const getUserById = async (id) => {
 		);
 		if (res.status !== 200) return null;
 		const data = await res.json();
-		return data.user;
+		console.log("user is waaaaaaaa : "+ data.username );
+		return data;
 	} catch (error) {
 		console.log(error);
 		return null;

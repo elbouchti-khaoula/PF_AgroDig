@@ -25,4 +25,8 @@ public class User {
     private Date birthDate;
     private Date creationDate;
     private ApplicationUserRole role;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_pic_id", referencedColumnName = "id")
+    private Image profilePic;
 }
