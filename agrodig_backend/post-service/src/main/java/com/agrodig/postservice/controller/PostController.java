@@ -76,11 +76,22 @@ public class PostController {
         postService.deletePost(postId);
     }
 
+    @DeleteMapping(path = "/comment")
+    public void deleteComment(@RequestParam Long commentId) {
+        postService.deleteComment(commentId);
+    }
+
     @PutMapping
     public void updatePost(@RequestParam Long postId, @ModelAttribute PostRequestDto postRequestDto) {
         postService.updatePost(postId, postRequestDto);
     }
 
-    
+    @PutMapping(path = "comment")
+    public void updateComment(@RequestParam Long commentId, @ModelAttribute CommentRequestDto commentRequestDto) {
+        postService.updateComment(commentId,commentRequestDto);
+    }
+
+
+
 
 }

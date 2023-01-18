@@ -3,6 +3,7 @@ package com.agrodig.postservice.service;
 import com.agrodig.postservice.config.FileConfig;
 import com.agrodig.postservice.dto.response.FileResponseDto;
 import com.agrodig.postservice.mapper.EntityToDto;
+import com.agrodig.postservice.model.Comment;
 import com.agrodig.postservice.model.File;
 import com.agrodig.postservice.model.FileType;
 import com.agrodig.postservice.model.Post;
@@ -34,6 +35,26 @@ public class FileService {
         file.setPath(fileConfig.getDirectory());
 
         file.setPost(post);
+
+        fileRepository.save(file);
+
+        //saving attachement file in file system
+        String fileName = file.getFile_id() + "." + file.getType().value();
+        FileUtils.saveFile(multipartFile, fileConfig.getDirectory(), fileName);
+
+        return EntityToDto.FileToFileResponseDto(file);
+
+    }
+
+    public FileResponseDto addFileToComment(MultipartFile multipartFile, Comment comment) {
+        //saving attachement entity
+        File file = new File();
+        file.setType(FileType.fromContentType(multipartFile.getContentType()));
+        file.setCreatedAt(Instant.now());
+        file.setName(multipartFile.getName());
+        file.setPath(fileConfig.getDirectory());
+
+        file.setComment(comment);
 
         fileRepository.save(file);
 

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Component
 @Data
 @NoArgsConstructor
@@ -15,4 +17,5 @@ public class CommentRequestDto {
     //private MultipartFile file;
     private String body;
     private UserResponseDto userResponseDto;
+    private List<MultipartFile> files;
 }

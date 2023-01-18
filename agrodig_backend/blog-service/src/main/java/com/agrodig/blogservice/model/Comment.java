@@ -22,6 +22,8 @@ public class Comment {
 
     private Date creationDate;
 
+    private Date updateDate;
+
     private Long commenterId;
 
     @OneToMany(mappedBy="comment", fetch = FetchType.LAZY)

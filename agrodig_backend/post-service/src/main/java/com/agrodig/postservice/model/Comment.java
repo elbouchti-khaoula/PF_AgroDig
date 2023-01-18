@@ -36,10 +36,10 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @OneToMany(mappedBy="comment", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="comment", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private List<File> files;
 
-    @OneToMany(mappedBy="comment", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="comment", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private List<Vote> votes ;
 
 }

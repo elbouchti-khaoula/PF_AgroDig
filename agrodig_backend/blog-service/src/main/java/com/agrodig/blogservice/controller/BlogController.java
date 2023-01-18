@@ -75,10 +75,22 @@ public class BlogController {
         blogService.deleteBlog(blogId);
     }
 
+    @DeleteMapping(path = "/comment")
+    public void deleteComment(@RequestParam Long commentId) {
+        blogService.deleteComment(commentId);
+    }
+
+
     @PutMapping
     public void updateBlog(@RequestBody BlogRequestDto blogRequestDto,@RequestParam Long blogId) {
         blogService.updateBlog(blogRequestDto,blogId);
     }
+    @PutMapping(path = "comment")
+    public void updateComment(@RequestParam Long commentId, @ModelAttribute CommentRequestDto commentRequestDto) {
+        blogService.updateComment(commentId,commentRequestDto);
+    }
+
+
 
 }
 

@@ -1,5 +1,6 @@
 package com.agrodig.postservice.service;
 
+import com.agrodig.postservice.dto.request.CommentRequestDto;
 import com.agrodig.postservice.dto.request.PostRequestDto;
 import com.agrodig.postservice.dto.request.VoteRequestDto;
 import com.agrodig.postservice.dto.response.CommentResponseDto;
@@ -34,15 +35,15 @@ public class PostService {
     private final PostRepository postRepository;
     private final TagRepository tagRepository;
 
-    private final VoteRepository  voteRepository;
+    private final VoteRepository voteRepository;
 
 
     private final FileService fileService;
-    private final CommentRepository  commentRepository;
+    private final CommentRepository commentRepository;
 
     private final WebClient.Builder webClientBuilder;
 
-    public void createPost(PostRequestDto postRequestDto){
+    public void createPost(PostRequestDto postRequestDto) {
         Post post = new Post();
         post.setBody(postRequestDto.getBody());
         post.setTitle(postRequestDto.getTitle());
@@ -50,13 +51,14 @@ public class PostService {
         post.setUpdatedAt(Instant.now());
         post.setViewCount(0);
 
-        if(postRequestDto.getFiles() != null) postRequestDto.getFiles().stream().map(multipartFile -> fileService.addFileToPost(multipartFile,post)).collect(Collectors.toList());
+        if (postRequestDto.getFiles() != null)
+            postRequestDto.getFiles().stream().map(multipartFile -> fileService.addFileToPost(multipartFile, post)).collect(Collectors.toList());
 
         postRepository.save(post);
     }
 
     // Delete post
-    public void deletePost(Long postId){
+    public void deletePost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalStateException("Post not found"));
 
@@ -65,15 +67,16 @@ public class PostService {
 
         postRepository.delete(post);
     }
-    public void updatePost(Long postId, PostRequestDto postRequestDto){
+
+    public void updatePost(Long postId, PostRequestDto postRequestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalStateException("Post not found"));
 
         post.setBody(postRequestDto.getBody());
         post.setTitle(postRequestDto.getTitle());
-        
+
         //deletion and creation of files
-        if(postRequestDto.getFiles() != null) {
+        if (postRequestDto.getFiles() != null) {
             post.getFiles().stream().map(file -> fileService.deleteFileOfPost(file)).collect(Collectors.toList());
             postRequestDto.getFiles().stream().map(multipartFile -> fileService.addFileToPost(multipartFile, post)).collect(Collectors.toList());
         }
@@ -192,5 +195,31 @@ public class PostService {
         vote.setPost(post);
 
         voteRepository.save(vote);
+    }
+
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalStateException("Comment not found"));
+
+        // delete attached files
+        comment.getFiles().stream().map(file -> fileService.deleteFileOfPost(file)).collect(Collectors.toList());
+
+        commentRepository.delete(comment);
+    }
+
+
+    public void updateComment(Long commentId, CommentRequestDto commentRequestDto) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalStateException("Comment not found"));
+
+        comment.setBody(commentRequestDto.getBody());
+        comment.setUpdatedAt(Instant.now());
+
+        //deletion and creation of files
+        if (commentRequestDto.getFiles() != null) {
+            comment.getFiles().stream().map(file -> fileService.deleteFileOfPost(file)).collect(Collectors.toList());
+            commentRequestDto.getFiles().stream().map(multipartFile -> fileService.addFileToComment(multipartFile,comment)).collect(Collectors.toList());
+        }
+
     }
 }

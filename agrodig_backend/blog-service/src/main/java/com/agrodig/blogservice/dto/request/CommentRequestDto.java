@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,6 +16,5 @@ import lombok.Setter;
 public class CommentRequestDto {
     private String body;
     private UserResponseDto userResponseDto;
-    //@OneToMany(mappedBy="comment", fetch = FetchType.LAZY)
-   // private List<Attachement> attachements;
+    private List<MultipartFile> files;
 }
