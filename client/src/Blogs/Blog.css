@@ -48,6 +48,16 @@
   display: block;
   margin-top: 10px;
 }
+.green-button {
+  background-color: rgb(87, 130, 87);
+  color: white;
+  padding: 2px 30px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 6px;
+}
 
 
 
