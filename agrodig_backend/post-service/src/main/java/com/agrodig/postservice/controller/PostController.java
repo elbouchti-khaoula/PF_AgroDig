@@ -1,12 +1,10 @@
 package com.agrodig.postservice.controller;
 
 import com.agrodig.postservice.dto.request.CommentRequestDto;
+import com.agrodig.postservice.dto.request.TagRequestDto;
 import com.agrodig.postservice.dto.request.VoteRequestDto;
-import com.agrodig.postservice.dto.response.CommentResponseDto;
-import com.agrodig.postservice.dto.response.PostResponseDto;
+import com.agrodig.postservice.dto.response.*;
 import com.agrodig.postservice.dto.request.PostRequestDto;
-import com.agrodig.postservice.dto.response.UserResponseDto;
-import com.agrodig.postservice.dto.response.VoteResponseDto;
 import com.agrodig.postservice.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,6 +37,17 @@ public class PostController {
     public List<VoteResponseDto> getVotesByPost(@RequestParam Long postId) {
         return postService.getVotesByPost(postId);
     }
+
+    @GetMapping(path = "/tags")
+    public List<TagResponseDto> getTagsByPost(@RequestParam Long postId) {
+        return postService.getTagsByPost(postId);
+    }
+
+  /*  @PostMapping(path = "/tag")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addTagToPost(@RequestParam Long postId, @RequestBody TagRequestDto tagRequestDto) {
+        postService.addTagToPost(postId, tagRequestDto);
+    }*/
 
     @GetMapping(path = "/comments/votes")
     public List<VoteResponseDto> getVotesByComment(@RequestParam Long commentId) {
@@ -88,10 +97,8 @@ public class PostController {
 
     @PutMapping(path = "comment")
     public void updateComment(@RequestParam Long commentId, @ModelAttribute CommentRequestDto commentRequestDto) {
-        postService.updateComment(commentId,commentRequestDto);
+        postService.updateComment(commentId, commentRequestDto);
     }
-
-
 
 
 }

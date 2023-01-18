@@ -21,6 +21,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -164,12 +165,24 @@ public class BlogService {
 
     public void voteBlog(Long blogId, VoteRequestDto voteRequestDto) {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalStateException("Blog not found"));
+
+        UserResponseDto[] userResponseDtos = webClientBuilder.build().get()
+                .uri("http://users-service/api/user",
+                        uriBuilder -> uriBuilder.queryParam("id", Collections.singletonList(voteRequestDto.getUserId())).build())
+                .retrieve()
+                .bodyToMono(UserResponseDto[].class)
+                .block();
+
+
+
         //create and save vote
 
         Vote vote = new Vote();
         vote.setVoterId(voteRequestDto.getUserId());
         vote.setCreationDate(new Date());
         vote.setIsPositive(voteRequestDto.getIsPositive());
+        vote.setIsByExpert(userResponseDtos[0].getRole() == "EXPERT" );
+
 
         vote.setBlog(blog);
 
@@ -246,8 +259,20 @@ public class BlogService {
         blogRepository.save(blog);
         attachementService.addAttachementToBlog(multipartFile, blog);
     }
-
-    public List<TagResponseDto> getAllTags(){
+    public List<TagResponseDto> getAllTags() {
         return tagRepository.findAll().stream().map(EntityToDto::TagToTagResponseDto).toList();
     }
+    public List<TagResponseDto> getTagsByBlog(Long postId) {
+        Blog blog = blogRepository.findById(postId)
+                .orElseThrow(() -> new IllegalStateException("Blog not found"));
+
+        return blog.getTags().stream().map(EntityToDto::tagToTagResponseDto).collect(Collectors.toList());
+    }
+
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> 0cbef74ee954fa6ff786979ee8bb4e30cb8f38dd
+
 }

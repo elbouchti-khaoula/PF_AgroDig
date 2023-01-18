@@ -2,14 +2,13 @@ package com.agrodig.postservice.service;
 
 import com.agrodig.postservice.dto.request.CommentRequestDto;
 import com.agrodig.postservice.dto.request.PostRequestDto;
+import com.agrodig.postservice.dto.request.TagRequestDto;
 import com.agrodig.postservice.dto.request.VoteRequestDto;
-import com.agrodig.postservice.dto.response.CommentResponseDto;
-import com.agrodig.postservice.dto.response.PostResponseDto;
-import com.agrodig.postservice.dto.response.UserResponseDto;
-import com.agrodig.postservice.dto.response.VoteResponseDto;
+import com.agrodig.postservice.dto.response.*;
 import com.agrodig.postservice.mapper.EntityToDto;
 import com.agrodig.postservice.model.Comment;
 import com.agrodig.postservice.model.Post;
+import com.agrodig.postservice.model.Tag;
 import com.agrodig.postservice.model.Vote;
 import com.agrodig.postservice.repository.CommentRepository;
 import com.agrodig.postservice.repository.PostRepository;
@@ -23,6 +22,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,12 +44,15 @@ public class PostService {
     private final WebClient.Builder webClientBuilder;
 
     public void createPost(PostRequestDto postRequestDto) {
+        List<Tag> tags = tagRepository.findByIdIn(postRequestDto.getTagIds());
+
         Post post = new Post();
         post.setBody(postRequestDto.getBody());
         post.setTitle(postRequestDto.getTitle());
         post.setCreatedAt(Instant.now());
         post.setUpdatedAt(Instant.now());
         post.setViewCount(0);
+        post.setTags(tags);
         post.setPosterId(postRequestDto.getUserId());
 
         if (postRequestDto.getFiles() != null)
@@ -97,6 +100,7 @@ public class PostService {
                 .retrieve()
                 .bodyToMono(UserResponseDto[].class)
                 .block();
+
         //count up votes down votes comments
         log.info("User {} is retrieved", userResponseDtos.length);
         return posts.stream().map(post -> EntityToDto.postToPostResponseDto(post, Arrays
@@ -104,6 +108,7 @@ public class PostService {
                         .filter(userResponseDto -> userResponseDto.getId() == post.getPosterId()).findFirst().get()))
                 .collect(Collectors.toList());
     }
+
 
     public List<PostResponseDto> getPostsByUser(UserResponseDto userResponseDto) {
         //get blogs for user
@@ -174,7 +179,7 @@ public class PostService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalStateException("Comment not found"));
         //create and save vote
 
-        Vote vote = new Vote();
+        Vote vote = new Vote() ;
         vote.setVoterId(voteRequestDto.getUserId());
         vote.setCreatedAt(Instant.now());
         vote.setIsPositive(voteRequestDto.getIsPositive());
@@ -186,12 +191,20 @@ public class PostService {
 
     public void votePost(Long postId, VoteRequestDto voteRequestDto) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalStateException("Post not found"));
-        //create and save vote
 
+        UserResponseDto[] userResponseDtos = webClientBuilder.build().get()
+                .uri("http://users-service/api/user",
+                        uriBuilder -> uriBuilder.queryParam("id", Collections.singletonList(voteRequestDto.getUserId())).build())
+                .retrieve()
+                .bodyToMono(UserResponseDto[].class)
+                .block();
+
+        //create and save vote
         Vote vote = new Vote();
         vote.setVoterId(voteRequestDto.getUserId());
         vote.setCreatedAt(Instant.now());
         vote.setIsPositive(voteRequestDto.getIsPositive());
+        vote.setIsByExpert(userResponseDtos[0].getRole() == "EXPERT" );
 
         vote.setPost(post);
 
@@ -223,4 +236,17 @@ public class PostService {
         }
 
     }
+
+    public List<TagResponseDto> getTagsByPost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalStateException("Post not found"));
+
+        return post.getTags().stream().map(EntityToDto::tagToTagResponseDto).collect(Collectors.toList());
+    }
+
+  /*  public void addTagToPost(Long postId, TagRequestDto tagRequestDto) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalStateException("Post not found"));
+
+    }*/
 }

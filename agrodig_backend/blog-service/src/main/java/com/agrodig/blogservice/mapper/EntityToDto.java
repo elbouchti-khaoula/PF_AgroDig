@@ -1,5 +1,6 @@
 package com.agrodig.blogservice.mapper;
 
+
 import com.agrodig.blogservice.dto.response.*;
 import com.agrodig.blogservice.model.*;
 
@@ -17,13 +18,20 @@ public class EntityToDto {
                 .viewCount(blog.getViewCount())
                 .lastActivityDate(blog.getLastActivityDate())
                 .commentCount((int) blog.getComments().stream().count())
-                .upVoteCount((int) blog.getVotes().stream().filter(vote -> vote.getIsPositive()).count())
-                .downVoteCount((int) blog.getVotes().stream().filter(vote -> !vote.getIsPositive()).count())
+                .expertUpVoteCount((int) blog.getVotes().stream().filter(vote -> vote.getIsPositive() && vote.getIsByExpert()).count())
+                .expertDownVoteCount(((int) blog.getVotes().stream().filter(vote -> !vote.getIsPositive() && vote.getIsByExpert()).count()))
+                .upVoteCount((int) blog.getVotes().stream().filter(vote -> vote.getIsPositive() && ! vote.getIsByExpert()).count())
+                .downVoteCount((int) blog.getVotes().stream().filter(vote -> !vote.getIsPositive() && ! vote.getIsByExpert()).count())
                 .poster(userResponseDto)
                 .attachements(blog.getAttachements().stream().map(EntityToDto::AttachementToAttachementResponseDto).collect(Collectors.toList()))
                 .build();
     }
-
+    public  static TagResponseDto tagToTagResponseDto(Tag tag){
+        return TagResponseDto.builder()
+                .id(tag.getId())
+                .name(tag.getName())
+                .build();
+    }
     public static CommentResponseDto commentToCommentResponseDto(Comment comment, UserResponseDto userResponseDto) {
         return CommentResponseDto
                 .builder()
@@ -40,6 +48,7 @@ public class EntityToDto {
                 .builder()
                 .creationDate(vote.getCreationDate())
                 .id(vote.getId())
+                .isByExpert(vote.getIsByExpert())
                 .isPositive(vote.getIsPositive())
                 .userResponseDto(userResponseDto)
                 .build();
@@ -51,7 +60,7 @@ public class EntityToDto {
                 .id(attachement.getId())
                 .name(attachement.getName())
                 .type(attachement.getType().value())
-                .path(attachement.getPath())
+                .path(attachement.getPath()+attachement.getId() + "." + attachement.getType().value())
                 .uploadDate(attachement.getUploadDate())
                 .build();
 
