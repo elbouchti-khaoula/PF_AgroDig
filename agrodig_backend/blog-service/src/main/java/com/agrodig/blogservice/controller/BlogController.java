@@ -90,6 +90,10 @@ public class BlogController {
         blogService.updateComment(commentId,commentRequestDto);
     }
 
+    @GetMapping(path="/tags")
+    public List<TagResponseDto> getTags(){
+        return blogService.getAllTags();
+    }
 
 
 }
