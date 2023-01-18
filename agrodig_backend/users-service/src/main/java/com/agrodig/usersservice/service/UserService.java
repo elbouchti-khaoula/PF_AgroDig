@@ -1,6 +1,7 @@
 package com.agrodig.usersservice.service;
 
 import com.agrodig.usersservice.auth.AuthenticationFacade;
+import com.agrodig.usersservice.config.FileConfig;
 import com.agrodig.usersservice.dto.SignUpFormDto;
 import com.agrodig.usersservice.dto.UserResponseDto;
 import com.agrodig.usersservice.exception.user.InvalidEmailException;
@@ -9,15 +10,20 @@ import com.agrodig.usersservice.exception.user.UserNotAuthenticatedException;
 import com.agrodig.usersservice.exception.user.UserNotFoundException;
 import com.agrodig.usersservice.mapper.EntityToDto;
 import com.agrodig.usersservice.mapper.EntityToDtoMapper;
+import com.agrodig.usersservice.model.Image;
 import com.agrodig.usersservice.model.User;
+import com.agrodig.usersservice.repository.ImageRepository;
 import com.agrodig.usersservice.repository.UserRepository;
 import com.agrodig.usersservice.security.PasswordConfig;
+import com.agrodig.usersservice.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +40,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationFacade authenticationFacade;
+    private final ImageRepository imageRepository;
+    private final FileConfig fileConfig;
 
     public List<UserResponseDto> getUsers() {
         return userRepository.findAll().stream().map(EntityToDtoMapper::userToUserResponseDto).collect(Collectors.toList());
@@ -114,6 +122,26 @@ public class UserService {
     public List<UserResponseDto> getUsersById(List<Long> ids){
         return EntityToDtoMapper.userToUserResponseDto(userRepository.findByIdIn(ids));
     }
+
+
+    public Image uploadProfilePic(MultipartFile multipartFile){
+
+        Image image = new Image();
+        image.setUploadDate(new Date());
+        image.setName(multipartFile.getName());
+        image.setPath(fileConfig.getDirectory());
+        image.setUser(this.getUser());
+
+        String fileName = image.getId()+".png";
+        FileUtils.saveFile(multipartFile, fileConfig.getDirectory(),fileName);
+        
+        imageRepository.save(image);
+
+
+        return image;
+
+    }
+
 
 
 }

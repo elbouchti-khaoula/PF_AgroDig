@@ -13,15 +13,17 @@ const Side = () => {
   const {  isDark, following } = useApp()
 
   const handleSuggested = async () => {
-    const users = suggested.filter(use => use._id !== user._id)
-    const newusers = users.map(use => {
-      return {
-        ...use,
-        isFollowing: following.find(f => f.user === use._id)
-      }
-    }).filter(use => use.isFollowing === undefined)
-    console.log(newusers);
-    setUsers(newusers.slice(0, 5))
+    // const users = suggested.filter(use => use.id !== user.id)
+    // const newusers = users.map(use => {
+    //   return {
+    //     ...use,
+    //     isFollowing: following.find(f => f.user === use.id)
+    //   }
+    // }).filter(use => use.isFollowing === undefined)
+    // console.log(newusers);
+
+    // setUsers(newusers.slice(0, 5))
+    setUsers(suggested.slice(0, 5));
   }
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const Side = () => {
              src={user.profile} alt="" />
           </div>
           <div className="flex flex-col ml-3">
-            <p className="font-semibold">{user.fullname}</p>
+            <p className="font-semibold">{user.firstName}</p>
             <p className="opacity-80 font-light">@{user.username}</p>
           </div>
         </Link>
