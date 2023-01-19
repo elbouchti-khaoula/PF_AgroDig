@@ -16,7 +16,7 @@ export const PostProvider = ({ children }) => {
 	const [posts, setPosts] = useState([]);
 	const [post, setpost] = useState({});
 	const [userPosts, setUserPosts] = useState(null);
-	
+	const [comments, setcomments] = useState([]);
 	const { user } = useAuth();
 
 	const getPosts = async () => {
@@ -94,37 +94,32 @@ export const PostProvider = ({ children }) => {
 		return posts;
 	};
 
-	const likePost = async (postID) => {
-		const res = await fetch(
-			`https://photocorner33.onrender.com/post/like/${postID}`,
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					authorization: "Bearer " + getCookie("token"),
-				},
-			}
+	const likePost = (voteRequestDto,postId) => {
+		 console.log(voteRequestDto);
+		axios.post(`${configData.POST_SERVICE_URL}` +"/vote", voteRequestDto,{params:{postId : postId}}).then(
+		  (res) => {	
+			console.log(res.data);
+		  },
+		  (err) => {	
+			console.error(err);
+		  }
 		);
-		const data = await res.json();
+	  };
 
-		return posts;
-	};
-
-	const getCommentsByPost = async (postID) => {
-		const res = await fetch(
-			`https://photocorner33.onrender.com/post/getCommentsByPosts/${postID}`,
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					authorization: "Bearer " + getCookie("token"),
-				},
-			}
-		);
-		const data = await res.json();
-		console.log(data);
-		return data;
-	};
+	const getCommentsByPost = (postId)=>{
+		axios.get(`${configData.POST_SERVICE_URL}` + "/comments",{params:{postId : postId}}).then(
+		   (res) => {
+			   console.log(`i made the request with ${postId}`);
+			   console.log(res.data);
+			   const arr = res.data.reverse();
+			   setcomments(arr);
+			
+			 },
+			 (err) => {
+			   console.error("error in getting comments postbyId");
+			 }
+	   );
+	   };
 
 	const getLikesDataByPost = async (postID) => {
 		const res = await fetch(
@@ -282,12 +277,16 @@ export const PostProvider = ({ children }) => {
 
 	   };
 
-	   const commentPost = (formValues) => {
-		axios.post(`${configData.POST_SERVICE_URL}`, formValues).then(
-		  (res) => {
+	   const commentPost = (formValues,postId) => {
+		console.log(formValues);
+		const formData  = new FormData();
+		formData.append('body', formValues.body);
+		formData.append('userId', formValues.userId);
+		axios.post(`${configData.POST_SERVICE_URL}` +"/comment", formData,{params:{postId : postId}}).then(
+		  (res) => {	
 			console.log(res.data);
 		  },
-		  (err) => {
+		  (err) => {	
 			console.error(err);
 		  }
 		);
@@ -295,11 +294,13 @@ export const PostProvider = ({ children }) => {
 	return (
 		<PostContext.Provider
 			value={{
+				comments,
+				setcomments,
 				commentPost,
 				getPostById,
 				post,
-				setpost,
-				posts,
+				setpost,	
+				posts,			
 				setPosts,
 				getPosts,
 				newPost,

@@ -61,8 +61,8 @@ public class PostController {
 
     @PostMapping(path = "/comment")
     @ResponseStatus(HttpStatus.CREATED)
-    public void commentPost(@RequestParam Long postId, @RequestBody CommentRequestDto commentRequestDto) {
-
+    public void commentPost(@RequestParam Long postId, @ModelAttribute CommentRequestDto commentRequestDto) {
+          postService.commentPost(postId,commentRequestDto);
     }
 
     @PostMapping(path = "/comment/vote")

@@ -16,6 +16,6 @@ import java.util.List;
 public class CommentRequestDto {
     //private MultipartFile file;
     private String body;
-    private UserResponseDto userResponseDto;
+    private Long userId;
     private List<MultipartFile> files;
 }

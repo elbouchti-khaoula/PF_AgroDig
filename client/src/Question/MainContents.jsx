@@ -27,6 +27,8 @@ import moment from "moment";
 import { useAuth } from "../contexts/AuthContext";
 
 const MainContents = () => {
+  const { user } = useAuth();
+
   const itemData = [
     {
       img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
@@ -49,28 +51,114 @@ const MainContents = () => {
       img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
       title: "Bike",
     },
-  ];  
-   
-  const { user } = useAuth();
+  ];
+
+  const defaultValues = {
+    body: "",
+    userId: user.id,
+  };
 
   const [showAddComment, setshowAddComment] = useState(false);
   const [formValues, setFormValues] = useState(defaultValues);
 
+  const [voteRequestDto, setvoteRequestDto] = useState({
+    isPositive: false,
+    userId: user.id,
+  });
+
+  const [downvoteRequestDto, setdownvoteRequestDto] = useState({
+    isPositive: false,
+    userId: user.id,
+  });
+  const [load, setload] = useState(false);
   let { id } = useParams();
 
-  const { post,getPostById} = usePosts();
+  const {
+    post,
+    getPostById,
+    commentPost,
+    getCommentsByPost,
+    comments,
+    likePost,
+    setpost
+  } = usePosts();
 
-  const defaultValues = {
-    body :"",
-    userResponseDto :  user
+  useEffect(() => {
+    likePost(voteRequestDto,post.id);
+  }, [voteRequestDto]);
+
+  useEffect(() => {
+    likePost(downvoteRequestDto,post.id);
+  }, [downvoteRequestDto]);
+
+  const handleLike = () => {
+    const req = {
+      isPositive: true,
+      userId : user.id
+    }
+    setvoteRequestDto(req);
+
+  setpost( (prev) => ({
+			...prev,
+			upVoteCount : prev.upVoteCount + 1
+		})
+      
+   );
+    
   };
- 
+
+  const handleDislike = () => {
+    const req = {
+      isPositive: false,
+      userId : user.id
+    }
+    setdownvoteRequestDto(req);
+    
+
+    setpost( (prev) => ({
+			...prev,
+			downVoteCount : prev.downVoteCount + 1
+		})
+      
+   );
+
+  };
+
+  
+  const submitComment = (e) => {
+    commentPost(formValues, post.id);
+    setshowAddComment(false);
+    setload(true);
+  };
+
   useEffect(() => {
     getPostById(id);
   }, []);
+
+  useEffect(() => {
+    getCommentsByPost(id);
+  }, [load]);
+
   const timeFromNow = moment(post?.creationDate).fromNow();
 
-  
+  const handleBodyChange = (e) => {
+    const { name, value } = e.target;
+    console.log(e.target.value);
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormValues((prev) => ({
+      ...prev,
+      files: file,
+    }));
+    console.log(formValues.files);
+  };
+
   return (
     <div style={{ display: "flex", width: "100%" }}>
       <div
@@ -90,17 +178,17 @@ const MainContents = () => {
               <Grid item xs={2}>
                 <Stack
                   direction="row"
-                  style={{ width: "30px",height:"30px" }}
+                  style={{ width: "30px", height: "30px" }}
                   spacing={2}
                   divider={<Divider orientation="vertical" flexItem />}
                 >
                   <LazyLoadImage
                     className="object-cover"
-                    style={{ width: "30px",height:"30px" }}
+                    style={{ width: "20px", height: "20px" }}
                     src={profileIcon}
                     alt=""
                   />
-                  <Typography>{post?.poster.username}</Typography>
+                  <Typography>{post?.poster?.username}</Typography>
                   <Typography fontSize={8}>{timeFromNow}</Typography>
                 </Stack>
               </Grid>
@@ -122,20 +210,19 @@ const MainContents = () => {
                 </p>
               </Grid>
               <Grid item xs={12}>
-                {post?.tagNames?.map((tag)=>(
+                {post?.tagNames?.map((tag) => (
                   <Box
-                  style={{
-                    padding: "3px",
-                    borderRadius: "2%",
-                    backgroundColor: COLORS.myDarkGreen,
-                    width: "fit-content",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  {tag}
-                </Box>
-                ) )}
-              
+                    style={{
+                      padding: "3px",
+                      borderRadius: "2%",
+                      backgroundColor: COLORS.myDarkGreen,
+                      width: "fit-content",
+                      color: "#FFFFFF",
+                    }}
+                  >
+                    {tag}
+                  </Box>
+                ))}
               </Grid>
 
               <Grid item xs={12}>
@@ -159,6 +246,8 @@ const MainContents = () => {
               </Grid>
             </Grid>
           </Box>
+          
+          
           <Box
             style={{
               height: "fit-content",
@@ -173,20 +262,23 @@ const MainContents = () => {
               divider={<Divider orientation="vertical" flexItem />}
               style={{ justifyContent: "space-around", alignItems: "baseline" }}
             >
-              <IconButton style={{ color: "#404040" }} aria-label="like">
+              <IconButton style={{ color: "#404040" }} aria-label="like" onClick={handleLike}>
                 <KeyboardArrowUpIcon />
                 <span style={{ fontSize: 9, paddingLeft: "4px" }}>
-                  {post?.upVoteCount} 
+                  {post?.upVoteCount}
                 </span>
               </IconButton>
-              <IconButton style={{ color: "#404040" }} aria-label="like">
+              <IconButton style={{ color: "#404040" }} aria-label="like" onClick={handleDislike}>
                 <KeyboardArrowDownIcon />
                 <span style={{ fontSize: 9, paddingLeft: "4px" }}>
-                  {post?.downVoteCount} 
+                  {post?.downVoteCount}
                 </span>
               </IconButton>
               <Typography>
-                <span style={{ color: COLORS.myDarkGreen }}>{post?.commentCount}</span>Replies
+                <span style={{ color: COLORS.myDarkGreen }}>
+                  {post?.commentCount}
+                </span>
+                Replies
               </Typography>
               <Button
                 size="small"
@@ -194,7 +286,7 @@ const MainContents = () => {
                 onClick={() => {
                   setshowAddComment(!showAddComment);
                   console.log(id);
-                }}  
+                }}
               >
                 Add new reply
               </Button>
@@ -217,7 +309,10 @@ const MainContents = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                id="outlined-multiline-flexible"
+                id="body"
+                name="body"
+                value={formValues.body}
+                onChange={handleBodyChange}
                 label="Multiline"
                 multiline
                 fullWidth
@@ -226,34 +321,25 @@ const MainContents = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <form
-                onSubmit={() => {}}
-                method="POST"
-                encType="multipart/form-data"
-              >
-                <Stack direction="column">
-                  {/* <label htmlFor="formFileSm" className="form-label">
+              <Stack direction="column">
+                {/* <label htmlFor="formFileSm" className="form-label">
                    filename
                   </label> */}
-                  <input
-                    type="file"
-                    name="myFile"
-                    onChange={() => {}}
-                    style={{
-                      backgroundColor: COLORS.myLightGreen,
-                      marginTop: "6px",
-                    }}
-                    id="formFileSm"
-                  />
-                </Stack>
+                <input
+                  type="file"
+                  name="myFile"
+                  onChange={handleFileChange}
+                  style={{
+                    backgroundColor: COLORS.myLightGreen,
+                    marginTop: "6px",
+                  }}
+                  id="formFileSm"
+                />
+              </Stack>
 
-                <div
-                  className="mb-3"
-                  style={{ fontSize: 10, color: "#232F49" }}
-                >
-                  Formats possible : png, jpeg, jpg, tiff,gif
-                </div>
-              </form>
+              <div className="mb-3" style={{ fontSize: 10, color: "#232F49" }}>
+                Formats possible : png, jpeg, jpg, tiff,gif
+              </div>
             </Grid>
             <Grid
               item
@@ -268,76 +354,91 @@ const MainContents = () => {
                   marginTop: "3px",
                 }}
                 variant="outlined"
+                type="submit"
+                onClick={submitComment}
               >
                 Submit
               </Button>
             </Grid>
           </Grid>
         )}
-        <Box
-          style={{
-            height: "fit-content",
-            width: "100vh",
-            backgroundColor: "#FFFFFF",
-            padding: "20px",
-          }}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={2}>
-              <Stack
-                direction="row"
-                spacing={2}
-                divider={<Divider orientation="vertical" flexItem />}
+        {comments.map((comment) => (
+          <Box
+            style={{
+              height: "fit-content",
+              width: "100vh",
+              backgroundColor: "#FFFFFF",
+              padding: "20px",
+            }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={2}>
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  divider={<Divider orientation="vertical" flexItem />}
+                >
+                  <LazyLoadImage
+                    className="object-cover"
+                    style={{ width: "30px", height: "30px" }}
+                    src={profileIcon}
+                    alt=""
+                  />
+                  <Typography>{comment.commenter.username}</Typography>
+                  <Typography>{comment.createdAt}</Typography>
+                </Stack>
+              </Grid>
+              <Grid item xs={10}></Grid>
+
+              <Grid
+                item
+                xs={12}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
               >
-                <LazyLoadImage
-                  className="object-cover"
-                  style={{ width: "30px" }}
-                  src={profileIcon}
-                  alt=""
-                />
-                <Typography>User</Typography>
-                <Typography>23/223/23</Typography>
-              </Stack>
-            </Grid>
-            <Grid item xs={10}></Grid>
+                <Box>
+                  <p>{comment.body}</p>
+                </Box>
+                <Box className="flex  flex-col justify-around">
+                  <div className="flex  justify-between">
+                 
+                    <IconButton
+                      style={{ color: "#404040" }}
+                      aria-label="like"
+                     
+                    >
+                      <ThumbUpIcon />
+                      <span style={{ fontSize: 9, paddingLeft: "4px" }}>
+                        {comment.upVoteCount}
+                      </span>
+                    </IconButton>
+                    <IconButton
+                      style={{ color: "#404040" }}
+                      aria-label="dislike"
+                    >
+                      <ThumbDownIcon />
+                      <span style={{ fontSize: 9, paddingLeft: "4px" }}>
+                        {comment.downVoteCount}
+                      </span>
+                    </IconButton>
+                  </div>
+                  <Divider />
 
-            <Grid
-              item
-              xs={12}
-              style={{ display: "flex", flexDirection: "row", gap: "10px" }}
-            >
-              <Box>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto
-                  ipsum, sequi nobis soluta esse, explicabo est voluptatum
-                  aliquam maxime architecto voluptas pariatur, quidem nemo
-                  sapiente dolorem corrupti natus accusantium quae.
-                </p>
-              </Box>
-              <Box className="flex  flex-col justify-around">
-                <div className="flex  justify-between">
-                  <IconButton style={{ color: "#404040" }} aria-label="like">
-                    <ThumbUpIcon />
-                    <span style={{ fontSize: 9, paddingLeft: "4px" }}>
-                      {/* {postData.upVoteCount} */}2
-                    </span>
-                  </IconButton>
-                  <IconButton style={{ color: "#404040" }} aria-label="dislike">
-                    <ThumbDownIcon />
-                    <span style={{ fontSize: 9, paddingLeft: "4px" }}>
-                      {/* {postData.downVoteCount} */}1
-                    </span>
-                  </IconButton>
-                </div>
-                <Divider />
-
-                <div>
-                  <Rating name="read-only" value={2} readOnly />
-                </div>
-              </Box>
+                  <div>
+                    <Rating
+                      name="read-only"
+                      value={comment.upVoteCount % 5}
+                      readOnly
+                    />
+                  </div>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        ))}
       </div>
       <div style={{ flexBasis: "350px" }}>
         <Side />

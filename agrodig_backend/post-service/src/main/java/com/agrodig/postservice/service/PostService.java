@@ -259,6 +259,26 @@ public class PostService {
 
     }
 
+    public void commentPost(Long postId, CommentRequestDto commentRequestDto) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalStateException("Post not found"));
+        Comment comment = new Comment();
+        comment.setBody(commentRequestDto.getBody());
+        comment.setCreatedAt(Instant.now());
+        comment.setUpdatedAt(Instant.now());
+
+        comment.setCommenterId(commentRequestDto.getUserId());
+
+        if (commentRequestDto.getFiles() != null)
+            commentRequestDto.getFiles().stream().map(multipartFile -> fileService.addFileToComment(multipartFile, comment)).collect(Collectors.toList());
+
+        //
+        comment.setPost(post);
+
+        commentRepository.save(comment);
+
+    }
+
   /*  public void addTagToPost(Long postId, TagRequestDto tagRequestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalStateException("Post not found"));
