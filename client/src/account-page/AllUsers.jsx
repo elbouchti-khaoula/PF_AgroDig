@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
             <TableCell ><Typography color="primary" variant="subtitle2">{row.birthDate}</Typography></TableCell>
             <TableCell ><Typography color="primary" variant="subtitle2">{row.creationDate}</Typography></TableCell>
            <TableCell>  
-                        <Button onClick={() => navigate('/userP',{state:{id:row.id, }})}> 
+                        <Button onClick={() => navigate('/userP'+`?userId=${row.id}`,{state:{id:row.id,userData:row }})}> 
                                 <UserIcon sx={{ fontSize: "20px", color: "green" }}>  </UserIcon> </Button> </TableCell>
               
             </TableRow>
