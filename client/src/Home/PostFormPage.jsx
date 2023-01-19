@@ -6,12 +6,13 @@ import { useApp } from "../contexts/AppContext";
 import '../App.css';
 import Layout from '../others/Layout';
 import { useBlogs } from "../contexts/BlogContext";
-import CustomizedHook from "./TagInput";
+import CustomizedHook from "./PostTagInput";
 import { useTags } from "../contexts/TagContext";
+import { usePosts } from "../contexts/PostContext";
 
 
 
-function BlogForm() {
+function PostFormPage() {
 	const [imageString, setImageStr] = useState("");
 	const [caption, setCaption] = useState("");
 	const [preview, setPreview] = useState({ state: false, url: "" });
@@ -21,19 +22,20 @@ function BlogForm() {
 	const [fontFamily, setFontFamily] = useState("Arial");
 	const [textAlign, setTextAlign] = useState("left");
 	const [theValue, setTheValue ] = useState();
-	const [blogData, setBlogData] = useState({
+	const [postData, setpostData] = useState({
 		body : '',
 		title : '',
-		attachements : undefined,
+		files: undefined,
 		userId : 0,
-		tagIds : undefined
+		tagIds : []
 	});
-	const {newBlog, getBlogs, blogs} = useBlogs();
-	const {blogTags, getBlogTags} = useTags();
+	//const {newPost, getBlogs, blogs} = useBlogs();
+    const {newPost} = usePosts();
+	const {postTags, getPostTags} = useTags();
 
 	const contentref = useRef();
 
-	const {body, title, attachements,userId,tagIds} = blogData;
+	const {body, title, files,userId,tagIds} = postData;
 
 
 	const handleFontFamily = (family) => {
@@ -50,14 +52,14 @@ function BlogForm() {
 	
 	const previewFile = (e) => {
 		const file = e.target.files[0];
-		setBlogData((prev) => ({
+		setpostData((prev) => ({
 			...prev,
-			attachements : file
+			files : file
 		}))
 		console.log(file);
-		setBlogData((prevState) =>({
+		setpostData((prevState) =>({
 			...prevState,
-			attachements : file
+			files : file
 		}))
 		setPreview({ state: true, url: URL.createObjectURL(e.target.files[0]) });
 		const reader = new FileReader();
@@ -68,14 +70,14 @@ function BlogForm() {
 		console.log(imageString);
 	};
 
-	const submitBlog = async (e) => {
+	const submitPost = async (e) => {
 		// e.preventDefault();
 		setLoading(true);
 		// console.log("logging bfore submit      :"+ theValue);
-		// // setBlogData({...blogData, 'tagIds' : theValue});
-		// console.log("logging bfore submit  agaaain     :" + blogData.tagIds);
+		// // setpostData({...postData, 'tagIds' : theValue});
+		// console.log("logging bfore submit  agaaain     :" + postData.tagIds);
 
-		const isdone = await newBlog(blogData);
+		const isdone = await newPost(postData);
 		if (isdone) {
 			console.log("done");
 			setLoading(false);
@@ -88,23 +90,23 @@ function BlogForm() {
 	};
 
 	const handleTitleChange = (e) => {
-		setBlogData((prevState) => ({
+		setpostData((prevState) => ({
 			...prevState,
 			title : e.target.value
 		}));
-		console.log(blogData.title)
+		console.log(postData.title)
 	}
 	const handleBodyChange = () => {
-		setBlogData((prevState) => ({
+		setpostData((prevState) => ({
 			...prevState,
 			body : contentref.current.innerHTML
 		}));
-		console.log(blogData.body);
+		console.log(postData.body);
 	};
 	
 	useEffect(() => {
-		getBlogTags();
-		setBlogData((prev)=>({
+		getPostTags();
+		setpostData((prev)=>({
 			...prev,
 			tagIds : theValue
 		}))
@@ -118,8 +120,8 @@ function BlogForm() {
 		<Layout active={'home'}>
 		<div className="w-full  left-0 z-[20] absolute 
 		flex flex-col items-center justify-center">
-            <h2 className=" mobile:text-xl text-green-700">Add a Blog </h2>
-            <h6 className=" mobile:text-xs text-gray-700">cet espace est créé pour partager les idées avec les autres ou pour ajouter des blog il suffit donc de remplir tout les champs</h6>
+            <h2 className=" mobile:text-xl text-green-700">Add a Post </h2>
+            <h6 className=" mobile:text-xs text-gray-700">cet espace est créé pour partager les idées avec les autres ou pour ajouter des posts. Il suffit donc de remplir tout les champs</h6>
             
             {/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
 
@@ -162,7 +164,7 @@ function BlogForm() {
 				className={`flex z-30 flex-col relative mobile:w-2/3 w-11/12 max-w-[900px] rounded-xl p-4 bg-white ${
 					isDark && "text-white bg-[#0a0520]"
 				}`}
-			><h2 className="text-center mobile:text-l">What are the details of your Blog </h2> 
+			><h2 className="text-center mobile:text-l">What are the details of your post </h2> 
 			
 			<div className="toolbar">
 				<div><label htmlFor="post"className="flex cursor-pointer text-green-700 items-center">
@@ -173,7 +175,7 @@ function BlogForm() {
 						type="file"
 						id="post"
 						accept="image/*"
-						submitBlog={submitBlog}
+						submitPost={submitPost}
 						setLoading={setLoading}
 						loading={loading}/></div>
 											
@@ -211,10 +213,8 @@ function BlogForm() {
 
 
 
-{/* 
-				  <img src= {`http://localhost:8282/api/blog/download/3.jpeg`} style={{width : "200px"}}/>
-				  <img src= {`http://localhost:8083/api/post/download/5.jpeg`} style={{width : "200px"}}/> */}
 
+				  {/* <img src= {`http://localhost:8282/api/blog/download/`} style={{width : "200px"}}/> */}
 
 				 {preview.state && (
 					<div className="w-[150px] mx-auto mt-3 h-[150px] overflow-hidden">
@@ -262,7 +262,7 @@ function BlogForm() {
 					>
 					#
 					</div> */}
-					<CustomizedHook tags={blogTags} theValue={theValue} setTheValue={setTheValue}/>
+					<CustomizedHook tags={postTags} theValue={theValue} setTheValue={setTheValue}/>
 
                 </div>
 				<br/>
@@ -271,9 +271,9 @@ function BlogForm() {
 				<button
 				style={{padding:"10px", marginLeft : "800px"}}
 				className="py-2 px-4 rounded-lg bg-green-500 text-white hover:bg-green-600"
-				onClick={submitBlog}
+				onClick={submitPost}
 				disabled={loading}>
-				{loading ? "Submitting..." : "Submit Blog"}
+				{loading ? "Submitting..." : "Submit Post"}
 			</button>
 					
 
@@ -283,4 +283,4 @@ function BlogForm() {
 	);
 }
 
-export default BlogForm;
+export default PostFormPage;

@@ -18,6 +18,7 @@ export const TagProvider = ({ children }) => {
         {id : 5,name: 'nextjs', usageCount: 60}
     ]);
     const [selectedTags, setSelectedTags] = useState([]);
+    const [postTags, setPostTags] = useState([]);
    // const [userTags, setUserTags] = useState(null);
    //  const { user } = useAuth();
 
@@ -35,7 +36,24 @@ export const TagProvider = ({ children }) => {
         );
         const data = await res.json();
         setBlogTags(data);
-        console.log(data);
+       // console.log(data);
+    };
+
+    const getPostTags = async () => {
+        const endpoint = configData.POST_SERVICE_URL+"/alltags"
+        const res = await fetch(
+           `${endpoint}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: "Bearer " + getCookie("token"),
+                },
+            }
+        );
+        const data = await res.json();
+        setPostTags(data);
+       // console.log(data);
     };
 
     const newTag = async (tag) => {
@@ -70,7 +88,7 @@ export const TagProvider = ({ children }) => {
             setTags(data.tags.reverse());
             };
             return (
-                <TagContext.Provider value={{ blogTags, getBlogTags, newTag, deleteTag, setSelectedTags }}>
+                <TagContext.Provider value={{ blogTags, getBlogTags, newTag, deleteTag, setSelectedTags, getPostTags, postTags, setPostTags }}>
                     {children}
                 </TagContext.Provider>
             );

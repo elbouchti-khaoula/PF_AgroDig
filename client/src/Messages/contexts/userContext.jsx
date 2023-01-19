@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { getUserById, useAuth } from "../../contexts/AuthContext";
 import { getCookie } from "../../contexts/RequireAuth";
 import configData from "../../Config.json";
+import profilePic from '../../Home/Images/profileIcon.png';
 
 const UsersContext = React.createContext();
 
@@ -30,6 +31,7 @@ export function UserProvider({ children }) {
 					},
 				});
 		const data = await res.json();
+		data.map((user) => user.profile = profilePic )
 		setUsers(data);
 
 	}

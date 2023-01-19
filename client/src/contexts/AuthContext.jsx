@@ -3,6 +3,7 @@ import jwtdecode from "jwt-decode";
 import { deleteAllCookies, getCookie } from "./RequireAuth";
 import AnimatedLogo from "../others/AnimatedLogo";
 import configData from "../Config.json"
+import profileIcon from '../Home/Images/profileIcon.png'
 
 let AuthContext = React.createContext();
 
@@ -19,6 +20,7 @@ export default function AuthProvider({ children }) {
 		if (token) {
 			try {
 				const userd = await  getUser();
+				userd.profile = profileIcon;
 				return setUser(userd);
 			} catch (err) {
 				console.log(err);

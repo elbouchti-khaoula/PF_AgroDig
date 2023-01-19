@@ -68,7 +68,7 @@ const PostBox = ({ item }) => {
       key={postData?.id}
       className={`w-[100%] mobile:w-[70%] mobile:min-w-[365px] xtab:w-[95%]  items-center mt-6 ${
         isDark && "text-white"
-      }`}
+      }`}  
     >  
       <div
         style={{ border: "none" }}
@@ -101,9 +101,12 @@ const PostBox = ({ item }) => {
               isDark && "border-[#0a061c]"
             }`}
           >
+            {/* 
+				  <img src= {`http://localhost:8282/api/blog/download/3.jpeg`} style={{width : "200px"}}/>
+				  <img src= {`http://localhost:8083/api/post/download/5.jpeg`} style={{width : "200px"}}/> */}
             <LazyLoadImage
               className="max-w-full pointer-events-none h-full"
-              src={conversation}
+              src={postData.files[0]? `http://localhost:8083/api/post/download/${postData.files[0]?.name}` : conversation}
               alt=""
             />
           </div>

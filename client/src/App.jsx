@@ -19,6 +19,7 @@ import BlogPage from "./Blogs/BlogPage";
 import UserPosts from "./account-page/UserPosts";
 import TagPage from "./Home/TagPage";
 import QuestionPage from "./Question/QuestionPage";
+import PostFormPage from "./Home/PostFormPage";
 
 function App() {
 	const { user } = useAuth();
@@ -50,7 +51,7 @@ function App() {
 					<Route
 						exact path="/form-post"
 						element={
-							user !== null ? <PostForm /> : <Navigate replace to="/login" />
+							user !== null ? <PostFormPage /> : <Navigate replace to="/login" />
 						}
 					/>
 					<Route

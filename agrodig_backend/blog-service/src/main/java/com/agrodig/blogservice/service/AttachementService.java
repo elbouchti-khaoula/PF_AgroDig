@@ -43,7 +43,10 @@ public class AttachementService {
 
         //saving attachement file in file system
         String fileName = savedAttachement.getId() + "." + savedAttachement.getType().value();
+
         FileUtils.saveFile(multipartFile, fileConfig.getDirectory(), fileName);
+        savedAttachement.setName(fileName);
+        attachementRepository.save(savedAttachement);
 
         return EntityToDto.AttachementToAttachementResponseDto(attachement);
 
