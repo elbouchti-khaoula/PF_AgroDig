@@ -19,6 +19,8 @@ import BlogPage from "./Blogs/BlogPage";
 import UserPosts from "./account-page/UserPosts";
 import TagPage from "./Home/TagPage";
 import QuestionPage from "./Question/QuestionPage";
+import BlogDetailPage from "./Blogs/BlogsDetail/BlogDetailPage";
+import AllUsersPage from "./account-page/AllUsersPage";
 
 function App() {
 	const { user } = useAuth();
@@ -72,6 +74,18 @@ function App() {
 							user !== null ? <QuestionPage /> : <Navigate replace to="/login" />
 						}
 					/>
+					<Route
+						exact path="/all-users"
+						element={
+							user !== null ? <AllUsersPage /> : <Navigate replace to="/login" />
+						}
+					/>
+					<Route
+						exact path="/userP"
+						element={
+							user !== null ? <DProfile /> : <Navigate replace to="/login" />
+						}
+					/>
 
                     
 					<Route
@@ -96,6 +110,12 @@ function App() {
 						exact path="/blogs"
 						element={
 							user !== null ? <BlogPage /> : <Navigate replace to="/login" />
+						}
+					/>
+					<Route
+						exact path="/blog-detail"
+						element={
+							user !== null ? <BlogDetailPage /> : <Navigate replace to="/login" />
 						}
 					/>
 					<Route

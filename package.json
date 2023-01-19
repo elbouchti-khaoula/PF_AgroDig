@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-avatar": "^5.0.3",
+    "react-user-avatar": "^1.10.0"
+  }
+}
