@@ -48,15 +48,17 @@ function Mainconts() {
   }, []);
 
   const {getPostTags,postTags,blogTags, getBlogTags}= useTags();
+  const [tags, setTags] = useState([]);
 
    useEffect(() => {
+    
     getPostTags();
     getBlogTags()
-    setTags([...posttags, ...blogTags]);
+    setTags([...postTags, ...blogTags]);
+
+   }, [tags]);
   
-   }, []);
-  
-   const [tags, setTags] = useState([]);
+
 
   return (
     <div className="flex">
@@ -84,11 +86,11 @@ function Mainconts() {
                   backgroundColor: "#D3E7E2",
                   padding: "10px",
                   margin: "10px",
-                  borderRadius: "20px",
+                  borderRadius: "3px",
                 }}
               >
                 <p>{tag.name}</p>
-                <p>3 </p>
+                
               </div>
             ))}
           </div>
