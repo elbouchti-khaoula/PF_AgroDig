@@ -10,15 +10,28 @@ import { useApp } from "../contexts/AppContext";
 import { follow, unfollow } from "../Login";
 import TopBar from "../Home/TopBar";
 import Layout from "../others/Layout";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 function DProfile() {
 	const auth = useAuth();
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState({id:"1", firstName:"khaoula", lastName:"EL-BOUCHTI", email:"khaoula@gmail.com", username:"khaoulaEl", verified:"true", birthDate:"12-03-2000", creationDate:"18-1-2023"});
 	const [posts, setPosts] = useState([]);
 	const { isDark, following, getFollowingData } = useApp();
 	const [followable, setFollowable] = useState(true);
 
-	const { id } = useParams();
+	
+	const params = useLocation();
+
+	const  id = params.state.userData.id;
+  useEffect(() => {
+    if(id){
+      setUser(params.state.userData)
+    }
+  }, [params])
+
+
 
 	const handleFollowings = async () => {
 		let pfoll = following;
@@ -29,24 +42,24 @@ function DProfile() {
 		}
 	};
 
-	const getPosts = async () => {
-		const res = await fetch(
-			`https://photocorner33.onrender.com/post/getPostByPosterID/${id}`,
-			{
-				method: "GET",
+	
 
-				headers: {
-					"Content-Type": "application/json",
-					authorization: "Bearer " + getCookie("token"),
-				},
-			}
-		);
-		const posts = await res.json();
-		console.log(res);
-		setPosts(posts.posts.reverse());
-		console.log(posts);
-		return posts;
-	};
+const getPosts = async (user) => {
+  try {
+    const res = await axios.get('http://localhost:8083/api/post/myPosts', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + getCookie("token")
+      },
+      data: user
+    }).then(
+		(res) => {setPosts(res.data)});
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
 	useEffect(() => {
 		getPosts();
@@ -109,7 +122,7 @@ function DProfile() {
 									</div>
 									<div className="flex w-full items-center flex-col">
 										<p className="font-semibold">{user?.fullname}</p>
-										<p className="opacity-80">{user?.username}</p>
+										<p className="opacity-80">{user?.firstName} {user?.lastName}</p>
 									</div>
 								</div>
 								<div className="flex items-center sm:flex-row flex-col w-full justify-between">

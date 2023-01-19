@@ -135,9 +135,9 @@ function BlogForm() {
 					className="border-2 outline-none border-gray-500 p-2 w-full bg-transparent"
 					>
 					<option value="" disabled selected>choose a language</option>
-					<option value="option1">Option 1</option>
-					<option value="option2">Option 2</option>
-					<option value="option3">Option 3</option>
+					<option value="option1">Arabic</option>
+					<option value="option2">French</option>
+					<option value="option3">English</option>
 					</select>
                 </div> */}
 {/*distance*/}<div className={`flex z-30 flex-col h-2 relative mobile:w-2/3 w-11/12 max-w-[600px]`}></div>
@@ -177,14 +177,14 @@ function BlogForm() {
 						setLoading={setLoading}
 						loading={loading}/></div>
 											
-					<button onClick={() => setTextAlign("left")}>Left</button>
-					<button onClick={() => setTextAlign("center")}>Center</button>
-					<button onClick={() => setTextAlign("right")}>Right</button>
-					<button onClick={() => setFontFamily("Arial")}>Arial</button>
-					<button onClick={() => setFontFamily("Times New Roman")}>Times New Roman</button>
-					<button onClick={() => setFontSize("12px")}>12px</button>
-					<button onClick={() => setFontSize("16px")}>16px</button>
-					<button onClick={() => setFontSize("20px")}>20px</button>
+					<button className="green-button" onClick={() => setTextAlign("left")}>Left</button>
+					<button  className="green-button" onClick={() => setTextAlign("center")}>Center</button>
+					<button className="green-button" onClick={() => setTextAlign("right")}>Right</button>
+					<button className="green-button" onClick={() => setFontFamily("Arial")}>Arial</button>
+					<button className="green-button" onClick={() => setFontFamily("Times New Roman")}>Times New Roman</button>
+					<button className="green-button" onClick={() => setFontSize("12px")}>12px</button>
+					<button className="green-button" onClick={() => setFontSize("16px")}>16px</button>
+					<button className="green-button" onClick={() => setFontSize("20px")}>20px</button>
 											
 					</div>
 

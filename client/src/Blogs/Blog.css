@@ -1,36 +1,63 @@
-.blog-card-container {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-
-.blog-card {
-  flex: 0 0 auto;
-  margin-right: 20px;
-  width: 300px;
-  height: 400px;
-  overflow: hidden;
-}
-
-.blog-card img {
-  width: 100%;
-  height: 60%;
-}
-
-.blog-card h3 {
-  margin: 10px 0;
-}
-.scrollable-container {
-  overflow-x: auto;
-  white-space: nowrap;
+.main-container {
+  height: 100vh;
+  overflow-y: scroll;
 }
 .vertical-blog-list {
   display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow-y: auto;
+  flex-wrap: wrap;
+}
+
+.vertical-blog-card {
+  width: calc(33.33% - 20px); /* this will make the card take 1/3 of the available width and leave a margin of 20px between each card */
+  margin: 10px;
+  
+  background-color: rgb(217, 222, 220);
+}
+
+.blog-container {
+  background-color: white;
+  padding: 20px;
+}
+.title-font {
+  font-size: 15px;
+  font-weight: bold;
+  color: rgb(105, 138, 106);
+}
+.author-name {
+  font-size: 18px;
+  font-weight: regular;
+  color: gray;
+}
+.body-text {
+  font-size: 16px;
+  font-weight: regular;
+  color: black;
+  font-family: 'Open Sans', sans-serif;
 }
 .vertical-blog-card {
-  height: 150px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  padding: 12px;
 }
+
+.title-container,
+.username-container {
+  display: block;
+  margin-top: 10px;
+}
+.green-button {
+  background-color: rgb(87, 130, 87);
+  color: white;
+  padding: 2px 30px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 6px;
+}
+
+
 
