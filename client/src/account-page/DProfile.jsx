@@ -13,7 +13,7 @@ import Layout from "../others/Layout";
 
 function DProfile() {
 	const auth = useAuth();
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState({id:"1", firstName:"khaoula", lastName:"EL-BOUCHTI", email:"khaoula@gmail.com", username:"khaoulaEl", verified:"true", birthDate:"12-03-2000", creationDate:"18-1-2023"});
 	const [posts, setPosts] = useState([]);
 	const { isDark, following, getFollowingData } = useApp();
 	const [followable, setFollowable] = useState(true);

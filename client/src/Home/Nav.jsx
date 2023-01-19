@@ -131,9 +131,9 @@ function Nav({ active }) {
           <li>
           <Link
             style={{ width: mobile ? width / 5 : "100%" }}
-            to="/Users"
+            to="/all-users"
             className={`${
-              active === "Users" &&
+              active === "/all-users" &&
               "text-green-700 tab:border-l-[3px] border-b-[3px border-green-700"
             }
         flex cursor-pointer tab:mt-3 mx-auto items-center tab:flex-row flex-col tab:w-full p-2 hover:text-green-700`}
