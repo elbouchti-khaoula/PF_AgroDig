@@ -23,6 +23,7 @@ import { useMic } from "../contexts/MicContext";
 import Scrollbars from "react-custom-scrollbars";
 import PostBox from "./PostBox";
 import PostNew from "./PostNew";
+import { useTags } from "../contexts/TagContext";
 
 function Mainconts() {
   const { posts, getPosts } = usePosts();
@@ -30,17 +31,7 @@ function Mainconts() {
   const { user } = useAuth();
   const { isDark } = useApp();
   const { showMicModal, setShowMicModal } = useMic();
-  const [tags, setTags] = useState([
-    { tag: "#Tag1", count: 100 },
-    { tag: "#Tag2", count: 90 },
-    { tag: "#Tag3", count: 80 },
-    { tag: "#Tag4", count: 70 },
-    { tag: "#Tag5", count: 60 },
-    { tag: "#Tag1", count: 100 },
-    { tag: "#Tag2", count: 90 },
-    { tag: "#Tag3", count: 80 },
-    { tag: "#Tag5", count: 60 },
-  ]);
+
   const [showTags, setShowTags] = useState(false);
   useMemo(() => {
     if (posts.length === 0) {
@@ -56,8 +47,20 @@ function Mainconts() {
     getPosts();
   }, []);
 
+  const {getPostTags,posttags,blogTags, getBlogTags}= useTags();
+
+   useEffect(() => {
+    getPostTags();
+    getBlogTags()
+    setTags([...posttags, ...blogTags]);
+  
+   }, []);
+  
+   const [tags, setTags] = useState([]);
+
   return (
     <div className="flex">
+     
       {showMicModal ? <MicModal setShowMicModal={setShowMicModal} /> : null}
       <div className="w-full h-[91vh] overflow-auto flex flex-col items-center ">
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -76,7 +79,7 @@ function Mainconts() {
           >
             {tags.map((tag) => (
               <div
-                key={tag.tag}
+                key={tag.id}
                 style={{
                   backgroundColor: "#D3E7E2",
                   padding: "10px",
@@ -84,8 +87,8 @@ function Mainconts() {
                   borderRadius: "20px",
                 }}
               >
-                <p>{tag.tag}</p>
-                <p>{tag.count} post</p>
+                <p>{tag.name}</p>
+                <p>3 </p>
               </div>
             ))}
           </div>

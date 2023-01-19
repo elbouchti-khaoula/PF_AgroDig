@@ -247,7 +247,7 @@ const MainContents = () => {
             </Grid>
           </Box>
           
-          
+                    
           <Box
             style={{
               height: "fit-content",

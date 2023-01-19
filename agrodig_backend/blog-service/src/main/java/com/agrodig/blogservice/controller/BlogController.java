@@ -30,8 +30,8 @@ public class BlogController {
         return blogService.getMyBlogs(userResponseDto);
     }
 
-    @GetMapping(path = "/tags")
-    public List<TagResponseDto> getTagsByBlog(@RequestParam Long blogId) {
+    @GetMapping(path = "/tags/{blogId}")
+    public List<TagResponseDto> getTagsByBlog(@PathVariable Long blogId) {
         return blogService.getTagsByBlog(blogId);
     }
 

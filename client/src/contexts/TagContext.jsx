@@ -10,16 +10,11 @@ export const useTags = () => {
 };
 
 export const TagProvider = ({ children }) => {
-    const [blogTags, setBlogTags] = useState([
-        {id : 1,name: 'javascript', usageCount: 100},
-        {id : 2,name: 'react', usageCount: 90},
-        {id : 3,name: 'nodejs', usageCount: 80},
-        {id : 4,name: 'graphql', usageCount: 70},
-        {id : 5,name: 'nextjs', usageCount: 60}
-    ]);
+    const [blogTags, setBlogTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
    // const [userTags, setUserTags] = useState(null);
    //  const { user } = useAuth();
+   const [posttags, setposttags] = useState([]);
 
     const getBlogTags = async () => {
         const endpoint = configData.BLOG_SERVICE_URL+"/tags"
@@ -35,6 +30,23 @@ export const TagProvider = ({ children }) => {
         );
         const data = await res.json();
         setBlogTags(data);
+        console.log(data);
+    };
+
+    const getPostTags = async () => {
+        const endpoint = configData.POST_SERVICE_URL+"/tags"
+        const res = await fetch(
+           `${endpoint}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: "Bearer " + getCookie("token"),
+                },
+            }
+        );
+        const data = await res.json();
+        setposttags(data);
         console.log(data);
     };
 
@@ -70,7 +82,7 @@ export const TagProvider = ({ children }) => {
             setTags(data.tags.reverse());
             };
             return (
-                <TagContext.Provider value={{ blogTags, getBlogTags, newTag, deleteTag, setSelectedTags }}>
+                <TagContext.Provider value={{ getPostTags,posttags,blogTags, getBlogTags, newTag, deleteTag, setSelectedTags }}>
                     {children}
                 </TagContext.Provider>
             );
