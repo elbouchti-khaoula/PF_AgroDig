@@ -65,4 +65,12 @@ public class EntityToDto {
                 .userResponseDto(userResponseDto)
                 .build();
     }
+    public static TagResponseDto TagToTagResponseDto(Tag tag){
+        return TagResponseDto
+                .builder()
+                .id(tag.getId())
+                .name(tag.getName())
+                .usageCount(tag.getUsageCount())
+                .build();
+    }
 }

@@ -1,5 +1,6 @@
 package com.agrodig.postservice.controller;
 
+import com.agrodig.postservice.config.FileConfig;
 import com.agrodig.postservice.dto.request.CommentRequestDto;
 import com.agrodig.postservice.dto.request.TagRequestDto;
 import com.agrodig.postservice.dto.request.VoteRequestDto;
@@ -7,9 +8,18 @@ import com.agrodig.postservice.dto.response.*;
 import com.agrodig.postservice.dto.request.PostRequestDto;
 import com.agrodig.postservice.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -17,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final FileConfig fileConfig;
 
     @GetMapping
     public List<PostResponseDto> getAllPosts() {
@@ -103,6 +114,27 @@ public class PostController {
     @PutMapping(path = "comment")
     public void updateComment(@RequestParam Long commentId, @ModelAttribute CommentRequestDto commentRequestDto) {
         postService.updateComment(commentId, commentRequestDto);
+    }
+
+    @GetMapping(path="/alltags")
+    public List<TagResponseDto> getAllTags(){
+        return postService.getAllTags();
+    }
+
+    @GetMapping(path = "/download/{fileName}")
+    public ResponseEntity<Resource> download
+            (@PathVariable String fileName) throws IOException {
+
+        File file = new File(fileConfig.getDirectory() + fileName);
+        Path path = Paths.get(file.getAbsolutePath());
+        ByteArrayResource resource =
+                new ByteArrayResource(Files.readAllBytes(path));
+
+        return ResponseEntity.ok()
+                .contentLength(file.length())
+                .contentType(MediaType
+                        .parseMediaType("application/octet-stream"))
+                .body(resource);
     }
 
 

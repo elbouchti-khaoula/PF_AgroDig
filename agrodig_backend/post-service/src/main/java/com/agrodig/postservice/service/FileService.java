@@ -42,6 +42,10 @@ public class FileService {
         String fileName = file.getFile_id() + "." + file.getType().value();
         FileUtils.saveFile(multipartFile, fileConfig.getDirectory(), fileName);
 
+        file.setName(fileName);
+
+        fileRepository.save(file);
+
         return EntityToDto.FileToFileResponseDto(file);
 
     }
@@ -61,6 +65,11 @@ public class FileService {
         //saving attachement file in file system
         String fileName = file.getFile_id() + "." + file.getType().value();
         FileUtils.saveFile(multipartFile, fileConfig.getDirectory(), fileName);
+
+        file.setName(fileName);
+
+        fileRepository.save(file);
+
 
         return EntityToDto.FileToFileResponseDto(file);
 

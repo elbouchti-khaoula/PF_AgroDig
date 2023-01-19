@@ -284,4 +284,8 @@ public class PostService {
                 .orElseThrow(() -> new IllegalStateException("Post not found"));
 
     }*/
+
+    public List<TagResponseDto> getAllTags() {
+        return tagRepository.findAll().stream().map(EntityToDto::TagToTagResponseDto).toList();
+    }
 }

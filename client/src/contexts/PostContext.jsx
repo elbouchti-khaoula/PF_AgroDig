@@ -38,24 +38,59 @@ export const PostProvider = ({ children }) => {
 	};
 
 
-
-
-	const newPost = async (caption, imageStr) => {
-		const res = await fetch("https://photocorner33.onrender.com/post/newPost", {
+	const newPost = async (postData) => {
+		const endpoint = configData.POST_SERVICE_URL;
+		const formData  = new FormData();
+		formData.append('title', postData.title);
+		formData.append('body', postData.body);
+		const reaally = typeof postData.files !== 'undefined';
+		//console.log("loging files in blogContext : " + postData.files + " reaaaally  " + reaally);
+		reaally ? formData.append('files', postData.files) : console.log(" no file present ") ;
+		formData.append('tagIds', postData.tagIds);
+		formData.append('userId',user.id)
+		//const res = 
+		
+		fetch(`${endpoint}`, {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				authorization: "Bearer " + getCookie("token"),
-			},
-			body: JSON.stringify({
-				imageStr: imageStr,
-				caption,
-			}),
-		});
-		await res.json();
-		await getPosts();
-		return true;
+			body: formData
+		}).then((res) => {
+			if (res.status == 201 ) {
+			  alert("Created ! ");
+			  
+			}
+		  },
+		   (err) => {
+			alert("Error submitting form!");
+		  });
+		  return true;
+		
 	};
+
+
+
+
+	// const newPost = async (caption, imageStr) => {
+	// 	const res = await fetch("https://photocorner33.onrender.com/post/newPost", {
+	// 		method: "POST",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 			authorization: "Bearer " + getCookie("token"),
+	// 		},
+	// 		body: JSON.stringify({
+	// 			imageStr: imageStr,
+	// 			caption,
+	// 		}),
+	// 	});
+	// 	await res.json();
+	// 	await getPosts();
+	// 	return true;
+	// };
+
+
+
+
+
+
 
 	const deletePost = async (id) => {
 		const res = await fetch(

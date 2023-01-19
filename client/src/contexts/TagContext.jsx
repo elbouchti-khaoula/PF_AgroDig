@@ -12,9 +12,10 @@ export const useTags = () => {
 export const TagProvider = ({ children }) => {
     const [blogTags, setBlogTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
+    const [postTags, setPostTags] = useState([]);
    // const [userTags, setUserTags] = useState(null);
    //  const { user } = useAuth();
-   const [posttags, setposttags] = useState([]);
+
 
     const getBlogTags = async () => {
         const endpoint = configData.BLOG_SERVICE_URL+"/tags"
@@ -30,11 +31,11 @@ export const TagProvider = ({ children }) => {
         );
         const data = await res.json();
         setBlogTags(data);
-        console.log(data);
+       // console.log(data);
     };
 
     const getPostTags = async () => {
-        const endpoint = configData.POST_SERVICE_URL+"/tags"
+        const endpoint = configData.POST_SERVICE_URL+"/alltags"
         const res = await fetch(
            `${endpoint}`,
             {
@@ -46,9 +47,26 @@ export const TagProvider = ({ children }) => {
             }
         );
         const data = await res.json();
-        setposttags(data);
-        console.log(data);
+        setPostTags(data);
+       // console.log(data);
     };
+
+    // const getPostTags = async () => {
+    //     const endpoint = configData.POST_SERVICE_URL+"/tags"
+    //     const res = await fetch(
+    //        `${endpoint}`,
+    //         {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 authorization: "Bearer " + getCookie("token"),
+    //             },
+    //         }
+    //     );
+    //     const data = await res.json();
+    //     setposttags(data);
+    //     console.log(data);
+    // };
 
     const newTag = async (tag) => {
         const res = await fetch("https://photocorner33.onrender.com/tag/newTag", {
@@ -82,7 +100,7 @@ export const TagProvider = ({ children }) => {
             setTags(data.tags.reverse());
             };
             return (
-                <TagContext.Provider value={{ getPostTags,posttags,blogTags, getBlogTags, newTag, deleteTag, setSelectedTags }}>
+                <TagContext.Provider value={{ blogTags, getBlogTags, newTag, deleteTag, setSelectedTags, getPostTags, postTags, setPostTags }}>
                     {children}
                 </TagContext.Provider>
             );

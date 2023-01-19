@@ -127,6 +127,7 @@ public class BlogService {
         Blog blog = new Blog();
         blog.setBody(blogRequestDto.getBody());
         blog.setTitle(blogRequestDto.getTitle());
+        System.out.println("heere are the tags i receive " + blogRequestDto.getTagIds());
         if (blogRequestDto.getTagIds() != null) blog.setTags(tagRepository.findAllById(blogRequestDto.getTagIds()));
         blog.setCreationDate(new Date());
         blog.setLastActivityDate(new Date());

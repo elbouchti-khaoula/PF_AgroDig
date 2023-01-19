@@ -47,7 +47,7 @@ function Mainconts() {
     getPosts();
   }, []);
 
-  const {getPostTags,posttags,blogTags, getBlogTags}= useTags();
+  const {getPostTags,postTags,blogTags, getBlogTags}= useTags();
 
    useEffect(() => {
     getPostTags();
