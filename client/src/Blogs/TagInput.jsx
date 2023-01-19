@@ -5,6 +5,9 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
+import { useTags } from '../contexts/TagContext';
+import { useState, useEffect } from 'react';
+
 
 const Root = styled('div')(
   ({ theme }) => `
@@ -156,8 +159,19 @@ const Listbox = styled('ul')(
 `,
 );
 
-export default function CustomizedHook({tags}) {
+export default function CustomizedHook({tags, theValue, setTheValue}) {
   //  console.log("logging grouped options :   " +JSON.stringify(tags[0]));
+//   const {setSelectedTags } = useTags();
+ // const [tagIds, setTagIds] = useState();
+  
+ // const [theValue, setTheValue ] = useState();
+//   const handleChange = (e) => { 
+//     console.log(e.target.value);
+//   };
+// const handleClick = () => {
+//     console.log(theValue);
+// }
+
   const {
     getRootProps,
     getInputLabelProps,
@@ -177,11 +191,20 @@ export default function CustomizedHook({tags}) {
     getOptionLabel: (tag) => tag.name,
   });
 
+  useEffect(() => {
+   
+    setTheValue(value.map((tag) => tag.id));
+   // console.log(theValue);
+    
+  },[value,theValue]);
+
+
+
   return (
     <Root>
       <div {...getRootProps()}>
         {/* <Label {...getInputLabelProps()}>Customized hook</Label> */}
-        <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
+        <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''} >
           {value.map((option, index) => (
             <StyledTag label={option.name} {...getTagProps({ index })} />
           ))}
@@ -192,7 +215,7 @@ export default function CustomizedHook({tags}) {
       {groupedOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
           {groupedOptions.map((option, index) => (
-            <li {...getOptionProps({ option, index })}>
+            <li {...getOptionProps({ option, index })} >
               <span>{option.name}</span>
             
               <CheckIcon fontSize="small" />

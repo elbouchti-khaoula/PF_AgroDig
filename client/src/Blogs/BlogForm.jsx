@@ -20,12 +20,13 @@ function BlogForm() {
 	const [fontSize, setFontSize] = useState("16px");
 	const [fontFamily, setFontFamily] = useState("Arial");
 	const [textAlign, setTextAlign] = useState("left");
+	const [theValue, setTheValue ] = useState();
 	const [blogData, setBlogData] = useState({
 		body : '',
 		title : '',
 		attachements : undefined,
 		userId : 0,
-		tagIds : []
+		tagIds : undefined
 	});
 	const {newBlog, getBlogs, blogs} = useBlogs();
 	const {blogTags, getBlogTags} = useTags();
@@ -70,6 +71,9 @@ function BlogForm() {
 	const submitBlog = async (e) => {
 		// e.preventDefault();
 		setLoading(true);
+		// console.log("logging bfore submit      :"+ theValue);
+		// // setBlogData({...blogData, 'tagIds' : theValue});
+		// console.log("logging bfore submit  agaaain     :" + blogData.tagIds);
 
 		const isdone = await newBlog(blogData);
 		if (isdone) {
@@ -100,8 +104,13 @@ function BlogForm() {
 	
 	useEffect(() => {
 		getBlogTags();
+		setBlogData((prev)=>({
+			...prev,
+			tagIds : theValue
+		}))
+
 		
-	  },[])
+	  },[theValue])
 
 
 	return (
@@ -239,7 +248,7 @@ function BlogForm() {
 					>
 					#
 					</div> */}
-					<CustomizedHook tags={blogTags}/>
+					<CustomizedHook tags={blogTags} theValue={theValue} setTheValue={setTheValue}/>
 
                 </div>
 				<br/>
